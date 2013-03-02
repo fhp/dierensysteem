@@ -32,10 +32,47 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('home.index');
+Route::group(array('before' => 'auth'), function() {
+	Route::get('/', array("as"=>"home", function()
+	{
+		return View::make('index');
+	}));
+
+	Route::get('dagboek/(:any?)', array("as"=>"dagboek", function()
+	{
+		return View::make('dagboek');
+	}));
+
+	Route::get('vogels', array("as"=>"vogels", function()
+	{
+		return View::make('vogels');
+	}));
+
+	Route::get('taken', array("as"=>"taken", function()
+	{
+		return View::make('taken');
+	}));
 });
+
+Route::get('login', array("as"=>"login", function()
+{
+	return View::make('login');
+}));
+
+Route::post("login", function()
+{
+	if (Auth::attempt($_POST)) {
+		return Redirect::to_route('home');
+	} else {
+		return View::make('login')->with('error', true);
+	}
+});
+
+Route::get('logout', array("as"=>"logout", function()
+{
+	Auth::logout();
+	return Redirect::to_route('home');
+}));
 
 /*
 |--------------------------------------------------------------------------
