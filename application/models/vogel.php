@@ -24,11 +24,6 @@ class Vogel extends Eloquent {
 		return $this->belongs_to('Soort');
 	}
 	
-	public function info()
-	{
-		return $this->has_many('Vogelinfo');
-	}
-	
 	public function gewichten()
 	{
 		return $this->has_many('Gewicht');

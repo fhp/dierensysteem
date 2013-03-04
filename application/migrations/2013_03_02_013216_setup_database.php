@@ -51,30 +51,6 @@ class Setup_Database {
 			$table->engine = "InnoDB";
 		});
 		
-		Schema::create("soortinfo", function($table)
-		{
-			$table->increments("id");
-			$table->integer("soort_id")->unsigned();
-			$table->string("titel");
-			$table->text("tekst");
-			$table->timestamps();
-			
-			$table->foreign("soort_id")->references("id")->on("soorten");
-			$table->engine = "InnoDB";
-		});
-		
-		Schema::create("vogelinfo", function($table)
-		{
-			$table->increments("id");
-			$table->integer("vogel_id")->unsigned();
-			$table->string("titel");
-			$table->text("tekst");
-			$table->timestamps();
-			
-			$table->foreign("vogel_id")->references("id")->on("vogels");
-			$table->engine = "InnoDB";
-		});
-		
 		Schema::create("gewichten", function($table)
 		{
 			$table->increments("id");
@@ -185,8 +161,6 @@ class Setup_Database {
 	 */
 	public function down()
 	{
-		Schema::drop("soortinfo");
-		Schema::drop("vogelinfo");
 		Schema::drop("gewichten");
 		Schema::drop("vogelverslagen");
 		Schema::drop("vliegevaluaties");
