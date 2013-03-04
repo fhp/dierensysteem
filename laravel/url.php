@@ -335,7 +335,7 @@ class URL {
 		{
 			if ( ! is_null($parameter))
 			{
-				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
+				$uri = preg_replace('/\(.+?\)/', str_replace(" ", "_", $parameter), $uri, 1);
 			}
 		}
 
