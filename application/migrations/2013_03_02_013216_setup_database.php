@@ -39,6 +39,7 @@ class Setup_Database {
 			$table->string("naam");
 			$table->string("geslacht")->nullable();
 			$table->date("geboortedatum")->nullable();
+			$table->string("foto")->nullable();
 			$table->timestamps();
 			
 			$table->foreign("soort_id")->references("id")->on("soorten");
@@ -86,7 +87,6 @@ class Setup_Database {
 			$table->increments("id");
 			$table->integer("gebruiker_id")->unsigned();
 			$table->integer("vogel_id")->unsigned();
-			$table->string("titel");
 			$table->text("tekst");
 			$table->date("datum");
 			$table->timestamps();

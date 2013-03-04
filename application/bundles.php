@@ -37,4 +37,5 @@ return array(
 	'bob',
 	'docs' => array('handles' => 'docs'),
 	'bootstrapper' => array('auto' => true),
+	'thumbnailable' => array('auto' => true),
 );

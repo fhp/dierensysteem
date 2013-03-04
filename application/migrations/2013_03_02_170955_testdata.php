@@ -28,13 +28,12 @@ class Testdata {
 		
 		$gewicht = new Gewicht();
 		$gewicht->gewicht = 750;
-		$gewicht->datum = time();
+		$gewicht->datum = new DateTime('today');
 		$kiran->gewichten()->insert($gewicht);
 		
 		$vogelVerslag = new Vogelverslag();
-		$vogelVerslag->titel = "Test verslag";
 		$vogelVerslag->tekst = "Bla die bla die bla.";
-		$vogelVerslag->datum = time();
+		$vogelVerslag->datum = new DateTime('today');
 		$vogelVerslag->gebruiker_id = $stef->id;
 		$kiran->verslagen()->insert($vogelVerslag);
 		
@@ -51,12 +50,13 @@ class Testdata {
 		$evaluatie = new Vliegevaluatie();
 		$evaluatie->score = 10;
 		$evaluatie->gebruiker_id = $stef->id;
+		$evaluatie->datum = new DateTime('today');
 		$kiran->vliegevaluaties()->insert($evaluatie);
 		
 		$dagverslag = new Dagverslag();
 		$dagverslag->titel = "Vandaag was cool";
 		$dagverslag->tekst = "Omdat er een super cool nieuw computer systeem is.";
-		$dagverslag->datum = time();
+		$dagverslag->datum = new DateTime('today');
 		$stef->dagverslagen()->insert($dagverslag);
 		
 		$poep = new Taak();
@@ -65,7 +65,7 @@ class Testdata {
 		$poep->save();
 		
 		$geschept = new Taakuitvoering();
-		$geschept->datum = time();
+		$geschept->datum = new DateTime('today');
 		$geschept->gebruiker_id = $stef->id;
 		$poep->uitvoeringen()->insert($geschept);
 	}

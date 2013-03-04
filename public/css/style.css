@@ -1,0 +1,20 @@
+div.hover-div {
+	display: block;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+div.hover-div:hover .hover-text {
+	display: block;        
+}
+
+.hover-text {
+	display: none;
+	clear: both;
+	margin: 5px;
+	color: white;
+	width: 100%;
+	bottom: 0;
+	position: absolute;
+	z-index: 2;
+}

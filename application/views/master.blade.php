@@ -5,6 +5,7 @@
 <title>Falconcrest Roofvogel Administratie Systeem</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {{ HTML::style('laravel/css/style.css') }}
+{{ HTML::style('css/style.css') }}
 {{ Asset::container('bootstrapper')->styles() }}
 {{ Asset::container('bootstrapper')->scripts() }}
 </head>
