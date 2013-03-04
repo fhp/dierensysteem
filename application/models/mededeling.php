@@ -1,7 +1,7 @@
 <?php
 
-class Dagverslag extends Eloquent {
-	public static $table = "dagverslagen";
+class Mededeling extends Eloquent {
+	public static $table = "mededelingen";
 	public static $timestamps = true;
 
 	public function gebruiker()

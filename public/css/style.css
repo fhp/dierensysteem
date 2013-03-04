@@ -18,3 +18,8 @@ div.hover-div:hover .hover-text {
 	position: absolute;
 	z-index: 2;
 }
+
+.modal.modal-large {
+	margin-left: -450px;
+	width: 900px;
+}

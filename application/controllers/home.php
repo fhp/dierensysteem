@@ -1,38 +1,28 @@
 <?php
 
 class Home_Controller extends Base_Controller {
+	public $restful = true;
 
-	/*
-	|--------------------------------------------------------------------------
-	| The Default Controller
-	|--------------------------------------------------------------------------
-	|
-	| Instead of using RESTful routes and anonymous functions, you might wish
-	| to use controllers to organize your application API. You'll love them.
-	|
-	| This controller responds to URIs beginning with "home", and it also
-	| serves as the default controller for the application, meaning it
-	| handles requests to the root of the application.
-	|
-	| You can respond to GET requests to "/home/profile" like so:
-	|
-	|		public function action_profile()
-	|		{
-	|			return "This is your profile!";
-	|		}
-	|
-	| Any extra segments are passed to the method as parameters:
-	|
-	|		public function action_profile($id)
-	|		{
-	|			return "This is the profile for user {$id}.";
-	|		}
-	|
-	*/
-
-	public function action_index()
+	public function get_index()
 	{
-		return View::make('home.index');
+		$mededelingen = Mededeling::order_by("datum", "desc")->order_by("id", "asc")->paginate(10);
+		
+		return View::make('home.index')
+			->with("mededelingen", $mededelingen);
 	}
-
+	
+	public function post_index()
+	{
+		if(Input::has("action")) {
+			if(Input::get("action") == "mededeling") {
+				$mededeling = new Mededeling();
+				$mededeling->tekst = Input::get("tekst");
+				$mededeling->gebruiker_id = Auth::user()->id;
+				$mededeling->datum = new DateTime("today");
+				$mededeling->save();
+			}
+		}
+		
+		return Redirect::to_route("home");
+	}
 }

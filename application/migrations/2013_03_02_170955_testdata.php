@@ -19,6 +19,7 @@ class Testdata {
 		
 		$bosuil = new Soort();
 		$bosuil->naam = "Bosuil";
+		$bosuil->latijnsenaam = "Strix aluco";
 		$bosuil->save();
 		
 		$kiran = new Vogel();
@@ -54,8 +55,7 @@ class Testdata {
 		$kiran->vliegevaluaties()->insert($evaluatie);
 		
 		$dagverslag = new Dagverslag();
-		$dagverslag->titel = "Vandaag was cool";
-		$dagverslag->tekst = "Omdat er een super cool nieuw computer systeem is.";
+		$dagverslag->tekst = "Vandaag was cool omdat er een super cool nieuw computer systeem is.";
 		$dagverslag->datum = new DateTime('today');
 		$stef->dagverslagen()->insert($dagverslag);
 		

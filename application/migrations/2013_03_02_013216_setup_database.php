@@ -15,8 +15,11 @@ class Setup_Database {
 			$table->string("gebruikersnaam");
 			$table->string("wachtwoord");
 			$table->string("email");
+			$table->string("telefoon");
 			$table->string("naam");
+			$table->text("informatie");
 			$table->boolean("admin");
+			$table->string("foto")->nullable();
 			$table->timestamps();
 			
 			$table->engine = "InnoDB";
@@ -27,6 +30,7 @@ class Setup_Database {
 			$table->increments("id");
 			$table->string("naam");
 			$table->string("latijnsenaam")->nullable();
+			$table->text("informatie");
 			$table->timestamps();
 			
 			$table->engine = "InnoDB";
@@ -39,6 +43,7 @@ class Setup_Database {
 			$table->string("naam");
 			$table->string("geslacht")->nullable();
 			$table->date("geboortedatum")->nullable();
+			$table->text("informatie");
 			$table->string("foto")->nullable();
 			$table->timestamps();
 			
@@ -114,7 +119,6 @@ class Setup_Database {
 		{
 			$table->increments("id");
 			$table->integer("gebruiker_id")->unsigned();
-			$table->string("titel");
 			$table->text("tekst");
 			$table->date("datum");
 			$table->timestamps();
@@ -159,6 +163,19 @@ class Setup_Database {
 			$table->foreign("taak_id")->references("id")->on("taken");
 			$table->engine = "InnoDB";
 		});
+		
+		Schema::create("mededelingen", function($table)
+		{
+			$table->increments("id");
+			$table->integer("gebruiker_id")->unsigned();
+			$table->string("titel");
+			$table->text("tekst");
+			$table->date("datum");
+			$table->timestamps();
+			
+			$table->foreign("gebruiker_id")->references("id")->on("gebruikers");
+			$table->engine = "InnoDB";
+		});
 	}
 
 	/**
@@ -177,6 +194,7 @@ class Setup_Database {
 		Schema::drop("aanwezigheid");
 		Schema::drop("taakuitvoeringen");
 		Schema::drop("taken");
+		Schema::drop("mededelingen");
 		Schema::drop("vogels");
 		Schema::drop("soorten");
 		Schema::drop("gebruikers");

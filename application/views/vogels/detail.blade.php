@@ -5,16 +5,32 @@
 <div class="span6">
 	<h1>{{$vogel->naam}}</h1>
 	
-	{{ Typography::horizontal_dl($summary) }}
+	<dl class="dl-horizontal">
+	<dt>Soort</dt><dd>{{ HTML::link_to_route("soortDetail", $vogel->soort->naam, array($vogel->soort->id, $vogel->soort->naam)) }}</dd>
+	<dt>Geslacht</dt><dd>{{ Str::title($vogel->geslacht) }}</dd>
+	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
+	</dl>
+	
 	
 	<h2>Dagboek</h2>
 	<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a></p>
 	
-	{{ MediaObject::open_list() }}
+	<ul class="media-list">
+	<?php $vorigeDatum = ""; ?>
 	@foreach ($verslagen->results as $verslag)
-		{{ MediaObject::create($verslag->tekst)->with_h4($verslag->datum) }}
+		<?php if($verslag->datum != $vorigeDatum) { ?>
+			<h4 class="media-heading">{{$verslag->datum}}</h4>
+		<?php $vorigeDatum = $verslag->datum; } ?>
+		<li class="media">
+			<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($verslag->gebruiker->id, $verslag->gebruiker->gebruikersnaam)) }}">
+				{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
+			</a>
+			<div class="media-body">
+				<strong>{{$verslag->gebruiker->naam}}</strong>: {{$verslag->tekst}}
+			</div>
+		</li>
 	@endforeach
-	{{ MediaObject::close_list() }}
+	</ul>
 	{{ $verslagen->links() }}
 
 </div>
@@ -27,12 +43,25 @@
 	</div>
 	
 	<h2>Notities</h2>
-	{{ MediaObject::open_list() }}
-	@foreach ($notities as $notitie)
-		{{ MediaObject::create($notitie->tekst)->with_h4($notitie->titel) }}
-	@endforeach
-	{{ MediaObject::close_list() }}
-	<a href="#notitieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe notitie</a>
+	{{ $vogel->informatie }}
+	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
+</div>
+
+<div id="informatieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::hidden("action", "informatie") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bewerk algemene informatie</h3>
+	</div>
+	<div class="modal-body">
+		{{ CKEditor::make('informatie', $vogel->informatie) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
 </div>
 
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -43,24 +72,6 @@
 		<h3>Nieuwe verslag</h3>
 	</div>
 	<div class="modal-body">
-		{{ Form::control_group(Form::label('tekst', 'Informatie:'), Form::textarea('tekst')) }}
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal">Sluiten</button>
-		<button class="btn btn-primary">Opslaan</button>
-	</div>
-	{{ Form::close() }}
-</div>
-
-<div id="notitieModal" class="modal hide fade" tabindex="-1" role="dialog">
-	{{ Form::horizontal_open() }}
-	{{ Form::hidden("action", "vogelInfo") }}
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">×</button>
-		<h3>Nieuwe notitie</h3>
-	</div>
-	<div class="modal-body">
-		{{ Form::control_group(Form::label('titel', 'Titel:'), Form::text('titel')) }}
 		{{ Form::control_group(Form::label('tekst', 'Informatie:'), Form::textarea('tekst')) }}
 	</div>
 	<div class="modal-footer">

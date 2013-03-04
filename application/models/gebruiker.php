@@ -4,6 +4,21 @@ class Gebruiker extends Eloquent {
 	public static $table = "gebruikers";
 	public static $timestamps = true;
 
+	public static $thumbnailable = array(
+		'default_field' => 'foto',
+		'fields' => array(
+			'foto' => array(
+				'default_size' => 'small',
+				'sizes' => array(
+					'small'  => '64x64',
+					'medium' => '128x128',
+					'large'  => '256x256',
+				)
+			)
+		),
+		"default_image" => "default_gebruiker.png"
+	);
+	
 	public function gewichten()
 	{
 		return $this->has_many('Gewicht');
@@ -33,5 +48,24 @@ class Gebruiker extends Eloquent {
 	{
 		return $this->has_many('Vogelverslag');
 	}
+	
+	public function thumbnail( $field=null, $size=null )
+	{
+		return Thumbnailer::get( $this, $field, $size );
+	}
+	
+	public function thumbnail_path( $field=null, $size=null )
+	{
+		return Thumbnailer::get_path( $this, $field, $size );
+	}
+	
+	public function thumbnail_url( $field=null, $size=null )
+	{
+		return Thumbnailer::get_url( $this, $field, $size );
+	}
 
+	public function thumbnail_image( $field=null, $size=null, $alt=null, $attributes=array() )
+	{
+		return HTML::image( Thumbnailer::get_url( $this, $field, $size ), $alt, $attributes );
+	}
 }

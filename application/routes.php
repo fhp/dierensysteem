@@ -1,19 +1,18 @@
 <?php
 
 Route::group(array('before' => 'auth'), function() {
-	Route::get('/', array("as"=>"home", function()
-	{
-		return View::make('index');
-	}));
+	Route::any('/', array("as"=>"home", 'uses'=>'home@index'));
 
-	Route::get('dagboek/(:any?)', array("as"=>"dagboek", function()
-	{
-		return View::make('dagboek');
-	}));
+	Route::any('dagboek', array("as"=>"dagboek", 'uses'=>'dagboek@index'));
+	
+	Route::any('soorten', array("as"=>"soorten", 'uses'=>'soorten@index'));
+	Route::any('soorten/(:num)/(:any)', array("as"=>"soortDetail", 'uses'=>'soorten@detail'));
+	
+	Route::any('gebruikers/(:num)/(:any)', array("as"=>"gebruikerDetail", 'uses'=>'gebruikers@detail'));
+	Route::any('gebruikers', array("as"=>"gebruikers", 'uses'=>'gebruikers@index'));
 
-	Route::any('vogels/nieuw', array("as"=>"vogelNieuw", 'uses'=>'vogels@nieuw'));
 	Route::any('vogels/(:num)/(:any)', array("as"=>"vogelDetail", 'uses'=>'vogels@detail'));
-	Route::get('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));
+	Route::any('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));
 
 	Route::get('taken', array("as"=>"taken", function()
 	{
