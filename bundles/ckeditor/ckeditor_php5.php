@@ -101,7 +101,41 @@ class CKEditor
 			$this->basePath = $basePath;
 		}
 	}
-
+	
+	/**
+	 * Statically creates a %CKEditor instance.
+	 * In incompatible browsers %CKEditor will downgrade to plain HTML &lt;textarea&gt; element.
+	 *
+	 * @param $name (string) Name of the %CKEditor instance (this will be also the "name" attribute of textarea element).
+	 * @param $value (string) Initial value (optional).
+	 * @param $config (array) The specific configurations to apply to this editor instance (optional).
+	 * @param $events (array) Event listeners for this editor instance (optional).
+	 * @param $basePath (string) URL to the %CKEditor installation directory (optional).
+	 *
+	 * Example usage:
+	 * @code
+	 * CKEditor::make("field1", "<p>Initial value.</p>");
+	 * @endcode
+	 *
+	 * Advanced example:
+	 * @code
+	 * $config = array();
+	 * $config['toolbar'] = array(
+	 *     array( 'Source', '-', 'Bold', 'Italic', 'Underline', 'Strike' ),
+	 *     array( 'Image', 'Link', 'Unlink', 'Anchor' )
+	 * );
+	 * $events['instanceReady'] = 'function (ev) {
+	 *     alert("Loaded: " + ev.editor.name);
+	 * }';
+	 * CKEditor::make("field1", "<p>Initial value.</p>", $config, $events);
+	 * @endcode
+	 */
+	public static function make($name, $value = "", $config = array(), $events = array(), $basePath = null)
+	{
+		$editor = new CKEditor($basePath);
+		return $editor->editor($name, $value, $config, $events);
+	}
+	
 	/**
 	 * Creates a %CKEditor instance.
 	 * In incompatible browsers %CKEditor will downgrade to plain HTML &lt;textarea&gt; element.
