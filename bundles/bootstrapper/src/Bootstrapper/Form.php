@@ -16,7 +16,7 @@ use \HTML;
  *
  * @see        http://twitter.github.com/bootstrap/
  */
-class Form extends \Laravel\Form
+class Form extends \Jquery_Validator\Form
 {
     /**
      * Default - not required, left-aligned labels on top of controls

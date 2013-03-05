@@ -39,4 +39,5 @@ return array(
 	'bootstrapper' => array('auto' => true),
 	'thumbnailable' => array('auto' => true),
 	'ckeditor' => array('auto' => true),
+	'jquery-validator' => array('auto' => true),
 );

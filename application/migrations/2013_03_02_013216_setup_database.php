@@ -22,6 +22,8 @@ class Setup_Database {
 			$table->string("foto")->nullable();
 			$table->timestamps();
 			
+			$table->unique('gebruikersnaam');
+			
 			$table->engine = "InnoDB";
 		});
 		

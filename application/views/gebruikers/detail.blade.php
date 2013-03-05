@@ -25,6 +25,7 @@
 
 <div id="fotoModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::vertical_open_for_files() }}
+	{{ Form::rules($rulesFoto) }}
 	{{ Form::hidden("action", "foto") }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
@@ -42,6 +43,7 @@
 
 <div id="informatieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesInformatie) }}
 	{{ Form::hidden("action", "informatie") }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>

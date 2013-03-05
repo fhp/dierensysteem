@@ -13,6 +13,7 @@
 
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesNieuw) }}
 	{{ Form::hidden("action", "nieuw") }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>

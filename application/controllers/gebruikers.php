@@ -3,27 +3,47 @@
 class Gebruikers_Controller extends Base_Controller {
 	public $restful = true;
 	
+	public $rulesNieuw = array(
+		"gebruikersnaam"=>"required|alpha_dash|unique:gebruikers",
+		"naam"=>"required",
+		"email"=>"required|email",
+		"telefoon"=>"integer",
+		"wachtwoord"=>"required|confirmed|min:6",
+		"foto"=>"image",
+	);
+	
+	public $rulesFoto = array(
+		"foto"=>"required|image",
+	);
+	
+	public $rulesInformatie = array(
+	);
+	
 	public function get_index()
 	{
 		$gebruikers = Gebruiker::all();
-		return View::make("gebruikers.index")->with("gebruikers", $gebruikers);
+		return View::make("gebruikers.index")
+			->with("rulesNieuw", $this->rulesNieuw)
+			->with("gebruikers", $gebruikers);
 	}
 	
 	public function post_index()
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
-				$gebruiker = new Gebruiker();
-				$gebruiker->gebruikersnaam = Input::get("gebruikersnaam");
-				$gebruiker->naam = Input::get("naam");
-				$gebruiker->wachtwoord = Hash::make(Input::get("wachtwoord"));
-				$gebruiker->email = Input::get("email");
-				$gebruiker->telefoon = Input::get("telefoon");
-				
-				if(Input::has_file("foto")) {
-					$gebruiker->foto = Input::file("foto");
+				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
+					$gebruiker = new Gebruiker();
+					$gebruiker->gebruikersnaam = Input::get("gebruikersnaam");
+					$gebruiker->naam = Input::get("naam");
+					$gebruiker->wachtwoord = Hash::make(Input::get("wachtwoord"));
+					$gebruiker->email = Input::get("email");
+					$gebruiker->telefoon = Input::get("telefoon");
+					
+					if(Input::has_file("foto")) {
+						$gebruiker->foto = Input::file("foto");
+					}
+					$gebruiker->save();
 				}
-				$gebruiker->save();
 			}
 		}
 		
@@ -35,6 +55,8 @@ class Gebruikers_Controller extends Base_Controller {
 		$gebruiker = Gebruiker::find($id);
 		
 		return View::make("gebruikers.detail")
+			->with("rulesFoto", $this->rulesFoto)
+			->with("rulesInformatie", $this->rulesInformatie)
 			->with("gebruiker", $gebruiker);
 	}
 	
@@ -43,12 +65,16 @@ class Gebruikers_Controller extends Base_Controller {
 		$gebruiker = Gebruiker::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "foto") {
-				$gebruiker->foto = Input::file("foto");
-				$gebruiker->save();
+				if(Validator::make(Input::all(), $this->rulesFoto)->passes()) {
+					$gebruiker->foto = Input::file("foto");
+					$gebruiker->save();
+				}
 			}
 			if(Input::get("action") == "informatie") {
-				$gebruiker->informatie = Input::get("informatie");
-				$gebruiker->save();
+				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
+					$gebruiker->informatie = Input::get("informatie");
+					$gebruiker->save();
+				}
 			}
 		}
 		

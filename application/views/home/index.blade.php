@@ -25,6 +25,7 @@
 
 <div id="mededelingModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesMededeling) }}
 	{{ Form::hidden("action", "mededeling") }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>

@@ -11,8 +11,10 @@
 
 <p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe vogel</a></p>
 
+
 <div id="nieuwevogelModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
-	{{ Form::horizontal_open() }}
+	{{ Form::horizontal_open_for_files() }}
+	{{ Form::rules($rulesNieuw) }}
 	{{ Form::hidden("action", "nieuw") }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
@@ -22,6 +24,7 @@
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
 		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf"))) }}
 		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', $soorten)) }}
+		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', null, array("class"=>"datepicker"))) }}
 		{{ Form::control_group(Form::label('foto', 'Foto'), Form::file('foto')) }}
 	</div>
 	<div class="modal-footer">
@@ -30,6 +33,5 @@
 	</div>
 	{{ Form::close() }}
 </div>
-
 
 @endsection

@@ -23,3 +23,7 @@ div.hover-div:hover .hover-text {
 	margin-left: -450px;
 	width: 900px;
 }
+
+.media-list h4 {
+	margin-top: 5px;
+}

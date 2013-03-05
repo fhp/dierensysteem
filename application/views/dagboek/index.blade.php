@@ -24,6 +24,7 @@
 
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesVerslag) }}
 	{{ Form::hidden("action", "dagverslag") }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
