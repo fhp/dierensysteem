@@ -13,6 +13,9 @@ Route::group(array('before' => 'auth'), function() {
 	
 	Route::any('vogels/(:num)/(:any)', array("as"=>"vogelDetail", 'uses'=>'vogels@detail'));
 	Route::any('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));
+	
+	Route::any('taken/(:num)/(:any)', array("as"=>"taakDetail", 'uses'=>'taken@detail'));
+	Route::any('taken', array("as"=>"taken", 'uses'=>'taken@index'));
 });
 
 Route::any('login', array("as"=>"login", 'uses'=>'login@login'));

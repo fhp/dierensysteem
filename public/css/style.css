@@ -27,3 +27,7 @@ div.hover-div:hover .hover-text {
 .media-list h4 {
 	margin-top: 5px;
 }
+
+.popover {
+	width: 200px;
+}

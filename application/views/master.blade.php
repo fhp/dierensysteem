@@ -15,6 +15,7 @@
 {{ HTML::script('bundles/jquery-validator/validator.js') }}
 {{ HTML::script('js/datepicker.js') }}
 {{ HTML::script('js/validator.js') }}
+{{ HTML::script('js/scripts.js') }}
 </head>
 <body>
 	

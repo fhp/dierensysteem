@@ -8,5 +8,17 @@ class Taak extends Eloquent {
 	{
 		return $this->has_many('Taakuitvoering');
 	}
-
+	
+	public function uitvoerders($datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		$uitvoeringen = $this->uitvoeringen()->where("datum", "=", $datum)->get();
+		$gebruikers = array();
+		foreach($uitvoeringen as $uitvoering) {
+			$gebruikers[] = $uitvoering->gebruiker()->results();
+		}
+		return $gebruikers;
+	}
 }
