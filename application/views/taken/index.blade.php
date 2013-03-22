@@ -34,8 +34,11 @@
 
 {{ Form::close() }}
 
-
+@if($geschiedenisStartDatum == new DateTime("today"))
 <h2>Afgelopen week</h2>
+@else
+<h2>Geschiedenis</h2>
+@endif
 <table class="weekcalendar table">
 <tr>
 @foreach($dagen as $dag)
@@ -52,5 +55,44 @@
 @endforeach
 </tr>
 </table>
+
+<?php
+$week = new DateInterval("P7D");
+
+$nextWeek = new DateTime($geschiedenisStartDatum->format("Y-m-d"));
+$nextWeek->add($week);
+$prevWeek = new DateTime($geschiedenisStartDatum->format("Y-m-d"));
+$prevWeek->sub($week);
+
+echo "<span class=\"pull-left\">" . HTML::link_to_route("taken", "<<< Vorige week", array($prevWeek->format("Y"), $prevWeek->format("m"), $prevWeek->format("d"))) . "</span>";
+if($nextWeek < new DateTime("today")) {
+	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
+} else if($geschiedenisStartDatum < new DateTime("today")) {
+	$nextWeek = new DateTime("today");
+	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
+}
+?>
+<br style="clear: both"><br>
+<p><a href="#nieuweTaakModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe taak</a></p>
+
+<div id="nieuweTaakModal" class="modal hide fade" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesNieuweTaak) }}
+	{{ Form::hidden("action", "nieuweTaak") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Nieuwe taak</h3>
+	</div>
+	<div class="modal-body">
+		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
+		{{ Form::control_group(Form::label('beschrijving', 'Informatie:'), Form::textarea('beschrijving')) }}
+		{{ Form::control_group(Form::label('frequentie', 'Frequentie'), Form::text('frequentie')) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
 
 @endsection

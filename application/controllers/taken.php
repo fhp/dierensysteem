@@ -4,10 +4,24 @@
 class Taken_Controller extends Base_Controller {
 	public $restful = true;
 	
-	public function get_index()
+	public $rulesNieuweTaak = array(
+	
+	);
+	
+	public function get_index($jaar = null, $maand = null, $dag = null)
 	{
-		$datum = new DateTime("today");
-		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > frequentie OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ?", array($datum, $datum, $datum, $datum));
+		if($jaar === null) {
+			$jaar = date("Y");
+		}
+		if($maand === null) {
+			$maand = date("m");
+		}
+		if($dag === null) {
+			$dag = date("d");
+		}
+		
+		$vandaag = new DateTime("today");
+		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > (frequentie - 1) OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ?", array($vandaag, $vandaag, $vandaag, $vandaag));
 		$takenVandaag = array();
 		$taakIDArray = array();
 		foreach($taakIDs as $taakID) {
@@ -21,10 +35,11 @@ class Taken_Controller extends Base_Controller {
 		}
 		
 		$geschiedenis = array();
-		$dag = array("Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag");
+		$dagNaam = array("Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag");
 		for($i = 7; $i >= 1; $i--) {
-			$datum = new DateTime("today $i days ago");
-			$dagen[$i] = $dag[$datum->format("w")] . " " . $datum->format('d-m-Y');
+			$datum = new DateTime("$jaar-$maand-$dag");
+			$datum->sub(new DateInterval("P{$i}D"));
+			$dagen[$i] = $dagNaam[$datum->format("w")] . " " . $datum->format('d-m-Y');
 			$taakIDs = DB::query("SELECT DISTINCT taak.id FROM taken AS taak INNER JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE uitvoering.datum = ?", array($datum));
 			$geschiedenis[$i] = array();
 			foreach($taakIDs as $taakID) {
@@ -32,19 +47,42 @@ class Taken_Controller extends Base_Controller {
 				$geschiedenis[$i][] = array("taak"=>$taak, "uitvoerders"=>$taak->uitvoerders($datum));
 			}
 		}
+		$datum = new DateTime("$jaar-$maand-$dag");
 		return View::make("taken.index")
 			->with("takenVandaag", $takenVandaag)
 			->with("overigeTaken", $alleTaken)
 			->with("geschiedenis", $geschiedenis)
-			->with("dagen", $dagen);
+			->with("dagen", $dagen)
+			->with("geschiedenisStartDatum", $datum)
+			->with("rulesNieuweTaak", $this->rulesNieuweTaak);
+	}
+	public function post_index($jaar = null, $maand = null, $dag = null)
+	{
+		if($jaar === null) {
+			$jaar = date("Y");
+		}
+		if($maand === null) {
+			$maand = date("m");
+		}
+		if($dag === null) {
+			$dag = date("d");
+		}
+		
+		if(Input::has("action")) {
+			if(Input::get("action") == "nieuweTaak") {
+				if(Validator::make(Input::all(), $this->rulesNieuweTaak)->passes()) {
+					$taak = new Taak();
+					$taak->naam = Input::get("naam");
+					$taak->beschrijving = Input::get("beschrijving");
+					$taak->frequentie = Input::get("frequentie");
+					$taak->save();
+				}
+			}
+		}
+		
+		return Redirect::to_route("taken", array($jaar, $maand, $dag));
 	}
 	
-	public function get_detail($id, $naam)
-	{
-		$taak = Taak::find($id);
-		return View::make("taken.detail")
-			->with("taak", $taak);
-	}
 	
 	public function get_gedaan($id) // TODO: post actie maken
 	{
