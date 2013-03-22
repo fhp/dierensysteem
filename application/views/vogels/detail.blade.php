@@ -11,6 +11,9 @@
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
 	</dl>
 	
+	@if($vogel->naam == "Caitlynn")
+	{{ Alert::error("<strong>Let op!</strong> Caitlynn is erg fel!") }}
+	@endif
 	
 	<h2>Dagboek</h2>
 	<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a></p>
