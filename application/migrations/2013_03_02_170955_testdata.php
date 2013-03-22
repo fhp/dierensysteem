@@ -38,11 +38,6 @@ class Testdata {
 		$vogelVerslag->gebruiker_id = $stef->id;
 		$kiran->verslagen()->insert($vogelVerslag);
 		
-		$bosuilInfo = new Soortinfo();
-		$bosuilInfo->titel = "Bosuilen zijn cool";
-		$bosuilInfo->tekst = "Omdat appel";
-		$bosuil->info()->insert($bosuilInfo);
-		
 		$kiranInfo = new Vogelinfo();
 		$kiranInfo->titel = "Kiran is cool";
 		$kiranInfo->tekst = "Omdat hij van Nadine is.";
