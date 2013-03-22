@@ -14,7 +14,13 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('vogels/(:num)/(:any)', array("as"=>"vogelDetail", 'uses'=>'vogels@detail'));
 	Route::any('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));
 	
+	Route::any('agenda/(:num)/(:num)/(:num)/aanwezig', array("as"=>"aanmelden", 'uses'=>'agenda@aanwezig'));
+	Route::any('agenda/(:num)/(:num)/(:num)/afwezig', array("as"=>"afmelden", 'uses'=>'agenda@afwezig'));
+	Route::any('agenda/(:num)/(:num)', array("as"=>"agenda", 'uses'=>'agenda@index'));
+	Route::any('agenda', array("as"=>"agenda", 'uses'=>'agenda@index'));
+	
 	Route::any('taken/(:num)/(:any)', array("as"=>"taakDetail", 'uses'=>'taken@detail'));
+	Route::any('taken/gedaan/(:num)', array("as"=>"taakGedaan", 'uses'=>'taken@gedaan'));
 	Route::any('taken', array("as"=>"taken", 'uses'=>'taken@index'));
 });
 

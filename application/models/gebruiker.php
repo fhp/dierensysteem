@@ -28,6 +28,16 @@ class Gebruiker extends Eloquent {
 	{
 		return $this->has_many('Aanwezigheid');
 	}
+	
+	public function aanwezigheid($datum)
+	{
+		return Aanwezigheid::where_gebruiker_id_and_datum($this->id, $datum)->first();
+	}
+	
+	public function isAanwezig($datum)
+	{
+		return Aanwezigheid::where_gebruiker_id_and_datum($this->id, $datum)->count() >= 1;
+	}
 
 	public function taakuitvoeringen()
 	{

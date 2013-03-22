@@ -31,3 +31,81 @@ div.hover-div:hover .hover-text {
 .popover {
 	width: 200px;
 }
+
+.weekcalendar td:nth-child(odd), .weekcalendar th:nth-child(odd) {
+	background-color: #F9F9F9;
+}
+
+/* calendar */
+table.calendar {
+	width: 100%;
+}
+
+.calendar tr:nth-child(odd) td:nth-child(odd).calendar-day, .calendar tr:nth-child(even) td:nth-child(even).calendar-day {
+	background-color: #F9F9F9;
+}
+
+.calendar td, .calendar th {
+/* 	border: 1px solid #999; */
+}
+td.calendar-day {
+	min-height: 80px;
+	font-size: 11px;
+	position: relative;
+}
+div.calendar-day {
+	height: 80px;
+}
+td.calendar-day:hover {
+	background: #eceff5 !important;
+}
+td.calendar-day-np {
+	background: #ffffff;
+	min-height: 80px;
+}
+div.calendar-day-np {
+	height: 80px;
+}
+.calendar th {
+	background: #ffffff;
+	font-weight: bold;
+	text-align: center;
+	width: 120px;
+	padding: 5px;
+}
+.calendar thead {
+	border-bottom: 1px solid #DDDDDD;
+}
+div.day-number {
+	background: #0088CC;
+	padding: 5px;
+	color: #fff;
+	font-weight: bold;
+	float: right;
+	margin: -5px -5px 0 0;
+	width: 20px;
+	text-align: center;
+}
+/* shared */
+td.calendar-day, td.calendar-day-np {
+	width: 120px;
+	padding: 5px;
+}
+
+.agenda-aanwezigen-geen {
+	color: #B94A48;
+}
+.agenda-aanwezigen-weinig {
+	color: #C09853;
+}
+.agenda-aanwezigen-genoeg {
+	color: #468847;
+}
+.agenda-aanwezigen-veel {
+	color: #468847;
+}
+
+
+.popup {
+	cursor: pointer;
+}

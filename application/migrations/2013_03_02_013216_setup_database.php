@@ -154,6 +154,17 @@ class Setup_Database {
 			$table->foreign("gebruiker_id")->references("id")->on("gebruikers");
 			$table->engine = "InnoDB";
 		});
+		
+		Schema::create("evenementen", function($table)
+		{
+			$table->increments("id");
+			$table->string("naam");
+			$table->text("beschrijving");
+			$table->date("datum");
+			$table->timestamps();
+			
+			$table->engine = "InnoDB";
+		});
 	}
 
 	/**

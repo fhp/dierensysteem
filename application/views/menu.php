@@ -4,6 +4,7 @@ echo Navigation::lists(
 		array(
 			array(Navigation::HEADER, 'Algemeen', false, false, null),
 			array('Home', URL::to_route('home'), Request::route()->is('home')),
+			array('Agenda', URL::to_route('agenda'), Request::route()->is('agenda')),
 			array('Dagboek', URL::to_route('dagboek'), Request::route()->is('dagboek')),
 			array('Vogels', URL::to_route('vogels'), Request::route()->is('vogels') || Request::route()->is('vogelDetail')),
 			array('Soorten', URL::to_route('soorten'), Request::route()->is('soorten') || Request::route()->is('soortDetail')),
