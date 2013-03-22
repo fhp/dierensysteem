@@ -70,9 +70,10 @@ class Agenda_Controller extends Base_Controller {
 	public function get_afwezig($jaar, $maand, $dag)
 	{
 		$datum = new DateTime("$jaar-$maand-$dag");
-		
-		$aanwezigheid = Auth::user()->aanwezigheid($datum);
-		$aanwezigheid->delete();
+		if($datum >= new DateTime("today +4 days")) {
+			$aanwezigheid = Auth::user()->aanwezigheid($datum);
+			$aanwezigheid->delete();
+		}
 		
 		return Redirect::to_route('agenda', array($jaar, $maand));
 	}
