@@ -179,6 +179,7 @@ class Setup_Database {
 		Schema::drop("vliegevaluaties");
 		Schema::drop("dagverslagen");
 		Schema::drop("aanwezigheid");
+		Schema::drop("evenementen");
 		Schema::drop("taakuitvoeringen");
 		Schema::drop("taken");
 		Schema::drop("mededelingen");
