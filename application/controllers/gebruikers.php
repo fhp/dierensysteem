@@ -7,7 +7,7 @@ class Gebruikers_Controller extends Base_Controller {
 		"gebruikersnaam"=>"required|alpha_dash|unique:gebruikers",
 		"naam"=>"required",
 		"email"=>"required|email",
-		"telefoon"=>"integer",
+		"telefoon"=>"numeric",
 		"wachtwoord"=>"required|confirmed|min:6",
 		"foto"=>"image",
 	);
@@ -17,6 +17,9 @@ class Gebruikers_Controller extends Base_Controller {
 	);
 	
 	public $rulesInformatie = array(
+	);
+	
+	public $rulesBiografie = array(
 	);
 	
 	public function get_index()
@@ -42,11 +45,10 @@ class Gebruikers_Controller extends Base_Controller {
 					if(Input::has_file("foto")) {
 						$gebruiker->foto = Input::file("foto");
 					}
-					$gebruiker->save();
+					echo $gebruiker->save();
 				}
 			}
 		}
-		
 		return Redirect::to_route("gebruikers");
 	}
 	
@@ -57,6 +59,7 @@ class Gebruikers_Controller extends Base_Controller {
 		return View::make("gebruikers.detail")
 			->with("rulesFoto", $this->rulesFoto)
 			->with("rulesInformatie", $this->rulesInformatie)
+			->with("rulesBiografie", $this->rulesBiografie)
 			->with("gebruiker", $gebruiker);
 	}
 	
@@ -73,6 +76,12 @@ class Gebruikers_Controller extends Base_Controller {
 			if(Input::get("action") == "informatie") {
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
 					$gebruiker->informatie = Input::get("informatie");
+					$gebruiker->save();
+				}
+			}
+			if(Input::get("action") == "biografie") {
+				if(Validator::make(Input::all(), $this->rulesBiografie)->passes()) {
+					$gebruiker->biografie = Input::get("biografie");
 					$gebruiker->save();
 				}
 			}

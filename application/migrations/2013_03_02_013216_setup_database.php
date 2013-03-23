@@ -18,6 +18,7 @@ class Setup_Database {
 			$table->string("telefoon");
 			$table->string("naam");
 			$table->text("informatie");
+			$table->text("biografie");
 			$table->boolean("admin");
 			$table->string("foto")->nullable();
 			$table->timestamps();

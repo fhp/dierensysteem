@@ -21,6 +21,8 @@
 			<a href="#fotoModal" role="button" data-toggle="modal"><i class="icon icon-pencil icon-white"></i></a>
 		</div>
 	</div>
+	{{ $gebruiker->biografie }}
+	<p><a href="#biografieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk biografie</a></p>
 </div>
 
 <div id="fotoModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -51,6 +53,24 @@
 	</div>
 	<div class="modal-body">
 		{{ CKEditor::make('informatie', $gebruiker->informatie) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
+
+<div id="biografieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesBiografie) }}
+	{{ Form::hidden("action", "biografie") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bewerk biografie</h3>
+	</div>
+	<div class="modal-body">
+		{{ CKEditor::make('biografie', $gebruiker->biografie) }}
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>
