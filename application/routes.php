@@ -28,6 +28,7 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('taken', array("as"=>"taken", 'uses'=>'taken@index'));
 });
 
+Route::any('login/(:any)', array("as"=>"loginAs", 'uses'=>'login@login'));
 Route::any('login', array("as"=>"login", 'uses'=>'login@login'));
 Route::any('logout', array("as"=>"logout", 'uses'=>'login@logout'));
 

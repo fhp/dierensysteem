@@ -3,9 +3,11 @@
 class Login_Controller extends Base_Controller {
 	public $restful = true;
 	
-	public function get_login()
+	public function get_login($naam = null)
 	{
-		return View::make('login');
+		Auth::logout();
+		return View::make('login')
+			->with("username", $naam);
 	}
 	
 	public function post_login()
@@ -20,6 +22,6 @@ class Login_Controller extends Base_Controller {
 	public function get_logout()
 	{
 		Auth::logout();
-		return Redirect::to_route('home');
+		return Redirect::to_route('login');
 	}
 }
