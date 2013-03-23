@@ -19,8 +19,11 @@
 </head>
 <body>
 	
-	<div style="height: 60px;">
-		<h1 style="color: #800000;"><a href="index.php"><img src="{{ asset("img/Falconcrest_Logo.jpg") }}"></a> Falconcrest Roofvogel Administratie Systeem</h1>
+	<div style="height: 64px;">
+		<a href="{{ URL::to_route("home") }}"><h1 class="pull-left" style="color: #800000; margin: 5px;"><img src="{{ asset("img/Falconcrest_Logo.jpg") }}"> Falconcrest Roofvogel Administratie Systeem</h1></a>
+		@if(Auth::check())
+			<span class="pull-right"><a href="{{ URL::to_route("gebruikerDetail", array(Auth::user()->id, Auth::user()->gebruikersnaam)) }}">{{ Auth::user()->thumbnail_image() }}</a></span>
+		@endif
 	</div>
 	@include('breadcrumb')
 	<div class="container-fluid">
