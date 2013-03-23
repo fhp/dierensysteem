@@ -8,7 +8,9 @@ echo $maanden[(int)$maand] . " " . $jaar;
 ?>
 </h1>
 
-@render("widgets.calendar", array("month"=>$maand, "year"=>$jaar, "cell"=>"agenda.calendar-cell", "cellData"=>$aanwezigen))
+<a href="{{ URL::to_route("agendaWeek") }}" class="pull-right">Week weergave</a>
+
+@render("widgets.calendar", array("month"=>$maand, "year"=>$jaar, "cell"=>"agenda.calendar-cell", "cellData"=>$dagenData))
 
 <div id="evenementModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}

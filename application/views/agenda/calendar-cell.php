@@ -38,11 +38,15 @@ if(count($data["aanwezigen"]) == 0) {
 
 if(Auth::user()->isAanwezig($data["datum"])) {
 	if($data["datum"] >= new DateTime("today +4 days")) {
-		echo HTML::link_to_route("afmelden", "Afmelden", array($data["datum"]->format("Y"), $data["datum"]->format("m"), $data["datum"]->format("d")));
+		echo Form::open(URL::to_route('afmelden', array($data["datum"]->format("Y"), $data["datum"]->format("m"), $data["datum"]->format("d"))));
+		echo "<button class=\"btn btn-link\" type=\"submit\">afmelden</button>";
+		echo Form::close();
 	}
 } else {
 	if($data["datum"] >= new DateTime("today")) {
-		echo HTML::link_to_route("aanmelden", "Aanmelden", array($data["datum"]->format("Y"), $data["datum"]->format("m"), $data["datum"]->format("d")));
+		echo Form::open(URL::to_route('aanmelden', array($data["datum"]->format("Y"), $data["datum"]->format("m"), $data["datum"]->format("d"))));
+		echo "<button class=\"btn btn-link\" type=\"submit\">aanmelden</button>";
+		echo Form::close();
 	}
 }
 if($data["datum"] >= new DateTime("today")) {

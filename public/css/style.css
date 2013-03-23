@@ -105,6 +105,21 @@ td.calendar-day, td.calendar-day-np {
 	color: #468847;
 }
 
+.calendar form, .weekcalendar form {
+	margin: 0px;
+}
+.calendar .btn-link {
+	font-size: 11px;
+	color: #0088CC;
+	line-height: 15px;
+	padding: 0px;
+}
+.weekcalendar .btn-link {
+/* 	font-size: 11px; */
+	color: #2972A3;
+	line-height: 15px;
+	padding: 0px;
+}
 
 .popup {
 	cursor: pointer;

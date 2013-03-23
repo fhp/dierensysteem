@@ -75,8 +75,8 @@ if($month == 12) {
 	$prevMonth = array($year - 1, 12);
 }
 
-$calendar .= "<span class=\"pull-left\">" . HTML::link_to_route("agenda", "<<< Vorige maand", $prevMonth) . "</span>";
-$calendar .= "<span class=\"pull-right\">" . HTML::link_to_route("agenda", "Volgende maand >>>", $nextMonth) . "</span>";
+$calendar .= "<span class=\"pull-left\">" . HTML::link_to_route("agendaMaand", "<<< Vorige maand", $prevMonth) . "</span>";
+$calendar .= "<span class=\"pull-right\">" . HTML::link_to_route("agendaMaand", "Volgende maand >>>", $nextMonth) . "</span>";
 
 
 echo $calendar;
