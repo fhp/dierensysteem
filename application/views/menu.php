@@ -1,17 +1,32 @@
 <?php
+
+function routeInModule($naam1, $naam2 = null) {
+	$routeNaam = array_get(Request::route()->action, "as");
+	if(substr($routeNaam, 0, strlen($naam1)) == $naam1) {
+		return true;
+	}
+	if($naam2 === null) {
+		return false;
+	}
+	if(substr($routeNaam, 0, strlen($naam2)) == $naam2) {
+		return true;
+	}
+	return false;
+}
+
 echo Navigation::lists(
 	Navigation::links(
 		array(
 			array(Navigation::HEADER, 'Algemeen', false, false, null),
-			array('Home', URL::to_route('home'), Request::route()->is('home')),
-			array('Agenda', URL::to_route('agenda'), Request::route()->is('agenda')),
-			array('Dagboek', URL::to_route('dagboek'), Request::route()->is('dagboek')),
-			array('Vogels', URL::to_route('vogels'), Request::route()->is('vogels') || Request::route()->is('vogelDetail')),
-			array('Soorten', URL::to_route('soorten'), Request::route()->is('soorten') || Request::route()->is('soortDetail')),
-			array('Taken', URL::to_route('taken'), Request::route()->is('taken') || Request::route()->is('taakDetail')),
-			array('Gebruikers', URL::to_route('gebruikers'), Request::route()->is('gebruikers') || Request::route()->is('gebruikerDetail')),
+			array('Home', URL::to_route('home'), routeInModule('home')),
+			array('Agenda', URL::to_route('agenda'), routeInModule('agenda')),
+			array('Dagboek', URL::to_route('dagboek'), routeInModule('dagboek')),
+			array('Vogels', URL::to_route('vogels'), routeInModule('vogel')),
+			array('Soorten', URL::to_route('soorten'), routeInModule('soort')),
+			array('Taken', URL::to_route('taken'), routeInModule('taken', 'taak')),
+			array('Gebruikers', URL::to_route('gebruikers'), routeInModule('gebruiker')),
 			array(Navigation::DIVIDER),
-			array('Logout', URL::to_route('logout'), Request::route()->is('logout')),
+			array('Logout', URL::to_route('logout'), routeInModule('logout')),
 		)
 	)
 );
