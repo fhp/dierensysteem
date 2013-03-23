@@ -24,7 +24,7 @@ $menu = array(
 	array('Taken', URL::to_route('taken'), routeInModule('taken', 'taak')),
 	array('Gebruikers', URL::to_route('gebruikers'), routeInModule('gebruiker')),
 	array(Navigation::DIVIDER),
-	array('Logout', URL::to_route('logout'), routeInModule('logout')),
+	array('Uitloggen', URL::to_route('logout'), routeInModule('logout')),
 	array(Navigation::DIVIDER),
 	array(Navigation::HEADER, 'Inloggen als', false, false, null),
 );
