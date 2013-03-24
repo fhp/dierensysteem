@@ -9,6 +9,7 @@
 @endforeach
 {{ MediaObject::close_list() }}
 
+@if(Auth::user()->admin)
 <p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe soort</a></p>
 
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -29,6 +30,6 @@
 	</div>
 	{{ Form::close() }}
 </div>
-
+@endif
 
 @endsection

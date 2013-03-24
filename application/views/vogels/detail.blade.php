@@ -35,7 +35,9 @@ $(function() {
 	<h2>Dagboek</h2>
 	<p>
 	<a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a>
+	@if(Auth::user()->admin)
 	<a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a>
+	@endif
 	</p>
 	
 	<ul class="media-list">
@@ -60,16 +62,21 @@ $(function() {
 <div class="span4">
 	<div class="hover-div">
 		{{$vogel->thumbnail_image("foto", "large") }}
+		@if(Auth::user()->admin)
 		<div class="hover-text">
 			<a href="#fotoModal" role="button" data-toggle="modal"><i class="icon icon-pencil icon-white"></i></a>
 		</div>
+		@endif
 	</div>
 	
 	<h2>Notities</h2>
 	{{ $vogel->informatie }}
+	@if(Auth::user()->admin)
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
+	@endif
 </div>
 
+@if(Auth::user()->admin)
 <div id="informatieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesInformatie) }}
@@ -87,6 +94,7 @@ $(function() {
 	</div>
 	{{ Form::close() }}
 </div>
+@endif
 
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
@@ -106,6 +114,7 @@ $(function() {
 	{{ Form::close() }}
 </div>
 
+@if(Auth::user()->admin)
 <div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesAlert) }}
@@ -123,7 +132,9 @@ $(function() {
 	</div>
 	{{ Form::close() }}
 </div>
+@endif
 
+@if(Auth::user()->admin)
 <div id="fotoModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::vertical_open_for_files() }}
 	{{ Form::rules($rulesFoto) }}
@@ -141,6 +152,7 @@ $(function() {
 	</div>
 	{{ Form::close() }}
 </div>
+@endif
 
 </div>
 @endsection

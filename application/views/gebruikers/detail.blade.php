@@ -7,24 +7,33 @@
 	
 	<dl class="dl-horizontal">
 	<dt>Gebruikersnaam</dt><dd>{{ $gebruiker->gebruikersnaam }}</dd>
+@if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 	<dt>Email</dt><dd>{{ HTML::mailto($gebruiker->email, $gebruiker->email) }}</dd>
 	<dt>Telefoonnummer</dt><dd>{{ $gebruiker->telefoon }}</dd>
+@endif
 	</dl>
 	
 	{{ $gebruiker->informatie }}
+@if(Auth::user()->admin)
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk persoonlijke informatie</a></p>
+@endif
 </div>
 <div class="span4">
 	<div class="hover-div">
 		{{$gebruiker->thumbnail_image("foto", "large") }}
+		@if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 		<div class="hover-text">
 			<a href="#fotoModal" role="button" data-toggle="modal"><i class="icon icon-pencil icon-white"></i></a>
 		</div>
+		@endif
 	</div>
 	{{ $gebruiker->biografie }}
+	@if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 	<p><a href="#biografieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk biografie</a></p>
+	@endif
 </div>
 
+@if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 <div id="fotoModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::vertical_open_for_files() }}
 	{{ Form::rules($rulesFoto) }}
@@ -42,7 +51,9 @@
 	</div>
 	{{ Form::close() }}
 </div>
+@endif
 
+@if(Auth::user()->admin)
 <div id="informatieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesInformatie) }}
@@ -60,7 +71,9 @@
 	</div>
 	{{ Form::close() }}
 </div>
+@endif
 
+@if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 <div id="biografieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesBiografie) }}
@@ -78,7 +91,7 @@
 	</div>
 	{{ Form::close() }}
 </div>
-
+@endif
 
 </div>
 @endsection

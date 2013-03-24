@@ -20,6 +20,9 @@ class Home_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "mededeling") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesMededeling)->passes()) {
 					$mededeling = new Mededeling();
 					$mededeling->tekst = Input::get("tekst");
@@ -30,6 +33,6 @@ class Home_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("home");
+		return Redirect::back();
 	}
 }

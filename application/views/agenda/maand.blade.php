@@ -13,7 +13,7 @@ echo $maanden[(int)$maand] . " " . $jaar;
 @render("widgets.calendar", array("month"=>$maand, "year"=>$jaar, "cell"=>"agenda.calendar-cell", "cellData"=>$dagenData))
 
 <div id="evenementModal" class="modal hide fade" tabindex="-1" role="dialog">
-	{{ Form::horizontal_open() }}
+	{{ Form::horizontal_open(URL::to_route("agendaEvenement")) }}
 	{{ Form::rules($rulesEvenement) }}
 	{{ Form::hidden("action", "nieuwEvenement") }}
 	<input type="hidden" name="datum" id="datum">

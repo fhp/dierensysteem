@@ -26,6 +26,9 @@ class Soorten_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
 					$soort = new Soort();
 					$soort->naam = Input::get("naam");
@@ -35,7 +38,7 @@ class Soorten_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("soorten");
+		return Redirect::back();
 	}
 	
 	public function get_detail($id, $naam)
@@ -51,6 +54,9 @@ class Soorten_Controller extends Base_Controller {
 		$soort = Soort::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "informatie") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
 					$soort->informatie = Input::get("informatie");
 					$soort->save();
@@ -58,6 +64,6 @@ class Soorten_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("soortDetail", array($id, $naam));
+		return Redirect::back();
 	}
 }

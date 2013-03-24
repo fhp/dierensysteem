@@ -73,6 +73,8 @@ if($nextWeek < new DateTime("today")) {
 }
 ?>
 <br style="clear: both"><br>
+
+@if(Auth::user()->admin)
 <p><a href="#nieuweTaakModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe taak</a></p>
 
 <div id="nieuweTaakModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -94,5 +96,6 @@ if($nextWeek < new DateTime("today")) {
 	</div>
 	{{ Form::close() }}
 </div>
+@endif
 
 @endsection

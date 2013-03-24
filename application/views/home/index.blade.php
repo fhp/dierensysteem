@@ -21,6 +21,7 @@
 @endforeach
 </ul>
 
+@if(Auth::user()->admin)
 <p><a href="#mededelingModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe mededeling</a></p>
 
 <div id="mededelingModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -40,6 +41,6 @@
 	</div>
 	{{ Form::close() }}
 </div>
-
+@endif
 
 @endsection

@@ -60,7 +60,7 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 <tr>
 @foreach($dagenData as $dagData)
 	<td>
-	@if($dagData["datum"] >= new DateTime("today"))
+	@if(Auth::user()->admin && $dagData["datum"] >= new DateTime("today"))
 		<p><a href="#evenementModal" role="button" data-toggle="modal" onClick="$('#evenementModal input#datum').val('{{ $dagData["datum"]->format("Y-m-d") }}')">Evenement toevoegen</a></p>
 	@endif
 	@if(Auth::user()->isAanwezig($dagData["datum"]))
@@ -99,7 +99,7 @@ echo "<span class=\"pull-right\">" . HTML::link_to_route("agendaWeek", "Volgende
 
 
 <div id="evenementModal" class="modal hide fade" tabindex="-1" role="dialog">
-	{{ Form::horizontal_open() }}
+	{{ Form::horizontal_open(URL::to_route("agendaEvenement")) }}
 	{{ Form::rules($rulesEvenement) }}
 	{{ Form::hidden("action", "nieuwEvenement") }}
 	<input type="hidden" name="datum" id="datum">

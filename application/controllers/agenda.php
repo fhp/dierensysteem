@@ -64,6 +64,9 @@ class Agenda_Controller extends Base_Controller {
 	
 	public function post_evenement()
 	{
+		if(!Auth::user()->admin) {
+			return Redirect::back();
+		}
 		if(Validator::make(Input::all(), $this->rulesEvenement)->passes()) {
 			$evenement = new Evenement();
 			$evenement->naam = Input::get("naam");
@@ -72,7 +75,7 @@ class Agenda_Controller extends Base_Controller {
 			$evenement->save();
 			return Redirect::back();
 		} else {
-			return Redirect::back()->with('error', 'Het is niet gelukt om het evenement aan te maken.');
+			return Redirect::back();
 		}
 	}
 	

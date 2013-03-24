@@ -42,6 +42,9 @@ class Vogels_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
 					$vogel = new Vogel();
 					$vogel->naam = Input::get("naam");
@@ -57,7 +60,7 @@ class Vogels_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("vogels");
+		return Redirect::back();
 	}
 	
 	public function get_grafiek($id)
@@ -86,6 +89,9 @@ class Vogels_Controller extends Base_Controller {
 		$vogel = Vogel::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "foto") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesFoto)->passes()) {
 					$vogel->foto = Input::file("foto");
 					$vogel->save();
@@ -101,12 +107,18 @@ class Vogels_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "alert") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesAlert)->passes()) {
 					$vogel->alert = Input::get("alert");
 					$vogel->save();
 				}
 			}
 			if(Input::get("action") == "informatie") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
 					$vogel->informatie = Input::get("informatie");
 					$vogel->save();
@@ -114,6 +126,6 @@ class Vogels_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("vogelDetail", array($id, $naam));
+		return Redirect::back();
 	}
 }

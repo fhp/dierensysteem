@@ -56,6 +56,7 @@ class Taken_Controller extends Base_Controller {
 			->with("geschiedenisStartDatum", $datum)
 			->with("rulesNieuweTaak", $this->rulesNieuweTaak);
 	}
+	
 	public function post_index($jaar = null, $maand = null, $dag = null)
 	{
 		if($jaar === null) {
@@ -70,6 +71,9 @@ class Taken_Controller extends Base_Controller {
 		
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuweTaak") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesNieuweTaak)->passes()) {
 					$taak = new Taak();
 					$taak->naam = Input::get("naam");
@@ -80,9 +84,8 @@ class Taken_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("taken", array($jaar, $maand, $dag));
+		return Redirect::back();
 	}
-	
 	
 	public function get_gedaan($id) // TODO: post actie maken
 	{

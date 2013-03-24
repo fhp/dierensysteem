@@ -19,7 +19,7 @@ Route::group(array('before' => 'auth'), function() {
 	
 	Route::post('agenda/(:num)/(:num)/(:num)/aanwezig', array("as"=>"aanmelden", 'uses'=>'agenda@aanwezig'));
 	Route::post('agenda/(:num)/(:num)/(:num)/afwezig', array("as"=>"afmelden", 'uses'=>'agenda@afwezig'));
-	Route::post('agenda/evenement', array("as"=>"afmelden", 'uses'=>'agenda@evenement'));
+	Route::post('agenda/evenement', array("as"=>"agendaEvenement", 'uses'=>'agenda@evenement'));
 	Route::get('agenda/maand/(:num)/(:num)', array("as"=>"agendaMaand", 'uses'=>'agenda@maand'));
 	Route::get('agenda/maand', array("as"=>"agendaMaand", 'uses'=>'agenda@maand'));
 	Route::get('agenda/week/(:num)/(:num)/(:num)', array("as"=>"agendaWeek", 'uses'=>'agenda@week'));

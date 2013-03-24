@@ -34,6 +34,9 @@ class Gebruikers_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
 					$gebruiker = new Gebruiker();
 					$gebruiker->gebruikersnaam = Input::get("gebruikersnaam");
@@ -51,7 +54,7 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 			}
 		}
-		return Redirect::to_route("gebruikers");
+		return Redirect::back();
 	}
 	
 	public function get_detail($id, $naam)
@@ -70,18 +73,27 @@ class Gebruikers_Controller extends Base_Controller {
 		$gebruiker = Gebruiker::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "foto") {
+				if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesFoto)->passes()) {
 					$gebruiker->foto = Input::file("foto");
 					$gebruiker->save();
 				}
 			}
 			if(Input::get("action") == "informatie") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
 					$gebruiker->informatie = Input::get("informatie");
 					$gebruiker->save();
 				}
 			}
 			if(Input::get("action") == "biografie") {
+				if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+					return Redirect::back();
+				}
 				if(Validator::make(Input::all(), $this->rulesBiografie)->passes()) {
 					$gebruiker->biografie = Input::get("biografie");
 					$gebruiker->save();
@@ -89,6 +101,6 @@ class Gebruikers_Controller extends Base_Controller {
 			}
 		}
 		
-		return Redirect::to_route("gebruikerDetail", array($id, $naam));
+		return Redirect::back();
 	}
 }

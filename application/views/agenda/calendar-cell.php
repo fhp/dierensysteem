@@ -49,7 +49,7 @@ if(Auth::user()->isAanwezig($data["datum"])) {
 		echo Form::close();
 	}
 }
-if($data["datum"] >= new DateTime("today")) {
+if($data["datum"] >= new DateTime("today") && Auth::user()->admin) {
 	echo "<p><a href=\"#evenementModal\" role=\"button\" data-toggle=\"modal\" onClick=\"$('#evenementModal input#datum').val('" . $data["datum"]->format("Y-m-d") . "')\">Evenement toevoegen</a></p>";
 }
 
