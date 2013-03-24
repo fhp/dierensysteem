@@ -17,8 +17,11 @@ Route::group(array('before' => 'auth'), function() {
 	
 	Route::any('wegen', array("as"=>"wegen", 'uses'=>'wegen@index'));
 	
-	Route::post('agenda/(:num)/(:num)/(:num)/aanwezig', array("as"=>"aanmelden", 'uses'=>'agenda@aanwezig'));
-	Route::post('agenda/(:num)/(:num)/(:num)/afwezig', array("as"=>"afmelden", 'uses'=>'agenda@afwezig'));
+	Route::post('agenda/(:num)/(:num)/(:num)/aanwezig/(:num)', array("as"=>"agendaAanmeldenAdmin", 'uses'=>'agenda@aanwezig'));
+	Route::post('agenda/(:num)/(:num)/(:num)/afwezig/(:num)', array("as"=>"agendaAfmeldenAdmin", 'uses'=>'agenda@afwezig'));
+	Route::post('agenda/(:num)/(:num)/(:num)/aanwezig', array("as"=>"agendaAanmelden", 'uses'=>'agenda@aanwezig'));
+	Route::post('agenda/(:num)/(:num)/(:num)/afwezig', array("as"=>"agendaAfmelden", 'uses'=>'agenda@afwezig'));
+	Route::post('agenda/evenement/delete/(:num)', array("as"=>"agendaDeleteEvenement", 'uses'=>'agenda@deleteEvenement'));
 	Route::post('agenda/evenement', array("as"=>"agendaEvenement", 'uses'=>'agenda@evenement'));
 	Route::get('agenda/maand/(:num)/(:num)', array("as"=>"agendaMaand", 'uses'=>'agenda@maand'));
 	Route::get('agenda/maand', array("as"=>"agendaMaand", 'uses'=>'agenda@maand'));

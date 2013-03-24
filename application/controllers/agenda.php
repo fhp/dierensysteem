@@ -79,22 +79,45 @@ class Agenda_Controller extends Base_Controller {
 		}
 	}
 	
-	public function post_aanwezig($jaar, $maand, $dag)
+	public function post_deleteEvenement($evenementID)
+	{
+		if(!Auth::user()->admin) {
+			return Redirect::back();
+		}
+		Evenement::find($evenementID)->delete();
+		return Redirect::back();
+	}
+	
+	public function post_aanwezig($jaar, $maand, $dag, $gebruiker_id = null)
 	{
 		$datum = new DateTime("$jaar-$maand-$dag");
-		if(!Auth::user()->isAanwezig($datum)) {
+		if($gebruiker_id === null) {
+			$gebruiker = Auth::user();
+		} else if(Auth::user()->admin) {
+			$gebruiker = Gebruiker::find($gebruiker_id);
+		} else {
+			Redirect::back();
+		}
+		if(!$gebruiker->isAanwezig($datum)) {
 			$aanwezigheid = new Aanwezigheid();
 			$aanwezigheid->datum = $datum;
-			Auth::user()->aanwezigheden()->insert($aanwezigheid);
+			$gebruiker->aanwezigheden()->insert($aanwezigheid);
 		}
 		return Redirect::back();
 	}
 	
-	public function post_afwezig($jaar, $maand, $dag)
+	public function post_afwezig($jaar, $maand, $dag, $gebruiker_id = null)
 	{
 		$datum = new DateTime("$jaar-$maand-$dag");
-		if($datum >= new DateTime("today +4 days")) {
-			$aanwezigheid = Auth::user()->aanwezigheid($datum);
+		if($gebruiker_id === null) {
+			$gebruiker = Auth::user();
+		} else if(Auth::user()->admin) {
+			$gebruiker = Gebruiker::find($gebruiker_id);
+		} else {
+			Redirect::back();
+		}
+		if($datum >= new DateTime("today +4 days") || Auth::user()->admin) {
+			$aanwezigheid = $gebruiker->aanwezigheid($datum);
 			$aanwezigheid->delete();
 		}
 		

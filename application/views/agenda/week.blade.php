@@ -34,11 +34,7 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 	<td>
 	<b>Evenementen:</b><br>
 	@forelse($dagData["evenementen"] as $evenement)
-		@if($evenement->beschrijving == "")
-			<span class="popup" data-content="Geen informatie opgegeven.">{{ $evenement->naam }}</span><br>
-		@else
-			<span class="popup" data-content="{{ nl2br($evenement->beschrijving) }}" data-html="true">{{ $evenement->naam }}</span><br>
-		@endif
+		{{ HTML::agendaEvenement($evenement) }}
 	@empty
 		<i>Geen evenementen</i><br>
 	@endforelse
@@ -50,7 +46,7 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 	<td>
 	<b>Aanwezigen:</b><br>
 	@forelse($dagData["aanwezigen"] as $aanwezigheid)
-		{{ $aanwezigheid->gebruiker->naam }}<br>
+		{{ HTML::agendaAanwezigheid($aanwezigheid) }}
 	@empty
 		<i>Niemand aanwezig</i>
 	@endforelse
@@ -63,17 +59,16 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 	@if(Auth::user()->admin && $dagData["datum"] >= new DateTime("today"))
 		<p><a href="#evenementModal" role="button" data-toggle="modal" onClick="$('#evenementModal input#datum').val('{{ $dagData["datum"]->format("Y-m-d") }}')">Evenement toevoegen</a></p>
 	@endif
+	@if(Auth::user()->admin)
+		<p>{{ HTML::agendaAanmeldenAdmin($dagData["datum"]) }}</p>
+	@endif
 	@if(Auth::user()->isAanwezig($dagData["datum"]))
 		@if($dagData["datum"] >= new DateTime("today +4 days"))
-			{{ Form::open(URL::to_route('afmelden', array($dagData["datum"]->format("Y"), $dagData["datum"]->format("m"), $dagData["datum"]->format("d")))) }}
-			<button class="btn btn-link" type="submit">Afmelden</button>
-			{{ Form::close() }}
+			{{ HTML::postLink("afmelden", URL::to_route('agendaAfmelden', agendaDatumNaarArray($dagData["datum"]))) }}
 		@endif
 	@else
 		@if($dagData["datum"] >= new DateTime("today"))
-			{{ Form::open(URL::to_route('aanmelden', array($dagData["datum"]->format("Y"), $dagData["datum"]->format("m"), $dagData["datum"]->format("d")))) }}
-			<button class="btn btn-link" type="submit">Aanmelden</button>
-			{{ Form::close() }}
+			{{ HTML::postLink("aanmelden", URL::to_route('agendaAanmelden', agendaDatumNaarArray($dagData["datum"]))) }}
 		@endif
 	@endif
 	</td>
