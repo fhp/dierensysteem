@@ -15,7 +15,24 @@
 	{{ Alert::error("<strong>Let op!</strong> Caitlynn is erg fel!") }}
 	@endif
 	
-	{{ HTML::image(URL::to_route("vogelgrafiek", array($vogel->id))) }}
+<script type="text/javascript">
+grafiekImageSize = function()
+{
+	grafiek = $("#grafiek")
+	baseUrl = "{{URL::to_route("vogelgrafiek", array($vogel->id))}}"
+	src = baseUrl + "?width=" + grafiek.width() + "&height=" + grafiek.height()
+	
+	grafiek.attr("src", src);	
+}
+
+$(function() {
+	grafiekImageSize();
+	$(window).resize(grafiekImageSize);
+});
+</script>
+	<img src="{{URL::to_route("vogelgrafiek", array($vogel->id))}}" id="grafiek">
+	
+<!-- 	{{ HTML::image(URL::to_route("vogelgrafiek", array($vogel->id))) }} -->
 	
 	<h2>Dagboek</h2>
 	<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a></p>

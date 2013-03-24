@@ -1,5 +1,8 @@
 <?php
 
+$width = Input::get("width", 750);
+$height = Input::get("height", 300);
+
 /* Create and populate the pData object */
 $MyData = new pData();
 $gewichten = array();
@@ -25,13 +28,13 @@ $MyData->setAxisDisplay("gram", 0);
 
 
 /* Create the pChart object */
-$myPicture = new pImage(760,230,$MyData);
+$myPicture = new pImage($width, $height, $MyData);
 
 /* Set the default font */
 $myPicture->setFontProperties(array("FontName"=>pfont("pf_arma_five.ttf"),"FontSize"=>6,"R"=>0,"G"=>0,"B"=>0));
 
 /* Define the chart area */
-$myPicture->setGraphArea(30,0,750,215);
+$myPicture->setGraphArea(30, 0, $width - 10, $height - 20);
 
 /* Draw the scale */
 $scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>false,"CycleBackground"=>true, "LabelingMethod"=>LABELING_DIFFERENT);
