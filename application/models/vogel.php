@@ -29,6 +29,36 @@ class Vogel extends Eloquent {
 		return $this->has_many('Gewicht');
 	}
 	
+	public function gewicht($datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		$gewicht = Gewicht::where_datum_and_vogel_id($datum, $this->id)->first();
+		if($gewicht === null) {
+			return null;
+		} else {
+			return $gewicht->gewicht;
+		}
+	}
+	
+	public function set_gewicht($gewicht, $datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		$g = Gewicht::where_datum_and_vogel_id($datum, $this->id)->first();
+		if($g === null) {
+			$g = new Gewicht();
+			$g->gewicht = $gewicht;
+			$g->datum = $datum;
+			$this->gewichten()->insert($g);
+		} else {
+			$g->gewicht = $gewicht;
+			$g->save();
+		}
+	}
+	
 	public function verslagen()
 	{
 		return $this->has_many('Vogelverslag');

@@ -57,6 +57,11 @@ class Vogels_Controller extends Base_Controller {
 		return Redirect::to_route("vogels");
 	}
 	
+	public function get_grafiek($id)
+	{
+		return View::make("vogels.grafiek-gewicht")->with("vogel", Vogel::find($id));
+	}
+	
 	public function get_detail($id, $naam)
 	{
 		$vogel = Vogel::find($id);
