@@ -3,6 +3,8 @@
 @section('content')
 <h1>Dagboek</h1>
 
+<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuw dagverslag</a></p>
+
 <ul class="media-list">
 <?php $vorigeDatum = ""; ?>
 @foreach ($verslagen->results as $verslag)
@@ -19,8 +21,6 @@
 	</li>
 @endforeach
 </ul>
-
-<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuw dagverslag</a></p>
 
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
