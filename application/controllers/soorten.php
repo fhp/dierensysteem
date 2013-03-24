@@ -16,7 +16,7 @@ class Soorten_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
-		$soorten = Soort::all();
+		$soorten = Soort::order_by("naam")->get();
 		return View::make("soorten.index")
 			->with("rulesNieuw", $this->rulesNieuw)
 			->with("soorten", $soorten);

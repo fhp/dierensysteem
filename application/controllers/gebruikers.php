@@ -24,7 +24,7 @@ class Gebruikers_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
-		$gebruikers = Gebruiker::all();
+		$gebruikers = Gebruiker::order_by("naam")->get();
 		return View::make("gebruikers.index")
 			->with("rulesNieuw", $this->rulesNieuw)
 			->with("gebruikers", $gebruikers);

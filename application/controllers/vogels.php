@@ -27,7 +27,7 @@ class Vogels_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
-		$vogels = Vogel::all();
+		$vogels = Vogel::order_by("naam")->get();
 		$soorten = array();
 		foreach(Soort::all() as $soort) {
 			$soorten[$soort->id] = $soort->naam;
