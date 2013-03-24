@@ -19,6 +19,9 @@ class Vogels_Controller extends Base_Controller {
 		"tekst"=>"required",
 	);
 	
+	public $rulesAlert = array(
+	);
+	
 	public $rulesInformatie = array(
 	);
 	
@@ -73,7 +76,8 @@ class Vogels_Controller extends Base_Controller {
 			->with("verslagen", $verslagen)
 			->with("rulesFoto", $this->rulesFoto)
 			->with("rulesVerslag", $this->rulesVerslag)
-			->with("rulesInformatie", $this->rulesInformatie);
+			->with("rulesInformatie", $this->rulesInformatie)
+			->with("rulesAlert", $this->rulesAlert);
 
 	}
 	
@@ -94,6 +98,12 @@ class Vogels_Controller extends Base_Controller {
 					$verslag->datum = new DateTime("today");
 					$verslag->gebruiker_id = Auth::user()->id;
 					$vogel->verslagen()->insert($verslag);
+				}
+			}
+			if(Input::get("action") == "alert") {
+				if(Validator::make(Input::all(), $this->rulesAlert)->passes()) {
+					$vogel->alert = Input::get("alert");
+					$vogel->save();
 				}
 			}
 			if(Input::get("action") == "informatie") {

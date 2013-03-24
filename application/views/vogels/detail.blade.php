@@ -11,8 +11,8 @@
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
 	</dl>
 	
-	@if($vogel->naam == "Caitlynn")
-	{{ Alert::error("<strong>Let op!</strong> Caitlynn is erg fel!") }}
+	@if($vogel->alert != "")
+	{{ Alert::error("<strong>Let op!</strong> $vogel->alert")->open() }}
 	@endif
 	
 <script type="text/javascript">
@@ -32,10 +32,11 @@ $(function() {
 </script>
 	<img src="{{URL::to_route("vogelgrafiek", array($vogel->id))}}" id="grafiek">
 	
-<!-- 	{{ HTML::image(URL::to_route("vogelgrafiek", array($vogel->id))) }} -->
-	
 	<h2>Dagboek</h2>
-	<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a></p>
+	<p>
+	<a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a>
+	<a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a>
+	</p>
 	
 	<ul class="media-list">
 	<?php $vorigeDatum = ""; ?>
@@ -97,6 +98,24 @@ $(function() {
 	</div>
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('tekst', 'Informatie:'), Form::textarea('tekst')) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
+
+<div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesAlert) }}
+	{{ Form::hidden("action", "alert") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bewerk waarschuwing</h3>
+	</div>
+	<div class="modal-body">
+		{{ Form::control_group(Form::label('alert', 'Waarschuwing:'), Form::text('alert', $vogel->alert)) }}
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>

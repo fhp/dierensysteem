@@ -47,6 +47,7 @@ class Setup_Database {
 			$table->string("geslacht")->nullable();
 			$table->date("geboortedatum")->nullable();
 			$table->text("informatie");
+			$table->string("alert");
 			$table->string("foto")->nullable();
 			$table->timestamps();
 			
