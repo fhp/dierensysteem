@@ -12,7 +12,7 @@
 <p><a href="#nieuwegebruikerModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe gebruiker</a></p>
 
 <div id="nieuwegebruikerModal" class="modal hide fade" tabindex="-1" role="dialog">
-	{{ Form::horizontal_open() }}
+	{{ Form::horizontal_open_for_files() }}
 	{{ Form::rules($rulesNieuw) }}
 	{{ Form::hidden("action", "nieuw") }}
 	<div class="modal-header">
@@ -26,6 +26,7 @@
 		{{ Form::control_group(Form::label('telefoon', 'Telefoon nummer'), Form::text('telefoon')) }}
 		{{ Form::control_group(Form::label('wachtwoord', 'Wachtwoord'), Form::password('wachtwoord')) }}
 		{{ Form::control_group(Form::label('wachtwoord_confirmation', 'Bevestig wachtwoord'), Form::password('wachtwoord_confirmation')) }}
+		{{ Form::control_group(Form::label('admin', 'Beheerder'), Form::labelled_checkbox('admin', "ja")) }}
 		{{ Form::control_group(Form::label('foto', 'Foto'), Form::file('foto')) }}
 	</div>
 	<div class="modal-footer">

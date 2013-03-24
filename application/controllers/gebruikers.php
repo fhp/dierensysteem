@@ -41,11 +41,13 @@ class Gebruikers_Controller extends Base_Controller {
 					$gebruiker->wachtwoord = Hash::make(Input::get("wachtwoord"));
 					$gebruiker->email = Input::get("email");
 					$gebruiker->telefoon = Input::get("telefoon");
+					$gebruiker->admin = Input::get("admin", 0);
 					
 					if(Input::has_file("foto")) {
 						$gebruiker->foto = Input::file("foto");
 					}
-					echo $gebruiker->save();
+					
+					$gebruiker->save();
 				}
 			}
 		}
