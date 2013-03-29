@@ -14,7 +14,8 @@
 	@if($vogel->alert != "")
 	{{ Alert::error("<strong>Let op!</strong> $vogel->alert")->open() }}
 	@endif
-	
+
+@if($vogel->gewichten()->where("datum", ">", new DateTime("last month"))->count() > 0)
 <script type="text/javascript">
 grafiekImageSize = function()
 {
@@ -30,8 +31,9 @@ $(function() {
 	$(window).resize(grafiekImageSize);
 });
 </script>
-	<img src="{{URL::to_route("vogelgrafiek", array($vogel->id))}}" id="grafiek">
-	
+<img src="{{URL::to_route("vogelgrafiek", array($vogel->id))}}" id="grafiek">
+@endif
+
 	<h2>Dagboek</h2>
 	<p>
 	<a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a>
