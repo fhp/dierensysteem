@@ -22,6 +22,10 @@ class Gebruikers_Controller extends Base_Controller {
 	public $rulesBiografie = array(
 	);
 	
+	public $rulesWachtwoord = array(
+		"wachtwoord"=>"required|confirmed|min:6",
+	);
+	
 	public function get_index()
 	{
 		$gebruikers = Gebruiker::order_by("naam")->get();
@@ -65,6 +69,7 @@ class Gebruikers_Controller extends Base_Controller {
 			->with("rulesFoto", $this->rulesFoto)
 			->with("rulesInformatie", $this->rulesInformatie)
 			->with("rulesBiografie", $this->rulesBiografie)
+			->with("rulesWachtwoord", $this->rulesWachtwoord)
 			->with("gebruiker", $gebruiker);
 	}
 	
@@ -96,6 +101,15 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 				if(Validator::make(Input::all(), $this->rulesBiografie)->passes()) {
 					$gebruiker->biografie = Input::get("biografie");
+					$gebruiker->save();
+				}
+			}
+			if(Input::get("action") == "wachtwoord") {
+				if(!(Auth::user()->id == $id)) {
+					return Redirect::back();
+				}
+				if(Validator::make(Input::all(), $this->rulesWachtwoord)->passes()) {
+					$gebruiker->wachtwoord = Hash::make(Input::get("wachtwoord"));
 					$gebruiker->save();
 				}
 			}
