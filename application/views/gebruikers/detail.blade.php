@@ -7,6 +7,7 @@
 	
 	<dl class="dl-horizontal">
 	<dt>Gebruikersnaam</dt><dd>{{ $gebruiker->gebruikersnaam }}</dd>
+	<dt>Beheerder</dt><dd>{{ $gebruiker->admin ? "Ja" : "Nee" }}</dd>
 @if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 	<dt>Email</dt><dd>{{ HTML::mailto($gebruiker->email, $gebruiker->email) }}</dd>
 	<dt>Telefoonnummer</dt><dd>{{ $gebruiker->telefoon }}</dd>
