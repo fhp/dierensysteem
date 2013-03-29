@@ -11,7 +11,7 @@ if($error) {
 }
 echo Form::control_group(Form::label('username', 'Gebruikersnaam'), Form::text('username', $username), $error ? "error" : null);
 echo Form::control_group(Form::label('password', 'Wachtwoord'), Form::password('password'), $error ? "error" : null);
-echo Form::control_group(Form::label('checkme', ''), Form::labelled_checkbox('checkme', 'Onthoud mij'));
+echo Form::control_group(Form::label('remember', ''), Form::labelled_checkbox('remember', 'Onthoud mij'));
 echo Form::actions(array(Button::primary_submit('Login')));
 echo Form::close();
 ?>
