@@ -15,7 +15,9 @@ class Login_Controller extends Base_Controller {
 		if (Auth::attempt($_POST)) {
 			return Redirect::to_route('home');
 		} else {
-			return View::make('login')->with('error', true);
+			return View::make('login')
+				->with("username", Input::get("username"))
+				->with('error', true);
 		}
 	}
 	
