@@ -6,7 +6,7 @@ class Gebruikers_Controller extends Base_Controller {
 	public $rulesNieuw = array(
 		"gebruikersnaam"=>"required|alpha_dash|unique:gebruikers",
 		"naam"=>"required",
-		"email"=>"required|email",
+		"email"=>"email",
 		"telefoon"=>"numeric",
 		"wachtwoord"=>"required|confirmed|min:6",
 		"foto"=>"image",
