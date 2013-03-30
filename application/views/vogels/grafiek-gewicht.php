@@ -7,10 +7,18 @@ $height = Input::get("height", 300);
 $MyData = new pData();
 $gewichten = array();
 $datums = array();
-foreach($vogel->gewichten()->where("datum", ">", new DateTime("last month"))->order_by("datum")->get() as $gewicht) {
-	$gewichten[] = $gewicht->gewicht;
+$start = new DateTime("last month");
+$day = new DateInterval("P1D");
+foreach($vogel->gewichten()->where("datum", ">", $start)->order_by("datum")->get() as $gewicht) {
 	$datum = new DateTime($gewicht->datum);
-	$datums[] = $datum->getTimestamp();
+	$start->add($day);
+	while($datum >= $start) {
+		$gewichten[] = VOID;
+		$datums[] = $start->getTimestamp();
+		$start->add($day);
+	}
+	$gewichten[] = $gewicht->gewicht;
+	$datums[] = $start->getTimestamp();
 }
 $MyData->addPoints($gewichten, "Gewicht");
 $MyData->addPoints($datums, "Datum");
@@ -41,7 +49,7 @@ $scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>false,"CycleBackg
 $myPicture->drawScale($scaleSettings);
 
 /* Draw the line chart */
-$myPicture->drawSplineChart();
+$myPicture->drawSplineChart(array("BreakVoid"=>FALSE, "BreakR"=>234, "BreakG"=>55, "BreakB"=>26));
 $myPicture->drawPlotChart(array("DisplayValues"=>TRUE));
 
 /* Render the picture (choose the best way) */
