@@ -34,6 +34,7 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('taken', array("as"=>"taken", 'uses'=>'taken@index'));
 });
 
+Route::any('veranderWachtwoord', array("as"=>"veranderWachtwoord", 'uses'=>'gebruikers@veranderWachtwoord'));
 Route::any('login/(:any)', array("as"=>"loginAs", 'uses'=>'login@login'));
 Route::any('login', array("as"=>"login", 'uses'=>'login@login'));
 Route::any('logout', array("as"=>"logout", 'uses'=>'login@logout'));
@@ -66,4 +67,5 @@ Route::filter('csrf', function()
 Route::filter('auth', function()
 {
 	if (Auth::guest()) return Redirect::to('login');
+	if (Hash::check('', Auth::user()->wachtwoord)) return Redirect::to('veranderWachtwoord');
 });

@@ -117,4 +117,24 @@ class Gebruikers_Controller extends Base_Controller {
 		
 		return Redirect::back();
 	}
+	
+	public function get_veranderWachtwoord()
+	{
+		if (Auth::guest()) return Redirect::to('login');
+		
+		return View::make("gebruikers.veranderwachtwoord")
+			->with("rulesWachtwoord", $this->rulesWachtwoord);
+	}
+	
+	public function post_veranderWachtwoord()
+	{
+		if (Auth::guest()) return Redirect::to('login');
+		
+		if(Validator::make(Input::all(), $this->rulesWachtwoord)->passes()) {
+			$gebruiker = Auth::user();
+			$gebruiker->wachtwoord = Hash::make(Input::get("wachtwoord"));
+			$gebruiker->save();
+		}
+		return Redirect::to_route('home');
+	}
 }
