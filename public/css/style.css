@@ -143,6 +143,11 @@ h3 a {
 	float: left;
 }
 
+.media-table + * {
+	clear: both;
+	padding-top: 15px;
+}
+
 .media-table .media:first-child {
 	margin-top: 15px;
 }
