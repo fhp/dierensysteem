@@ -30,11 +30,13 @@
 <h1>Vandaag</h1>
 <?php $today = new DateTime("today"); ?>
 <h3>{{ HTML::link_to_route("taken", "Taken") }}</h3>
+<?php $taken = Taak::takenVandaag(); ?>
+@if(count($taken) > 0)
 <ul>
-@forelse(Taak::takenVandaag() as $taak)
-<?php
-$gedaan = count($taak->uitvoerders($today)) > 0;
-?>
+@foreach($taken as $taak)
+	<?php
+	$gedaan = count($taak->uitvoerders($today)) > 0;
+	?>
 	<li>
 	@if($gedaan)
 		<del>
@@ -44,10 +46,11 @@ $gedaan = count($taak->uitvoerders($today)) > 0;
 		</del>
 	@endif
 	</li>
-@empty
-	<p>Er zijn geen taken geplanned voor vandaag.</p>
-@endforelse
+@endforeach
 </ul>
+@else
+	<p>Er zijn geen taken geplanned voor vandaag.</p>
+@endif
 
 <h3>{{ HTML::link_to_route("agenda", "Aanwezigen") }}</h3>
 @forelse(Aanwezigheid::where_datum($today)->get() as $aanwezigheid)
@@ -61,13 +64,16 @@ $gedaan = count($taak->uitvoerders($today)) > 0;
 @endif
 
 <h3>{{ HTML::link_to_route("agenda", "Activiteiten") }}</h3>
+<?php $evenementen = Evenement::where_datum($today)->get(); ?>
+@if(count($evenementen) > 0)
 <ul>
-@forelse(Evenement::where_datum($today)->get() as $evenement)
+@foreach($evenementen as $evenement)
 	<li>{{ HTML::agendaEvenement($evenement) }}</li>
-@empty
-	<p>Er zijn geen activiteiten geplanned voor vandaag.</p>
-@endforelse
+@endforeach
 </ul>
+@else
+<p>Er zijn geen activiteiten geplanned voor vandaag.</p>
+@endif
 </div>
 
 @if(Auth::user()->admin)
