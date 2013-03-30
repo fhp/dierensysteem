@@ -10,6 +10,7 @@ class Gebruiker extends Eloquent {
 			'foto' => array(
 				'default_size' => 'small',
 				'sizes' => array(
+					'xsmall'  => '32x32',
 					'small'  => '64x64',
 					'medium' => '128x128',
 					'large'  => '256x256',

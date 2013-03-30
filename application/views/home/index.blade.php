@@ -1,12 +1,12 @@
 @layout('master')
 
 @section('content')
-<h1>Welkom</h1>
-<p>Je bent nu ingelogged als {{ Auth::user()->naam }}.</p>
-<h2>Mededelingen</h2>
+<div class="row">
+<div class="span6">
+<h1>Mededelingen</h1>
 <ul class="media-list">
 <?php $vorigeDatum = ""; ?>
-@foreach ($mededelingen->results as $mededeling)
+@foreach (Mededeling::order_by("datum", "desc")->order_by("id", "asc")->paginate(5)->results as $mededeling)
 	<?php if($mededeling->datum != $vorigeDatum) { ?>
 		<h4 class="media-heading">{{$mededeling->datum}}</h4>
 	<?php $vorigeDatum = $mededeling->datum; } ?>
@@ -23,7 +23,54 @@
 
 @if(Auth::user()->admin)
 <p><a href="#mededelingModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe mededeling</a></p>
+@endif
 
+</div>
+<div class="span4">
+<h1>Vandaag</h1>
+<?php $today = new DateTime("today"); ?>
+<h3>{{ HTML::link_to_route("taken", "Taken") }}</h3>
+<ul>
+@forelse(Taak::takenVandaag() as $taak)
+<?php
+$gedaan = count($taak->uitvoerders($today)) > 0;
+?>
+	<li>
+	@if($gedaan)
+		<del>
+	@endif
+	{{ HTML::popup($taak->naam, $taak->beschrijving, $taak->naam) }}
+	@if($gedaan)
+		</del>
+	@endif
+	</li>
+@empty
+	<p>Er zijn geen taken geplanned voor vandaag.</p>
+@endforelse
+</ul>
+
+<h3>{{ HTML::link_to_route("agenda", "Aanwezigen") }}</h3>
+@forelse(Aanwezigheid::where_datum($today)->get() as $aanwezigheid)
+	{{ HTML::agendaAanwezigheid($aanwezigheid) }}
+@empty
+	<p>Er is niemand aanwezig vandaag.</p>
+@endforelse
+<br>
+@if(Auth::user()->admin)
+	{{ HTML::agendaAanmeldenAdmin($today) }}
+@endif
+
+<h3>{{ HTML::link_to_route("agenda", "Activiteiten") }}</h3>
+<ul>
+@forelse(Evenement::where_datum($today)->get() as $evenement)
+	<li>{{ HTML::agendaEvenement($evenement) }}</li>
+@empty
+	<p>Er zijn geen activiteiten geplanned voor vandaag.</p>
+@endforelse
+</ul>
+</div>
+
+@if(Auth::user()->admin)
 <div id="mededelingModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesMededeling) }}

@@ -33,7 +33,7 @@ div.hover-div:hover .hover-text {
 }
 
 .weekcalendar td:nth-child(odd), .weekcalendar th:nth-child(odd) {
-	background-color: #F9F9F9;
+	background-color: #eceff5;
 }
 
 /* calendar */
@@ -42,7 +42,7 @@ table.calendar {
 }
 
 .calendar tr:nth-child(odd) td:nth-child(odd).calendar-day, .calendar tr:nth-child(even) td:nth-child(even).calendar-day {
-	background-color: #F9F9F9;
+	background-color: #eceff5;
 }
 
 .calendar td, .calendar th {
@@ -57,7 +57,7 @@ div.calendar-day {
 	height: 80px;
 }
 td.calendar-day:hover {
-	background: #eceff5 !important;
+/* 	background: #eceff5 !important; */
 }
 td.calendar-day-np {
 	background: #ffffff;
@@ -132,4 +132,17 @@ td.calendar-day, td.calendar-day-np {
 
 .vogel-alert * {
 	color: red !important;
+}
+
+h3 a {
+	color: #333333 !important;
+}
+
+.media-table .media {
+	width: 300px;
+	float: left;
+}
+
+.media-table .media:first-child {
+	margin-top: 15px;
 }

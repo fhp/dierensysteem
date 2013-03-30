@@ -9,11 +9,8 @@ class Home_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
-		$mededelingen = Mededeling::order_by("datum", "desc")->order_by("id", "asc")->paginate(10);
-		
 		return View::make('home.index')
-			->with("rulesMededeling", $this->rulesMededeling)
-			->with("mededelingen", $mededelingen);
+			->with("rulesMededeling", $this->rulesMededeling);
 	}
 	
 	public function post_index()

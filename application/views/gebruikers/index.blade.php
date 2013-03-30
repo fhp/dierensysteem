@@ -3,11 +3,11 @@
 @section('content')
 <h1>Gebruikers</h1>
 
-{{ MediaObject::open_list() }}
+<ul class="media-list media-table">
 @foreach ($gebruikers as $gebruiker)
 	{{ MediaObject::create($gebruiker->gebruikersnaam, $gebruiker->thumbnail_url())->with_h4(HTML::link_to_route("gebruikerDetail", $gebruiker->naam, array($gebruiker->id, $gebruiker->gebruikersnaam))) }}
 @endforeach
-{{ MediaObject::close_list() }}
+</ul>
 
 @if(Auth::user()->admin)
 <p><a href="#nieuwegebruikerModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe gebruiker</a></p>

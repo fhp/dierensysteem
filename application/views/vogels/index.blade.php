@@ -3,7 +3,7 @@
 @section('content')
 <h1>Vogels</h1>
 
-{{ MediaObject::open_list() }}
+<ul class="media-list media-table">
 @foreach ($vogels as $vogel)
 	<li class="media">
 		<a class="pull-left" href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">
@@ -17,7 +17,7 @@
 		</div>
 	</li>
 @endforeach
-{{ MediaObject::close_list() }}
+</ul>
 
 @if(Auth::user()->admin)
 <p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe vogel</a></p>

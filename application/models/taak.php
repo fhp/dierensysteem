@@ -37,4 +37,15 @@ class Taak extends Eloquent {
 		$uitvoering->gebruiker_id = $gebruikerID;
 		return $this->uitvoeringen()->insert($uitvoering);
 	}
+	
+	public static function takenVandaag()
+	{
+		$vandaag = new DateTime("today");
+		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > (frequentie - 1) OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ? ORDER BY taak.naam", array($vandaag, $vandaag, $vandaag, $vandaag));
+		$takenVandaag = array();
+		foreach($taakIDs as $taakID) {
+			$takenVandaag[] = Taak::find($taakID->id);
+		}
+		return $takenVandaag;
+	}
 }

@@ -3,11 +3,11 @@
 @section('content')
 <h1>Soorten</h1>
 
-{{ MediaObject::open_list() }}
+<ul class="media-list media-table">
 @foreach ($soorten as $soort)
 	{{ MediaObject::create($soort->latijnsenaam)->with_h4(HTML::link_to_route("soortDetail", $soort->naam, array($soort->id, $soort->naam))) }}
 @endforeach
-{{ MediaObject::close_list() }}
+</ul>
 
 @if(Auth::user()->admin)
 <p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe soort</a></p>
