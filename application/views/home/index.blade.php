@@ -58,7 +58,6 @@
 @empty
 	<p>Er is niemand aanwezig vandaag.</p>
 @endforelse
-<br>
 @if(Auth::user()->admin)
 	{{ HTML::agendaAanmeldenAdmin($today) }}
 @endif
