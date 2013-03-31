@@ -35,12 +35,7 @@ $(function() {
 @endif
 
 	<h2>Dagboek</h2>
-	<p>
-	<a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a>
-	@if(Auth::user()->admin)
-	<a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a>
-	@endif
-	</p>
+	<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a></p>
 	
 	<ul class="media-list">
 	<?php $vorigeDatum = ""; ?>
@@ -75,6 +70,7 @@ $(function() {
 	{{ $vogel->informatie }}
 	@if(Auth::user()->admin)
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
+	<a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a>
 	@endif
 </div>
 
@@ -88,6 +84,17 @@ $(function() {
 		<h3>Bewerk algemene informatie</h3>
 	</div>
 	<div class="modal-body">
+		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam', $vogel->naam)) }}
+		<?php 
+		if($vogel->geboortedatum === null) {
+			$gebroortedatum = null;
+		} else {
+			$dt = new DateTime($vogel->geboortedatum);
+			$gebroortedatum =  $dt->format("d-m-Y");
+		}
+		?>
+		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf"), $vogel->geslacht)) }}
+		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', $gebroortedatum, array("class"=>"datepicker"))) }}
 		{{ CKEditor::make('informatie', $vogel->informatie) }}
 	</div>
 	<div class="modal-footer">

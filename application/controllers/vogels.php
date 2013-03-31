@@ -23,6 +23,9 @@ class Vogels_Controller extends Base_Controller {
 	);
 	
 	public $rulesInformatie = array(
+		"naam"=>"required",
+		"geslacht"=>"in:onbekend,tarsel,wijf",
+		"geboortedatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
 	);
 	
 	public function get_index()
@@ -120,6 +123,13 @@ class Vogels_Controller extends Base_Controller {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
+					$vogel->naam = Input::get("naam");
+					$vogel->geslacht = Input::get("geslacht");
+					if(Input::has("geboortedatum")) {
+						$vogel->geboortedatum = new DateTime(Input::get("geboortedatum"));
+					} else {
+						$vogel->geboortedatum = null;
+					}
 					$vogel->informatie = Input::get("informatie");
 					$vogel->save();
 				}
