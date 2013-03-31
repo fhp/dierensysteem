@@ -3,6 +3,12 @@
 @section('content')
 <h1>Taken</h1>
 
+<ul class="nav nav-tabs">
+<li <? if($lijst == "dag") { ?> class="active" <? } ?>><a href="{{ URL::to_route("taken", array("dag")) }}">Dagtaken</a></li>
+<li <? if($lijst == "week") { ?> class="active" <? } ?>><a href="{{ URL::to_route("taken", array("week")) }}">Weektaken</a></li>
+</ul>
+
+
 {{ Form::horizontal_open() }}
 <h2>Taken voor vandaag</h2>
 @foreach($takenVandaag as $taak)
@@ -64,12 +70,12 @@ $nextWeek->add($week);
 $prevWeek = new DateTime($geschiedenisStartDatum->format("Y-m-d"));
 $prevWeek->sub($week);
 
-echo "<span class=\"pull-left\">" . HTML::link_to_route("taken", "<<< Vorige week", array($prevWeek->format("Y"), $prevWeek->format("m"), $prevWeek->format("d"))) . "</span>";
+echo "<span class=\"pull-left\">" . HTML::link_to_route("taken", "<<< Vorige week", array($lijst, $prevWeek->format("Y"), $prevWeek->format("m"), $prevWeek->format("d"))) . "</span>";
 if($nextWeek < new DateTime("today")) {
-	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
+	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($lijst, $nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
 } else if($geschiedenisStartDatum < new DateTime("today")) {
 	$nextWeek = new DateTime("today");
-	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
+	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($lijst, $nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
 }
 ?>
 <br style="clear: both"><br>

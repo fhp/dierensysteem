@@ -8,7 +8,7 @@ class Taken_Controller extends Base_Controller {
 	
 	);
 	
-	public function get_index($jaar = null, $maand = null, $dag = null)
+	public function get_index($lijst = "dag", $jaar = null, $maand = null, $dag = null)
 	{
 		if($jaar === null) {
 			$jaar = date("Y");
@@ -20,8 +20,14 @@ class Taken_Controller extends Base_Controller {
 			$dag = date("d");
 		}
 		
+		if($lijst == "dag") {
+			$frequentie = 1;
+		} else if($lijst == "week") {
+			$frequentie = 7;
+		}
+		
 		$vandaag = new DateTime("today");
-		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > (frequentie - 1) OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ? ORDER BY taak.naam", array($vandaag, $vandaag, $vandaag, $vandaag));
+		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE frequentie = ? AND DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > (frequentie - 1) OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ? ORDER BY taak.naam", array($frequentie, $vandaag, $vandaag, $vandaag, $vandaag));
 		$takenVandaag = array();
 		$taakIDArray = array();
 		foreach($taakIDs as $taakID) {
@@ -29,9 +35,9 @@ class Taken_Controller extends Base_Controller {
 			$taakIDArray[] = $taakID->id;
 		}
 		if(count($taakIDArray) == 0) {
-			$alleTaken = Taak::all();
+			$alleTaken = Taak::where_frequentie($frequentie)->get();
 		} else {
-			$alleTaken = Taak::where_not_in('id', $taakIDArray)->get();
+			$alleTaken = Taak::where_frequentie($frequentie)->where_not_in('id', $taakIDArray)->get();
 		}
 		
 		$geschiedenis = array();
@@ -49,6 +55,7 @@ class Taken_Controller extends Base_Controller {
 		}
 		$datum = new DateTime("$jaar-$maand-$dag");
 		return View::make("taken.index")
+			->with("lijst", $lijst)
 			->with("takenVandaag", $takenVandaag)
 			->with("overigeTaken", $alleTaken)
 			->with("geschiedenis", $geschiedenis)
