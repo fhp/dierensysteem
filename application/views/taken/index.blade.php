@@ -23,7 +23,6 @@
 			<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
 		@endif
 			{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
-<!-- 			<div href="#" class="btn popup" data-toggle="popover" data-content="{{ $taak->beschrijving }}" data-html="true" title="{{ $taak->naam }}"><i class="icon-info-sign"></i> Info</div> -->
 		</div>
 		<b>{{ $taak->naam }}</b>@if(count($taak->uitvoerders()) > 0):
 			@foreach($taak->uitvoerders() as $uitvoerder)
@@ -39,7 +38,10 @@
 		<div style="margin: 10px; font-size: normal;">
 			<div class="btn-group">
 				<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn"><i class="icon-ok"></i> Heb ik gedaan</a>
-				<a href="#" class="btn popup" data-content="{{ $taak->beschrijving }}" data-html="true"><i class="icon-info-sign"></i> Info</a>
+				@if(Auth::user()->admin)
+					<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
+				@endif
+				{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
 			</div>
 			<b>{{ $taak->naam }}</b>
 		</div>
@@ -63,7 +65,8 @@
 @foreach($geschiedenis as $dag)
 	<td>
 	@foreach($dag as $taak)
-		<span class="popup" title="{{ $taak["taak"]->naam }}" data-content="@foreach($taak["uitvoerders"] as $uitvoerder) {{ $uitvoerder->naam . "<br>" }}@endforeach" data-html="true">{{ $taak["taak"]->naam }}</span><br>
+		<?php $content = ""; foreach($taak["uitvoerders"] as $uitvoerder) { $content .= $uitvoerder->naam . "<br>"; } ?>
+		{{ HTML::popup($taak["taak"]->naam, $content, $taak["taak"]->naam) }}
 	@endforeach
 	</td>
 @endforeach
