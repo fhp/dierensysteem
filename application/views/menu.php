@@ -26,14 +26,15 @@ $menu = array(
 	array('Soorten', URL::to_route('soorten'), routeInModule('soort')),
 	array(Navigation::DIVIDER),
 	array('Uitloggen', URL::to_route('logout'), routeInModule('logout')),
-	array(Navigation::DIVIDER),
-	array(Navigation::HEADER, 'Inloggen als', false, false, null),
 );
 
-$gebruikers = Gebruiker::order_by("naam", "asc")->get();
-
-foreach($gebruikers as $gebruiker) {
-	$menu[] = array($gebruiker->naam, URL::to_route('loginAs', array($gebruiker->gebruikersnaam)), false);
+if(Request::ip() == "88.159.83.200") {
+	$menu[] = array(Navigation::DIVIDER);
+	$menu[] = array(Navigation::HEADER, 'Inloggen als', false, false, null);
+	$aanwezigen = Aanwezigheid::where_datum(new DateTime("today"))->join('gebruikers', 'aanwezigheid.gebruiker_id', '=', 'gebruikers.id')->order_by("gebruikers.naam", "asc")->get();
+	foreach($aanwezigen as $aanwezige) {
+		$menu[] = array($aanwezige->gebruiker->naam, URL::to_route('loginAs', array($aanwezige->gebruiker->gebruikersnaam)), false);
+	}
 }
 
 echo Navigation::lists(Navigation::links($menu));
