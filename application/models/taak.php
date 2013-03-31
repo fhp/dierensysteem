@@ -22,13 +22,21 @@ class Taak extends Eloquent {
 		return $gebruikers;
 	}
 	
+	public function gedaan($gebruikerID, $datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		return Taakuitvoering::where_gebruiker_id_and_datum_and_taak_id($gebruikerID, $datum, $this->id)->count() > 0;
+	}
+	
 	public function isGedaan($gebruikerID, $datum = null)
 	{
 		if($datum === null) {
 			$datum = new DateTime("today");
 		}
 		
-		if(Taakuitvoering::where_gebruiker_id_and_datum_and_taak_id($gebruikerID, $datum, $this->id)->count() > 0) {
+		if($this->gedaan($gebruikerID, $datum)) {
 			return;
 		}
 		
@@ -36,6 +44,19 @@ class Taak extends Eloquent {
 		$uitvoering->datum = $datum;
 		$uitvoering->gebruiker_id = $gebruikerID;
 		return $this->uitvoeringen()->insert($uitvoering);
+	}
+	
+	public function isNietGedaan($gebruikerID, $datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		
+		if(!$this->gedaan($gebruikerID, $datum)) {
+			return;
+		}
+		
+		Taakuitvoering::where_gebruiker_id_and_datum_and_taak_id($gebruikerID, $datum, $this->id)->delete();
 	}
 	
 	public static function takenVandaag()

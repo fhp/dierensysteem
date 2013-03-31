@@ -14,7 +14,14 @@
 @foreach($takenVandaag as $taak)
 	<div style="margin: 10px; font-size: normal;">
 		<div class="btn-group">
-			<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn"><i class="icon-ok"></i> Heb ik gedaan</a>
+		@if($taak->gedaan(Auth::user()->id))
+			<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-remove"></i> Heb ik niet gedaan</a>
+		@else
+			<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-ok"></i> Heb ik gedaan</a>
+		@endif
+		@if(Auth::user()->admin)
+			<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-edit"></i> Bewerk</a>
+		@endif
 			<a href="#" class="btn popup" data-content="{{ $taak->beschrijving }}" data-html="true"><i class="icon-info-sign"></i> Info</a>
 		</div>
 		<b>{{ $taak->naam }}</b>@if(count($taak->uitvoerders()) > 0):
@@ -94,7 +101,7 @@ if($nextWeek < new DateTime("today")) {
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
 		{{ Form::control_group(Form::label('beschrijving', 'Informatie:'), Form::textarea('beschrijving')) }}
-		{{ Form::control_group(Form::label('frequentie', 'Frequentie'), Form::text('frequentie')) }}
+		{{ Form::control_group(Form::label('frequentie', 'Frequentie'), Form::select('frequentie', array("1"=>"Dagtaak", 7=>"Weektaak"))) }}
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>

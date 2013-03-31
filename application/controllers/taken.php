@@ -5,7 +5,9 @@ class Taken_Controller extends Base_Controller {
 	public $restful = true;
 	
 	public $rulesNieuweTaak = array(
+	);
 	
+	public $rulesBewerkTaak = array(
 	);
 	
 	public function get_index($lijst = "dag", $jaar = null, $maand = null, $dag = null)
@@ -27,7 +29,7 @@ class Taken_Controller extends Base_Controller {
 		}
 		
 		$vandaag = new DateTime("today");
-		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE frequentie = ? AND (DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > (frequentie - 1) OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ?) ORDER BY taak.naam", array($frequentie, $vandaag, $vandaag, $vandaag, $vandaag));
+		$taakIDs = DB::query("SELECT DISTINCT taak.id FROM `taken` AS taak LEFT JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE frequentie = ? AND actief = 1 AND (DATEDIFF(?, (SELECT MAX(datum) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0)) > (frequentie - 1) OR (SELECT count(taak_id) FROM taakuitvoeringen WHERE taak_id = taak.id AND DATEDIFF(datum, ?) < 0) = 0 OR uitvoering.datum = ?) ORDER BY taak.naam", array($frequentie, $vandaag, $vandaag, $vandaag, $vandaag));
 		$takenVandaag = array();
 		$taakIDArray = array();
 		foreach($taakIDs as $taakID) {
@@ -35,9 +37,9 @@ class Taken_Controller extends Base_Controller {
 			$taakIDArray[] = $taakID->id;
 		}
 		if(count($taakIDArray) == 0) {
-			$alleTaken = Taak::where_frequentie($frequentie)->get();
+			$alleTaken = Taak::where_frequentie_and_actief($frequentie, 1)->get();
 		} else {
-			$alleTaken = Taak::where_frequentie($frequentie)->where_not_in('id', $taakIDArray)->get();
+			$alleTaken = Taak::where_frequentie_and_actief($frequentie, 1)->where_not_in('id', $taakIDArray)->get();
 		}
 		
 		$geschiedenis = array();
@@ -94,10 +96,45 @@ class Taken_Controller extends Base_Controller {
 		return Redirect::back();
 	}
 	
-	public function get_gedaan($id) // TODO: post actie maken
+	public function get_bewerk($id)
 	{
 		$taak = Taak::find($id);
-		$taak->isGedaan(Auth::user()->id);
+		return View::make("taken.bewerk")
+			->with("taak", $taak)
+			->with("rulesBewerkTaak", $this->rulesBewerkTaak);
+	}
+	
+	public function post_bewerk($id)
+	{
+		if(!Auth::user()->admin) {
+			return Redirect::back();
+		}
+		$taak = Taak::find($id);
+		if(Input::has("action")) {
+			if(Input::get("action") == "bewerk") {
+				if(Validator::make(Input::all(), $this->rulesBewerkTaak)->passes()) {
+					$taak->naam = Input::get("naam");
+					$taak->beschrijving = Input::get("beschrijving");
+					$taak->frequentie = Input::get("frequentie");
+					$taak->save();
+				}
+			}
+			if(Input::get("action") == "verwijder") {
+				$taak->actief = 0;
+				$taak->save();
+			}
+		}
+		return Redirect::to_route('taken', array($taak->frequentie == 1 ? "dag" : "week"));
+	}
+	
+	public function get_gedaan($id)
+	{
+		$taak = Taak::find($id);
+		if(!$taak->gedaan(Auth::user()->id)) {
+			$taak->isGedaan(Auth::user()->id);
+		} else {
+			$taak->isNietGedaan(Auth::user()->id);
+		}
 		return Redirect::to_route('taken');
 	}
 }
