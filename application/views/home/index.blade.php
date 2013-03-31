@@ -3,7 +3,9 @@
 @section('content')
 <div class="row">
 <div class="span6">
-<h1>Mededelingen</h1>
+<h1>Welkom</h1>
+@render("home.inclocken")
+<h3>Mededelingen</h3>
 <ul class="media-list">
 <?php $vorigeDatum = ""; ?>
 @foreach (Mededeling::order_by("datum", "desc")->order_by("id", "asc")->paginate(5)->results as $mededeling)

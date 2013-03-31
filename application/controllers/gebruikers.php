@@ -135,6 +135,51 @@ class Gebruikers_Controller extends Base_Controller {
 		return Redirect::back();
 	}
 	
+	public function post_inclocken()
+	{
+		$gebruiker = Auth::user();
+		if(!$gebruiker->isAanwezig()) {
+			return Redirect::back();
+		}
+		$aanwezigheid = $gebruiker->aanwezigheid();
+		$aanwezigheid->start = new DateTime();
+		$aanwezigheid->save();
+		return Redirect::back();
+	}
+	
+	public function post_uitclocken()
+	{
+		$gebruiker = Auth::user();
+		if(!$gebruiker->isAanwezig()) {
+			return Redirect::back();
+		}
+		$aanwezigheid = $gebruiker->aanwezigheid();
+		if($aanwezigheid->start === null) {
+			return Redirect::back();
+		}
+		$aanwezigheid->einde = new DateTime();
+		$aanwezigheid->save();
+		return Redirect::back();
+	}
+	
+	public function get_uren($id, $naam, $jaar = null, $maand = null)
+	{
+		if($jaar === null) {
+			$jaar = date("Y");
+		}
+		if($maand === null) {
+			$maand = date("m");
+		}
+		if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+			return Response::error('404');
+		}
+		$gebruiker = Gebruiker::find($id);
+		return View::make("gebruikers.uren")
+			->with("jaar", $jaar)
+			->with("maand", $maand)
+			->with("gebruiker", $gebruiker);
+	}
+	
 	public function get_veranderWachtwoord()
 	{
 		if (Auth::guest()) return Redirect::to('login');

@@ -30,13 +30,19 @@ class Gebruiker extends Eloquent {
 		return $this->has_many('Aanwezigheid');
 	}
 	
-	public function aanwezigheid($datum)
+	public function aanwezigheid($datum = null)
 	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
 		return Aanwezigheid::where_gebruiker_id_and_datum($this->id, $datum)->first();
 	}
 	
-	public function isAanwezig($datum)
+	public function isAanwezig($datum = null)
 	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
 		return Aanwezigheid::where_gebruiker_id_and_datum($this->id, $datum)->count() >= 1;
 	}
 

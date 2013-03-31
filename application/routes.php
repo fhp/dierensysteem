@@ -8,6 +8,8 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('soorten', array("as"=>"soorten", 'uses'=>'soorten@index'));
 	Route::any('soorten/(:num)/(:any)', array("as"=>"soortDetail", 'uses'=>'soorten@detail'));
 	
+	Route::any('gebruikers/(:num)/(:any)/uren/(:num)/(:num)', array("as"=>"gebruikerUren", 'uses'=>'gebruikers@uren'));
+	Route::any('gebruikers/(:num)/(:any)/uren', array("as"=>"gebruikerUren", 'uses'=>'gebruikers@uren'));
 	Route::any('gebruikers/(:num)/(:any)', array("as"=>"gebruikerDetail", 'uses'=>'gebruikers@detail'));
 	Route::any('gebruikers', array("as"=>"gebruikers", 'uses'=>'gebruikers@index'));
 	
@@ -35,6 +37,9 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('taken/(:any)/(:num)/(:num)/(:num)', array("as"=>"taken", 'uses'=>'taken@index'));
 	Route::any('taken/(:any)', array("as"=>"taken", 'uses'=>'taken@index'));
 	Route::any('taken', array("as"=>"taken", 'uses'=>'taken@index'));
+	
+	Route::post('inclocken', array("as"=>"inclocken", 'uses'=>'gebruikers@inclocken'));
+	Route::post('uitclocken', array("as"=>"uitclocken", 'uses'=>'gebruikers@uitclocken'));
 });
 
 Route::any('veranderWachtwoord', array("as"=>"veranderWachtwoord", 'uses'=>'gebruikers@veranderWachtwoord'));

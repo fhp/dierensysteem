@@ -249,3 +249,7 @@ form {
 .dl-horizontal dd {
     margin-left: 220px !important;
 }
+
+.btn {
+	color: #333333 !important;
+}
