@@ -17,6 +17,8 @@ class Gebruikers_Controller extends Base_Controller {
 	);
 	
 	public $rulesInformatie = array(
+		"email"=>"email",
+		"telefoon"=>"numeric",
 	);
 	
 	public $rulesBiografie = array(
@@ -91,6 +93,8 @@ class Gebruikers_Controller extends Base_Controller {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
+					$gebruiker->email = Input::get("email");
+					$gebruiker->telefoon = Input::get("telefoon");
 					$gebruiker->informatie = Input::get("informatie");
 					$gebruiker->save();
 				}

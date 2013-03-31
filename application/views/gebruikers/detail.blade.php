@@ -67,6 +67,8 @@
 		<h3>Bewerk persoonlijke informatie</h3>
 	</div>
 	<div class="modal-body">
+		{{ Form::control_group(Form::label('email', 'Email adres'), Form::text('email', $gebruiker->email)) }}
+		{{ Form::control_group(Form::label('telefoon', 'Telefoon nummer'), Form::text('telefoon', $gebruiker->telefoon)) }}
 		{{ CKEditor::make('informatie', $gebruiker->informatie) }}
 	</div>
 	<div class="modal-footer">
