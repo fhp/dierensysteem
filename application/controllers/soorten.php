@@ -5,13 +5,10 @@ class Soorten_Controller extends Base_Controller {
 	
 	public $rulesNieuw = array(
 		"naam"=>"required",
-		"geslacht"=>"in:onbekend,tarsel,wijf",
-		"soort"=>"integer",
-		"geboortedatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
-		"foto"=>"image",
 	);
 	
 	public $rulesInformatie = array(
+		"naam"=>"required",
 	);
 	
 	public function get_index()
@@ -32,6 +29,7 @@ class Soorten_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
 					$soort = new Soort();
 					$soort->naam = Input::get("naam");
+					$soort->engelsenaam = Input::get("engelsenaam");
 					$soort->latijnsenaam = Input::get("latijnsenaam");
 					$soort->save();
 				}
@@ -58,6 +56,9 @@ class Soorten_Controller extends Base_Controller {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
+					$soort->naam = Input::get("naam");
+					$soort->engelsenaam = Input::get("engelsenaam");
+					$soort->latijnsenaam = Input::get("latijnsenaam");
 					$soort->informatie = Input::get("informatie");
 					$soort->save();
 				}

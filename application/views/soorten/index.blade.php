@@ -10,9 +10,9 @@
 </ul>
 
 @if(Auth::user()->admin)
-<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe soort</a></p>
+<p><a href="#nieuwModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe soort</a></p>
 
-<div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
+<div id="nieuwModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesNieuw) }}
 	{{ Form::hidden("action", "nieuw") }}
@@ -22,6 +22,7 @@
 	</div>
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
+		{{ Form::control_group(Form::label('engelsenaam', 'Engelse naam'), Form::text('engelsenaam')) }}
 		{{ Form::control_group(Form::label('latijnsenaam', 'Latijnse naam'), Form::text('latijnsenaam')) }}
 	</div>
 	<div class="modal-footer">

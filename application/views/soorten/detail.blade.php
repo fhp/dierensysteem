@@ -5,7 +5,10 @@
 	<div class="span6">
 		<h1>{{$soort->naam}}</h1>
 		
-		<p>{{$soort->latijnsenaam}}</p>
+		<dl class="dl-horizontal">
+		<dt>Engelse naam</dt><dd>{{ $soort->engelsenaam }}&nbsp;</dd>
+		<dt>Latijnse naam</dt><dd>{{ $soort->latijnsenaam }}&nbsp;</dd>
+		</dl>
 		
 		<h2>Notities</h2>
 		{{ $soort->informatie }}
@@ -33,6 +36,9 @@
 		<h3>Bewerk algemene informatie</h3>
 	</div>
 	<div class="modal-body">
+		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam', $soort->naam)) }}
+		{{ Form::control_group(Form::label('engelsenaam', 'Engelse naam'), Form::text('engelsenaam', $soort->engelsenaam)) }}
+		{{ Form::control_group(Form::label('latijnsenaam', 'Latijnse naam'), Form::text('latijnsenaam', $soort->latijnsenaam)) }}
 		{{ CKEditor::make('informatie', $soort->informatie) }}
 	</div>
 	<div class="modal-footer">
