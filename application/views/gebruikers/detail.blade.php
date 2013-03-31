@@ -12,11 +12,20 @@
 	<dt>Email</dt><dd>{{ HTML::mailto($gebruiker->email, $gebruiker->email) }}&nbsp;</dd>
 	<dt>Telefoonnummer</dt><dd>{{ $gebruiker->telefoon }}&nbsp;</dd>
 @endif
+<?php
+$vogels = $gebruiker->vliegpermissies;
+$vogelCount = count($vogels);
+$magVliegenMetHtml = "";
+foreach($vogels as $vogel) {
+	$magVliegenMetHtml .= "<a href=\"" . URL::to_route("vogelDetail", array($vogel->id, $vogel->naam)) . "\">" . $vogel->thumbnail_image(null, "xsmall") . " " . $vogel->naam . "</a><br>";
+}
+?>
+	<dt>Mag vliegen met</dt><dd>{{ HTML::popup($vogelCount . ($vogelCount == 1 ? " vogel" : " vogels"), $magVliegenMetHtml, "$gebruiker->naam mag vliegen met:") }}</dd>
 	</dl>
-	
 	{{ $gebruiker->informatie }}
 @if(Auth::user()->admin)
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk persoonlijke informatie</a></p>
+	<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>
 @endif
 </div>
 <div class="span4">
@@ -36,6 +45,8 @@
 	<p><a href="#wachtwoordModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-lock"></i> Verander wachtwoord</a></p>
 	@endif
 </div>
+</div>
+
 
 @if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 <div id="fotoModal" class="modal hide fade" tabindex="-1" role="dialog">
@@ -120,6 +131,26 @@
 </div>
 @endif
 
-
+@if(Auth::user()->admin)
+<div id="vliegpermissiesModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::hidden("action", "vliegpermissies") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bewerk vliegpermissies</h3>
+	</div>
+	<div class="modal-body">
+		<p>{{ $gebruiker->naam }} mag vliegen met:</p>
+		@foreach(Vogel::all() as $vogel)
+			{{ Form::labelled_checkbox('vogel-' . $vogel->id, $vogel->naam, '1', count($vogel->vliegpermissies()->where_gebruiker_id($gebruiker->id)->get()) == 1) }}
+		@endforeach
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
 </div>
+@endif
+
 @endsection

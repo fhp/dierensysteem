@@ -153,6 +153,18 @@ class Vogels_Controller extends Base_Controller {
 					$vogel->save();
 				}
 			}
+			if(Input::get("action") == "vliegpermissies") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
+				$permissies = array();
+				foreach(Gebruiker::all() as $gebruiker) {
+					if(Input::has("gebruiker-" . $gebruiker->id)) {
+						$permissies[] = $gebruiker->id;
+					}
+				}
+				$vogel->vliegpermissies()->sync($permissies);
+			}
 		}
 		
 		return Redirect::back();

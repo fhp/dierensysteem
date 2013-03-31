@@ -29,7 +29,7 @@ div.hover-div:hover .hover-text {
 }
 
 .popover {
-	width: 200px;
+	min-width: 200px;
 }
 
 .weekcalendar td:nth-child(odd), .weekcalendar th:nth-child(odd) {
@@ -241,3 +241,11 @@ form {
 	}
 }
 
+
+.dl-horizontal dt {
+	width: 200px !important;
+}
+
+.dl-horizontal dd {
+    margin-left: 220px !important;
+}

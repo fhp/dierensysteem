@@ -13,6 +13,15 @@
 	@if($vogel->eigenaar !== null)
 	<dt>Eigenaar</dt><dd>{{ $vogel->eigenaar->naam }}</dd>
 	@endif
+<?php
+$gebruikers = $vogel->vliegpermissies;
+$gebruikerCount = count($gebruikers);
+$magGevlogenWordenDoorHtml = "";
+foreach($gebruikers as $gebruiker) {
+	$magGevlogenWordenDoorHtml .= "<a href=\"" . URL::to_route("gebruikerDetail", array($gebruiker->id, $gebruiker->naam)) . "\">" . $gebruiker->thumbnail_image(null, "xsmall") . " " . $gebruiker->naam . "</a><br>";
+}
+?>
+	<dt>Mag gevlogen worden door</dt><dd>{{ HTML::popup($gebruikerCount . ($gebruikerCount == 1 ? " persoon" : " personen"), $magGevlogenWordenDoorHtml, "$vogel->naam mag gevlogen worden door:") }}</dd>
 	</dl>
 	
 	@if($vogel->alert != "")
@@ -74,10 +83,13 @@ $(function() {
 	{{ $vogel->informatie }}
 	@if(Auth::user()->admin)
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
+	<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>
 	<p><a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a></p>
 	<p><a href="#categorieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Wijzig categorie</a></p>
 	@endif
 </div>
+</div>
+
 
 @if(Auth::user()->admin)
 <div id="informatieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
@@ -203,6 +215,26 @@ $(function() {
 </div>
 @endif
 
-
+@if(Auth::user()->admin)
+<div id="vliegpermissiesModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::hidden("action", "vliegpermissies") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bewerk vliegpermissies</h3>
+	</div>
+	<div class="modal-body">
+		<p>{{ $vogel->naam }} mag gevlogen worden door:</p>
+		@foreach(Gebruiker::all() as $gebruiker)
+			{{ Form::labelled_checkbox('gebruiker-' . $gebruiker->id, $gebruiker->naam, '1', count($gebruiker->vliegpermissies()->where_vogel_id($vogel->id)->get()) == 1) }}
+		@endforeach
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
 </div>
+@endif
+
 @endsection

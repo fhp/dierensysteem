@@ -10,6 +10,7 @@ class Vogel extends Eloquent {
 			'foto' => array(
 				'default_size' => 'small',
 				'sizes' => array(
+					'xsmall'  => '32x32',
 					'small'  => '64x64',
 					'medium' => '128x128',
 					'large'  => '256x256',
@@ -37,6 +38,11 @@ class Vogel extends Eloquent {
 	public function gewichten()
 	{
 		return $this->has_many('Gewicht');
+	}
+	
+	public function vliegpermissies()
+	{
+		return $this->has_many_and_belongs_to("Gebruiker", "vliegpermissies");
 	}
 	
 	public function gewicht($datum = null)
