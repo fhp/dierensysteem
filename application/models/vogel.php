@@ -24,6 +24,11 @@ class Vogel extends Eloquent {
 		return $this->belongs_to('Soort');
 	}
 	
+	public function categorie()
+	{
+		return $this->belongs_to('Categorie');
+	}
+	
 	public function gewichten()
 	{
 		return $this->has_many('Gewicht');
@@ -73,7 +78,12 @@ class Vogel extends Eloquent {
 	{
 		if($this->geboortedatum !== null) {
 			$birthday = new DateTime($this->geboortedatum);
-			$interval = $birthday->diff(new DateTime);
+			if($this->overleidensdatum === null) {
+				$eindDatum = new DateTime("today");
+			} else {
+				$eindDatum = new DateTime($this->overleidensdatum);
+			}
+			$interval = $birthday->diff($eindDatum);
 			return $interval->y;
 		} else {
 			return "Onbekend";

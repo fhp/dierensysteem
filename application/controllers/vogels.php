@@ -6,7 +6,7 @@ class Vogels_Controller extends Base_Controller {
 	public $rulesNieuw = array(
 		"naam"=>"required",
 		"geslacht"=>"in:onbekend,tarsel,wijf",
-		"soort"=>"integer",
+		"soort"=>"required|integer",
 		"geboortedatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
 		"foto"=>"image",
 	);
@@ -28,16 +28,14 @@ class Vogels_Controller extends Base_Controller {
 		"geboortedatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
 	);
 	
+	public $rulesCategorie = array(
+		"categorie"=>"required|integer",
+		"overleidensdatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
+	);
+	
 	public function get_index()
 	{
-		$vogels = Vogel::order_by("naam")->get();
-		$soorten = array();
-		foreach(Soort::all() as $soort) {
-			$soorten[$soort->id] = $soort->naam;
-		}
 		return View::make("vogels.index")
-			->with("vogels", $vogels)
-			->with("soorten", $soorten)
 			->with("rulesNieuw", $this->rulesNieuw);
 	}
 	
@@ -83,8 +81,8 @@ class Vogels_Controller extends Base_Controller {
 			->with("rulesFoto", $this->rulesFoto)
 			->with("rulesVerslag", $this->rulesVerslag)
 			->with("rulesInformatie", $this->rulesInformatie)
-			->with("rulesAlert", $this->rulesAlert);
-
+			->with("rulesAlert", $this->rulesAlert)
+			->with("rulesCategorie", $this->rulesCategorie);
 	}
 	
 	public function post_detail($id, $naam)
@@ -131,6 +129,21 @@ class Vogels_Controller extends Base_Controller {
 						$vogel->geboortedatum = null;
 					}
 					$vogel->informatie = Input::get("informatie");
+					$vogel->save();
+				}
+			}
+			if(Input::get("action") == "categorie") {
+				if(!Auth::user()->admin) {
+					return Redirect::back();
+				}
+				if(Validator::make(Input::all(), $this->rulesCategorie)->passes()) {
+					$categorie = Categorie::find(Input::get("categorie"));
+					$vogel->categorie_id = $categorie->id;
+					if(Input::has("overleidensdatum")) {
+						$vogel->overleidensdatum = new DateTime(Input::get("overleidensdatum"));
+					} else {
+						$vogel->overleidensdatum = null;
+					}
 					$vogel->save();
 				}
 			}

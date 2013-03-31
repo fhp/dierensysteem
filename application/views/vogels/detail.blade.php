@@ -9,6 +9,7 @@
 	<dt>Soort</dt><dd>{{ HTML::link_to_route("soortDetail", $vogel->soort->naam, array($vogel->soort->id, $vogel->soort->naam)) }}</dd>
 	<dt>Geslacht</dt><dd>{{ Str::title($vogel->geslacht) }}</dd>
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
+	<dt>Categorie</dt><dd>{{ $vogel->categorie->naam }}</dd>
 	</dl>
 	
 	@if($vogel->alert != "")
@@ -70,7 +71,8 @@ $(function() {
 	{{ $vogel->informatie }}
 	@if(Auth::user()->admin)
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
-	<a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a>
+	<p><a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a></p>
+	<p><a href="#categorieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Wijzig categorie</a></p>
 	@endif
 </div>
 
@@ -162,6 +164,36 @@ $(function() {
 	{{ Form::close() }}
 </div>
 @endif
+
+@if(Auth::user()->admin)
+<div id="categorieModal" class="modal hide fade" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesCategorie) }}
+	{{ Form::hidden("action", "categorie") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Wijzig categorie</h3>
+	</div>
+	<div class="modal-body">
+		{{ Form::control_group(Form::label('categorie', 'Categorie:'), Form::select('categorie', Categorie::order_by("order", "asc")->lists("naam", "id"), $vogel->categorie->id)) }}
+		<?php 
+		if($vogel->overleidensdatum === null) {
+			$overleidensdatum = null;
+		} else {
+			$dt = new DateTime($vogel->overleidensdatum);
+			$overleidensdatum =  $dt->format("d-m-Y");
+		}
+		?>
+		{{ Form::control_group(Form::label('overleidensdatum', 'Overleidensdatum in geval van overleiden'), Form::text('overleidensdatum', $overleidensdatum, array("class"=>"datepicker"))) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
+@endif
+
 
 </div>
 @endsection
