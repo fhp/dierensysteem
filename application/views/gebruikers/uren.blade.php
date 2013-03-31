@@ -22,17 +22,23 @@ $aantalDagen = 0;
 
 foreach($dagen as $dag) {
 	$datum = new DateTime($dag->datum);
-	if($dag->start === null || $dag->einde === null) {
+	if($dag->start === null) {
 		$startHtml = "-";
+	} else {
+		$start = new DateTime($dag->start);
+		$startHtml = $start->format("H:i");
+	}
+	if($dag->einde === null) {
 		$eindeHtml = "-";
+	} else {
+		$einde = new DateTime($dag->einde);
+		$eindeHtml = $einde->format("H:i");
+	}
+	if($dag->start === null || $dag->einde === null) {
 		$diffHtml = "-";
 	} else {
 		$aantalDagen++;
-		$start = new DateTime($dag->start);
-		$einde = new DateTime($dag->einde);
 		$diff = $einde->diff($start);
-		$startHtml = $start->format("H:i");
-		$eindeHtml = $einde->format("H:i");
 		$diffHtml = $diff->format("%h:%I");
 		$totaalEinde->add($diff);
 	}

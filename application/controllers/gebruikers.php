@@ -110,7 +110,7 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "wachtwoord") {
-				if(!(Auth::user()->id == $id)) {
+				if(!(Auth::user()->admin || Auth::user()->id == $id)) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesWachtwoord)->passes()) {

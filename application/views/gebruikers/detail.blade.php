@@ -40,10 +40,8 @@ foreach($vogels as $vogel) {
 	{{ $gebruiker->biografie }}
 	@if(Auth::user()->admin || Auth::user()->id == $gebruiker->id)
 	<p><a href="#biografieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk biografie</a></p>
-	@endif
-	@if(Auth::user()->id == $gebruiker->id)
+	<p><a href="{{ URL::to_route("gebruikerUren", array($gebruiker->id, $gebruiker->gebruikersnaam)) }}" role="button" class="btn"><i class="icon icon-time"></i> Uren overzicht</a></p>
 	<p><a href="#wachtwoordModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-lock"></i> Verander wachtwoord</a></p>
-	<p><a href="{{ URL::to_route("gebruikerUren", array($gebruiker->id, $gebruiker->naam)) }}" role="button" class="btn"><i class="icon icon-time"></i> Uren overzicht</a></p>
 	@endif
 </div>
 </div>
