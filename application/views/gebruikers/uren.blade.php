@@ -21,6 +21,7 @@ $totaalEinde = new DateTime("today");
 $aantalDagen = 0;
 
 foreach($dagen as $dag) {
+	$aantalDagen++;
 	$datum = new DateTime($dag->datum);
 	if($dag->start === null) {
 		$startHtml = "-";
@@ -37,7 +38,6 @@ foreach($dagen as $dag) {
 	if($dag->start === null || $dag->einde === null) {
 		$diffHtml = "-";
 	} else {
-		$aantalDagen++;
 		$diff = $einde->diff($start);
 		$diffHtml = $diff->format("%h:%I");
 		$totaalEinde->add($diff);
