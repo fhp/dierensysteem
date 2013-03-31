@@ -19,16 +19,18 @@
 </head>
 <body>
 	
-	<div style="height: 64px;">
-		<a href="{{ URL::to_route("home") }}"><h1 class="pull-left" style="color: #800000; margin: 5px;"><img src="{{ asset("img/Falconcrest_Logo.jpg") }}"> Falconcrest Roofvogel Administratie Systeem</h1></a>
+	<div id="header">
+		<a href="{{ URL::to_route("home") }}"><h1 class="pull-left"><img src="{{ asset("img/Falconcrest_Logo.jpg") }}"> Falconcrest Roofvogel Administratie Systeem</h1></a>
 		@if(Auth::check())
-			<span class="pull-right"><a href="{{ URL::to_route("gebruikerDetail", array(Auth::user()->id, Auth::user()->gebruikersnaam)) }}">{{ Auth::user()->thumbnail_image() }}</a></span>
+			<span class="pull-right hidden-phone"><a href="{{ URL::to_route("gebruikerDetail", array(Auth::user()->id, Auth::user()->gebruikersnaam)) }}">{{ Auth::user()->thumbnail_image() }}</a></span>
 		@endif
 	</div>
+	<div class="hidden-phone">
 	@include('breadcrumb')
+	</div>
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<div class="span2">
+			<div class="span2 {{ Request::route()->is('home') ? '' : 'hidden-phone' }}">
 				@if(Auth::check())
 					@include('menu')
 				@endif

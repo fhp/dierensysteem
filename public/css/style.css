@@ -155,3 +155,89 @@ h3 a {
 form {
 	margin: 0px !important;
 }
+
+#header {
+	height: 64px;
+}
+
+#header h1 {
+	color: #800000;
+	margin: 5px;
+	font-size: 38px;
+}
+
+@media (min-width: 768px) and (max-width: 979px) { /* smaller pc / tablet screens, make sure that the header fits */
+	#header {
+		height: 64px;
+	}
+	
+	#header h1 {
+		font-size: 28px !important;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 767px) { /* large landscape phones and tablets */
+	#header {
+		height: 48px;
+	}
+	
+	#header h1 {
+		font-size: 18px !important;
+	}
+	
+	#header h1 img {
+		width: 24px;
+		height: 24px;
+	}
+	
+	h1 {
+		font-size: 24px !important;
+		line-height: 30px !important;
+	}
+	h2 {
+		font-size: 20px !important;
+		line-height: 30px !important;
+	}
+	h3 {
+		font-size: 18px !important;
+		line-height: 20px !important;
+	}
+	h4 {
+		font-size: 16px !important;
+		line-height: 20px !important;
+	}
+}
+
+@media (max-width: 480px) { /* smaller (portrait) phones */
+	#header {
+		height: 32px;
+	}
+	
+	#header h1 {
+		font-size: 12px !important;
+		line-height: 20px !important;
+	}
+	
+	#header h1 img {
+		width: 16px;
+		height: 16px;
+	}
+	
+	h1 {
+		font-size: 20px !important;
+		line-height: 20px !important;
+	}
+	h2 {
+		font-size: 18px !important;
+		line-height: 20px !important;
+	}
+	h3 {
+		font-size: 16px !important;
+		line-height: 20px !important;
+	}
+	h4 {
+		font-size: 16px !important;
+		line-height: 20px !important;
+	}
+}
+
