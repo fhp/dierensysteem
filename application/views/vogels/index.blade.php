@@ -50,6 +50,7 @@
 		?>
 		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', $soorten)) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', null, array("class"=>"datepicker"))) }}
+		{{ Form::control_group(Form::label('categorie', 'Categorie:'), Form::select('categorie', Categorie::order_by("order", "asc")->lists("naam", "id"))) }}
 		{{ Form::control_group(Form::label('foto', 'Foto'), Form::file('foto')) }}
 	</div>
 	<div class="modal-footer">

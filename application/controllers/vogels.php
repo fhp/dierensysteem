@@ -48,6 +48,7 @@ class Vogels_Controller extends Base_Controller {
 				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
 					$vogel = new Vogel();
+					$vogel->categorie_id = Input::get("categorie");
 					$vogel->naam = Input::get("naam");
 					$vogel->geslacht = Input::get("geslacht");
 					if(Input::has("geboortedatum")) {
