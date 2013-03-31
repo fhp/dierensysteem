@@ -13,6 +13,7 @@ Route::group(array('before' => 'auth'), function() {
 	
 	Route::get('vogels/grafiek/(:num)', array("as"=>"vogelgrafiek", 'uses'=>'vogels@grafiek'));
 	Route::any('vogels/(:num)/(:any)', array("as"=>"vogelDetail", 'uses'=>'vogels@detail'));
+	Route::any('vogels/(:num)', array("as"=>"vogels", 'uses'=>'vogels@index'));
 	Route::any('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));
 	
 	Route::any('wegen', array("as"=>"wegen", 'uses'=>'wegen@index'));

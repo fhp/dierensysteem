@@ -33,9 +33,11 @@ class Vogels_Controller extends Base_Controller {
 		"overleidensdatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
 	);
 	
-	public function get_index()
+	public function get_index($categorie_id = 1)
 	{
+		$categorie = Categorie::find($categorie_id);
 		return View::make("vogels.index")
+			->with("categorie", $categorie)
 			->with("rulesNieuw", $this->rulesNieuw);
 	}
 	
