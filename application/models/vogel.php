@@ -29,6 +29,11 @@ class Vogel extends Eloquent {
 		return $this->belongs_to('Categorie');
 	}
 	
+	public function eigenaar()
+	{
+		return $this->belongs_to('Gebruiker');
+	}
+	
 	public function gewichten()
 	{
 		return $this->has_many('Gewicht');

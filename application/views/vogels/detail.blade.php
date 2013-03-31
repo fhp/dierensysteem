@@ -10,6 +10,9 @@
 	<dt>Geslacht</dt><dd>{{ Str::title($vogel->geslacht) }}</dd>
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
 	<dt>Categorie</dt><dd>{{ $vogel->categorie->naam }}</dd>
+	@if($vogel->eigenaar !== null)
+	<dt>Eigenaar</dt><dd>{{ $vogel->eigenaar->naam }}</dd>
+	@endif
 	</dl>
 	
 	@if($vogel->alert != "")
@@ -94,9 +97,15 @@ $(function() {
 			$dt = new DateTime($vogel->geboortedatum);
 			$gebroortedatum =  $dt->format("d-m-Y");
 		}
+		$eigenaren = array();
+		$eigenaren[0] = "Falconcrest";
+		foreach(Gebruiker::order_by("naam", "asc")->lists("naam", "id") as $key=>$value) {
+			$eigenaren[$key] = $value;
+		}
 		?>
 		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf"), $vogel->geslacht)) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', $gebroortedatum, array("class"=>"datepicker"))) }}
+		{{ Form::control_group(Form::label('eigenaar', 'Eigenaar:'), Form::select('eigenaar', $eigenaren, $vogel->eigenaar_id === null ? 0 : $vogel->eigenaar_id)) }}
 		{{ CKEditor::make('informatie', $vogel->informatie) }}
 	</div>
 	<div class="modal-footer">

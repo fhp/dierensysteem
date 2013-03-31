@@ -128,6 +128,12 @@ class Vogels_Controller extends Base_Controller {
 					} else {
 						$vogel->geboortedatum = null;
 					}
+					if(Input::get("eigenaar") == 0) {
+						$vogel->eigenaar_id = null;
+					} else {
+						$eigenaar = Gebruiker::find(Input::get("eigenaar"));
+						$vogel->eigenaar_id = $eigenaar->id;
+					}
 					$vogel->informatie = Input::get("informatie");
 					$vogel->save();
 				}

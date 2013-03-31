@@ -60,6 +60,11 @@ class Gebruiker extends Eloquent {
 		return $this->has_many('Vogelverslag');
 	}
 	
+	public function vogels()
+	{
+		return $this->has_many('Vogel', 'eigenaar_id');
+	}
+	
 	public function thumbnail( $field=null, $size=null )
 	{
 		return Thumbnailer::get( $this, $field, $size );
