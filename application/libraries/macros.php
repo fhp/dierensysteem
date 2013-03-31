@@ -9,13 +9,13 @@ HTML::macro("postLink", function($tekst, $url) {
 	return $output;
 });
 
-HTML::macro("popup", function($tekst, $content, $title = null) {
+HTML::macro("popup", function($tekst, $content, $title = null, $class = "") {
 	if($title !== null) {
 		$titleHtml = "title=\"" . htmlentities($title) . "\"";
 	} else {
 		$titleHtml = "";
 	}
-	return "<span class=\"popup\" $titleHtml data-content=\"" . htmlentities($content) . "\" data-html=\"true\">" . $tekst . "</span><br>";
+	return "<span class=\"popup $class\" $titleHtml data-content=\"" . htmlentities($content) . "\" data-html=\"true\">" . $tekst . "</span>";
 });
 
 HTML::macro("agendaEvenement", function($evenement) {
@@ -31,13 +31,13 @@ HTML::macro("agendaEvenement", function($evenement) {
 		$content .= "<p>" . HTML::postLink("Evenement verwijderen", URL::to_route("agendaDeleteEvenement", $evenement->id));
 	}
 	
-	return HTML::popup($evenement->naam, $content, $evenement->naam);
+	return HTML::popup($evenement->naam, $content, $evenement->naam) . "<br>";
 });
 
 HTML::macro("agendaAanwezigheid", function($aanwezigheid) {
 	if(Auth::user()->admin) {
 		$content = HTML::postLink("afmelden", URL::to_route("agendaAfmeldenAdmin", agendaDatumNaarArray($aanwezigheid->datum, $aanwezigheid->gebruiker->id)));
-		return HTML::popup($aanwezigheid->gebruiker->thumbnail_image(null, "xsmall") . " " . $aanwezigheid->gebruiker->naam, $content, $aanwezigheid->gebruiker->naam);
+		return HTML::popup($aanwezigheid->gebruiker->thumbnail_image(null, "xsmall") . " " . $aanwezigheid->gebruiker->naam, $content, $aanwezigheid->gebruiker->naam) . "<br>";
 	} else {
 		return $aanwezigheid->gebruiker->naam . "<br>";
 	}

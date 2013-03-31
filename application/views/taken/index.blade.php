@@ -20,9 +20,10 @@
 			<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-ok"></i> Heb ik gedaan</a>
 		@endif
 		@if(Auth::user()->admin)
-			<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-edit"></i> Bewerk</a>
+			<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
 		@endif
-			<a href="#" class="btn popup" data-content="{{ $taak->beschrijving }}" data-html="true"><i class="icon-info-sign"></i> Info</a>
+			{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
+<!-- 			<div href="#" class="btn popup" data-toggle="popover" data-content="{{ $taak->beschrijving }}" data-html="true" title="{{ $taak->naam }}"><i class="icon-info-sign"></i> Info</div> -->
 		</div>
 		<b>{{ $taak->naam }}</b>@if(count($taak->uitvoerders()) > 0):
 			@foreach($taak->uitvoerders() as $uitvoerder)
