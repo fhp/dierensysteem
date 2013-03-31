@@ -80,6 +80,8 @@ foreach($vogels as $vogel) {
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('email', 'Email adres'), Form::text('email', $gebruiker->email)) }}
 		{{ Form::control_group(Form::label('telefoon', 'Telefoon nummer'), Form::text('telefoon', $gebruiker->telefoon)) }}
+		{{ Form::control_group(Form::label('nonactief', 'Non-actief'), Form::labelled_checkbox('nonactief', "ja", 1, $gebruiker->nonactief)) }}
+		{{ Form::control_group(Form::label('admin', 'Beheerder'), Form::labelled_checkbox('admin', "ja", 1, $gebruiker->admin)) }}
 		{{ CKEditor::make('informatie', $gebruiker->informatie) }}
 	</div>
 	<div class="modal-footer">

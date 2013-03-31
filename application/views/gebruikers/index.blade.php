@@ -4,7 +4,7 @@
 <h1>Gebruikers</h1>
 
 <ul class="media-list media-table">
-@foreach ($gebruikers as $gebruiker)
+@foreach (Gebruiker::where_nonactief(0)->get() as $gebruiker)
 	{{ MediaObject::create($gebruiker->gebruikersnaam, $gebruiker->thumbnail_url())->with_h4(HTML::link_to_route("gebruikerDetail", $gebruiker->naam, array($gebruiker->id, $gebruiker->gebruikersnaam))) }}
 @endforeach
 </ul>

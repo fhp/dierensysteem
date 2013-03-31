@@ -30,10 +30,8 @@ class Gebruikers_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
-		$gebruikers = Gebruiker::order_by("naam")->get();
 		return View::make("gebruikers.index")
-			->with("rulesNieuw", $this->rulesNieuw)
-			->with("gebruikers", $gebruikers);
+			->with("rulesNieuw", $this->rulesNieuw);
 	}
 	
 	public function post_index()
@@ -51,6 +49,7 @@ class Gebruikers_Controller extends Base_Controller {
 					$gebruiker->email = Input::get("email");
 					$gebruiker->telefoon = Input::get("telefoon");
 					$gebruiker->admin = Input::get("admin", 0);
+					$gebruiker->nonactief = 0;
 					
 					if(Input::has_file("foto")) {
 						$gebruiker->foto = Input::file("foto");
@@ -96,6 +95,8 @@ class Gebruikers_Controller extends Base_Controller {
 					$gebruiker->email = Input::get("email");
 					$gebruiker->telefoon = Input::get("telefoon");
 					$gebruiker->informatie = Input::get("informatie");
+					$gebruiker->nonactief = Input::get("nonactief", 0);
+					$gebruiker->admin = Input::get("admin", 0);
 					$gebruiker->save();
 				}
 			}
