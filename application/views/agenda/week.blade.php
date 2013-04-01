@@ -36,7 +36,7 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 	@forelse($dagData["evenementen"] as $evenement)
 		{{ HTML::agendaEvenement($evenement) }}
 	@empty
-		<i>Geen evenementen</i><br>
+		<span class="agenda-disabled">Geen evenementen</span><br>
 	@endforelse
 	</td>
 @endforeach
@@ -48,7 +48,7 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 	@forelse($dagData["aanwezigen"] as $aanwezigheid)
 		{{ HTML::agendaAanwezigheid($aanwezigheid) }}
 	@empty
-		<i>Niemand aanwezig</i>
+		<span class="agenda-disabled">Niemand aanwezig</span>
 	@endforelse
 	</td>
 @endforeach

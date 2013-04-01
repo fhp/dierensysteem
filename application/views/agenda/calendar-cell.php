@@ -25,7 +25,7 @@ if(count($data["evenementen"]) > 0) {
 
 echo "<b class=\"$class\">Aanwezigen:</b><br>";
 if(count($data["aanwezigen"]) == 0) {
-	echo "<i>Niemand</i><br>";
+	echo "<span class=\"agenda-disabled\">Niemand</span><br>";
 } else {
 	foreach($data["aanwezigen"] as $aanwezigheid) {
 		echo HTML::agendaAanwezigheid($aanwezigheid);
