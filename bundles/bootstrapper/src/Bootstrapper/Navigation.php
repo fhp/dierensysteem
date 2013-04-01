@@ -98,7 +98,7 @@ class Navigation
 
             // Must be basic link
             } else {
-                if (!isset($item['attributes'])) {
+                if (!isset($item['attributes']) || $item['attributes'] === null) {
                     $item['attributes'] = array();
                 }
 
@@ -249,9 +249,9 @@ class Navigation
      *
      * @return mixed
      */
-    public static function link($label, $url, $active = false, $disabled = false, $items = null, $icon = null)
+    public static function link($label, $url, $active = false, $disabled = false, $items = null, $icon = null, $attributes = null)
     {
-        return array('label'=> $label, 'url' => $url, 'active' => $active, 'disabled' => $disabled, 'items' => $items, 'icon' => $icon);
+        return array('label'=> $label, 'url' => $url, 'active' => $active, 'disabled' => $disabled, 'items' => $items, 'icon' => $icon, 'attributes' => $attributes);
     }
 
     /**
@@ -275,7 +275,8 @@ class Navigation
             $disabled = array_get($link, 3);
             $items = array_get($link, 4);
             $icon = array_get($link, 5);
-            $l[] = static::link($label, $url, $active, $disabled, static::links($items), $icon);
+            $attributes = array_get($link, 6);
+            $l[] = static::link($label, $url, $active, $disabled, static::links($items), $icon, $attributes);
         }
 
         return $l;

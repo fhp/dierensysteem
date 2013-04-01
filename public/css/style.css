@@ -253,3 +253,7 @@ form {
 a.btn {
 	color: #333333 !important;
 }
+
+.user-logged-in {
+	color: #B94A48;
+}

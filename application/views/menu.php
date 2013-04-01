@@ -33,7 +33,7 @@ if(Request::ip() == "88.159.83.200") {
 	$menu[] = array(Navigation::HEADER, 'Inloggen als', false, false, null);
 	$aanwezigen = Aanwezigheid::where_datum(new DateTime("today"))->join('gebruikers', 'aanwezigheid.gebruiker_id', '=', 'gebruikers.id')->order_by("gebruikers.naam", "asc")->get();
 	foreach($aanwezigen as $aanwezige) {
-		$menu[] = array($aanwezige->gebruiker->naam, URL::to_route('loginAs', array($aanwezige->gebruiker->gebruikersnaam)), false);
+		$menu[] = array($aanwezige->gebruiker->naam, URL::to_route('loginAs', array($aanwezige->gebruiker->gebruikersnaam)), false, false, null, null, ($aanwezige->gebruiker->id == Auth::user()->id ? array("class"=>"user-logged-in") : null));
 	}
 }
 
