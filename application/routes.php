@@ -38,8 +38,8 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('taken/(:any)', array("as"=>"taken", 'uses'=>'taken@index'));
 	Route::any('taken', array("as"=>"taken", 'uses'=>'taken@index'));
 	
-	Route::post('inclocken', array("as"=>"inclocken", 'uses'=>'gebruikers@inclocken'));
-	Route::post('uitclocken', array("as"=>"uitclocken", 'uses'=>'gebruikers@uitclocken'));
+	Route::post('inklokken', array("as"=>"inklokken", 'uses'=>'gebruikers@inklokken'));
+	Route::post('uitklokken', array("as"=>"uitklokken", 'uses'=>'gebruikers@uitklokken'));
 });
 
 Route::any('veranderWachtwoord', array("as"=>"veranderWachtwoord", 'uses'=>'gebruikers@veranderWachtwoord'));

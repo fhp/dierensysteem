@@ -4,7 +4,7 @@
 <div class="row">
 <div class="span6">
 <h1>Welkom</h1>
-@render("home.inclocken")
+@render("home.inklokken")
 <h3>Mededelingen</h3>
 <ul class="media-list">
 <?php $vorigeDatum = ""; ?>

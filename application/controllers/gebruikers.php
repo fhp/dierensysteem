@@ -135,7 +135,7 @@ class Gebruikers_Controller extends Base_Controller {
 		return Redirect::back();
 	}
 	
-	public function post_inclocken()
+	public function post_inlokken()
 	{
 		$gebruiker = Auth::user();
 		if(!$gebruiker->isAanwezig()) {
@@ -147,7 +147,7 @@ class Gebruikers_Controller extends Base_Controller {
 		return Redirect::back();
 	}
 	
-	public function post_uitclocken()
+	public function post_uitklokken()
 	{
 		$gebruiker = Auth::user();
 		if(!$gebruiker->isAanwezig()) {
