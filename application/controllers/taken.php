@@ -48,7 +48,7 @@ class Taken_Controller extends Base_Controller {
 			$datum = new DateTime("$jaar-$maand-$dag");
 			$datum->sub(new DateInterval("P{$i}D"));
 			$dagen[$i] = $dagNaam[$datum->format("w")] . " " . $datum->format('d-m-Y');
-			$taakIDs = DB::query("SELECT DISTINCT taak.id FROM taken AS taak INNER JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE uitvoering.datum = ?", array($datum));
+			$taakIDs = DB::query("SELECT DISTINCT taak.id FROM taken AS taak INNER JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE uitvoering.datum = ? ORDER BY taak.naam", array($datum));
 			$geschiedenis[$i] = array();
 			foreach($taakIDs as $taakID) {
 				$taak = Taak::find($taakID->id);
@@ -88,6 +88,7 @@ class Taken_Controller extends Base_Controller {
 					$taak->naam = Input::get("naam");
 					$taak->beschrijving = Input::get("beschrijving");
 					$taak->frequentie = Input::get("frequentie");
+					$taak->actief = 1;
 					$taak->save();
 				}
 			}

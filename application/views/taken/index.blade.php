@@ -66,7 +66,7 @@
 	<td>
 	@foreach($dag as $taak)
 		<?php $content = ""; foreach($taak["uitvoerders"] as $uitvoerder) { $content .= $uitvoerder->naam . "<br>"; } ?>
-		{{ HTML::popup($taak["taak"]->naam, $content, $taak["taak"]->naam) }}
+		{{ HTML::popup($taak["taak"]->naam, $content, $taak["taak"]->naam) }} <br>
 	@endforeach
 	</td>
 @endforeach
