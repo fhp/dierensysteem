@@ -4,7 +4,7 @@
 <h1>Wegen</h1>
 
 {{ Form::horizontal_open() }}
-@foreach(Vogel::order_by("naam", "asc")->get() as $vogel)
+@foreach(Vogel::where_categorie_id(1)->order_by("naam", "asc")->get() as $vogel)
 	{{ Form::control_group(Form::label('vogel_' . $vogel->id, $vogel->naam), Form::text('vogel_' . $vogel->id, $vogel->gewicht())) }}
 @endforeach
 {{ Form::actions(array(Button::primary_submit('Opslaan'))) }}

@@ -255,7 +255,7 @@ a.btn {
 }
 
 .user-logged-in {
-	color: #B94A48;
+	color: #B94A48 !important;
 }
 
 .agenda-disabled {
