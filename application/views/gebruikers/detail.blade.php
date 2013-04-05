@@ -17,7 +17,11 @@ $vogels = $gebruiker->vliegpermissies;
 $vogelCount = count($vogels);
 $magVliegenMetHtml = "";
 foreach($vogels as $vogel) {
-	$magVliegenMetHtml .= "<a href=\"" . URL::to_route("vogelDetail", array($vogel->id, $vogel->naam)) . "\">" . $vogel->thumbnail_image(null, "xsmall") . " " . $vogel->naam . "</a><br>";
+	$magVliegenMetHtml .= "<a href=\"" . URL::to_route("vogelDetail", array($vogel->id, $vogel->naam)) . "\">" . $vogel->thumbnail_image(null, "xsmall") . " " . $vogel->naam . "</a>";
+	if($vogel->pivot->opmerkingen !== null) {
+		$magVliegenMetHtml .= " (" . $vogel->pivot->opmerkingen . ")";
+	}
+	$magVliegenMetHtml .= "<br>";
 }
 ?>
 	<dt>Mag vliegen met</dt><dd>{{ HTML::popup($vogelCount . ($vogelCount == 1 ? " vogel" : " vogels"), $magVliegenMetHtml, "$gebruiker->naam mag vliegen met:") }}</dd>
@@ -142,9 +146,15 @@ foreach($vogels as $vogel) {
 	</div>
 	<div class="modal-body">
 		<p>{{ $gebruiker->naam }} mag vliegen met:</p>
+		<table>
+		<tr><th>Vogel</th><th>Opmerkingen</th></tr>
 		@foreach(Vogel::all() as $vogel)
-			{{ Form::labelled_checkbox('vogel-' . $vogel->id, $vogel->naam, '1', count($vogel->vliegpermissies()->where_gebruiker_id($gebruiker->id)->get()) == 1) }}
+			<tr>
+			<td>{{ Form::labelled_checkbox('vogel-' . $vogel->id, $vogel->naam, '1', $gebruiker->vliegpermissie($vogel->id)) }}</td>
+			<td>{{ Form::text('opmerkingen-' . $vogel->id, $gebruiker->vliegpermissieOpmerkingen($vogel->id)) }}</td>
+			</tr>
 		@endforeach
+		</table>
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>

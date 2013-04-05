@@ -122,13 +122,12 @@ class Gebruikers_Controller extends Base_Controller {
 				if(!Auth::user()->admin) {
 					return Redirect::back();
 				}
-				$permissies = array();
+				$gebruiker->vliegpermissies()->delete();
 				foreach(Vogel::all() as $vogel) {
 					if(Input::has("vogel-" . $vogel->id)) {
-						$permissies[] = $vogel->id;
+						$gebruiker->vliegpermissies()->attach($vogel->id, array("opmerkingen"=>(Input::get("opmerkingen-" . $vogel->id) == "" ? null : Input::get("opmerkingen-" . $vogel->id))));
 					}
 				}
-				$gebruiker->vliegpermissies()->sync($permissies);
 			}
 		}
 		

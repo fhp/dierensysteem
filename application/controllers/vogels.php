@@ -171,13 +171,12 @@ class Vogels_Controller extends Base_Controller {
 				if(!Auth::user()->admin) {
 					return Redirect::back();
 				}
-				$permissies = array();
+				$vogel->vliegpermissies()->delete();
 				foreach(Gebruiker::all() as $gebruiker) {
 					if(Input::has("gebruiker-" . $gebruiker->id)) {
-						$permissies[] = $gebruiker->id;
+						$vogel->vliegpermissies()->attach($gebruiker->id, array("opmerkingen"=>(Input::get("opmerkingen-" . $gebruiker->id) == "" ? null : Input::get("opmerkingen-" . $gebruiker->id))));
 					}
 				}
-				$vogel->vliegpermissies()->sync($permissies);
 			}
 		}
 		

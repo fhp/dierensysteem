@@ -42,7 +42,17 @@ class Vogel extends Eloquent {
 	
 	public function vliegpermissies()
 	{
-		return $this->has_many_and_belongs_to("Gebruiker", "vliegpermissies");
+		return $this->has_many_and_belongs_to("Gebruiker", "vliegpermissies")->with('opmerkingen');
+	}
+	
+	public function vliegpermissie($gebruiker_id)
+	{
+		return DB::table('vliegpermissies')->where_vogel_id_and_gebruiker_id($this->id, $gebruiker_id)->count() == 1;
+	}
+	
+	public function vliegpermissieOpmerkingen($gebruiker_id)
+	{
+		return DB::table('vliegpermissies')->where_vogel_id_and_gebruiker_id($this->id, $gebruiker_id)->only("opmerkingen");
 	}
 	
 	public function gewicht($datum = null)

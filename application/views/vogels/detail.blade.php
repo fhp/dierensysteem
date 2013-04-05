@@ -11,14 +11,18 @@
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
 	<dt>Categorie</dt><dd>{{ $vogel->categorie->naam }}</dd>
 	@if($vogel->eigenaar !== null)
-	<dt>Eigenaar</dt><dd>{{ $vogel->eigenaar->naam }}</dd>
+	<dt>Eigenaar</dt><dd>{{ HTML::link_to_route("gebruikerDetail", $vogel->eigenaar->naam, array($vogel->eigenaar->id, $vogel->eigenaar->naam)) }}</dd>
 	@endif
 <?php
 $gebruikers = $vogel->vliegpermissies;
 $gebruikerCount = count($gebruikers);
 $magGevlogenWordenDoorHtml = "";
 foreach($gebruikers as $gebruiker) {
-	$magGevlogenWordenDoorHtml .= "<a href=\"" . URL::to_route("gebruikerDetail", array($gebruiker->id, $gebruiker->naam)) . "\">" . $gebruiker->thumbnail_image(null, "xsmall") . " " . $gebruiker->naam . "</a><br>";
+	$magGevlogenWordenDoorHtml .= "<a href=\"" . URL::to_route("gebruikerDetail", array($gebruiker->id, $gebruiker->naam)) . "\">" . $gebruiker->thumbnail_image(null, "xsmall") . " " . $gebruiker->naam . "</a>";
+	if($gebruiker->pivot->opmerkingen !== null) {
+		$magGevlogenWordenDoorHtml .= " (" . $gebruiker->pivot->opmerkingen . ")";
+	}
+	$magGevlogenWordenDoorHtml .= "<br>";
 }
 ?>
 	<dt>Mag gevlogen worden door</dt><dd>{{ HTML::popup($gebruikerCount . ($gebruikerCount == 1 ? " persoon" : " personen"), $magGevlogenWordenDoorHtml, "$vogel->naam mag gevlogen worden door:") }}</dd>
@@ -236,9 +240,15 @@ $(function() {
 	</div>
 	<div class="modal-body">
 		<p>{{ $vogel->naam }} mag gevlogen worden door:</p>
-		@foreach(Gebruiker::all() as $gebruiker)
-			{{ Form::labelled_checkbox('gebruiker-' . $gebruiker->id, $gebruiker->naam, '1', count($gebruiker->vliegpermissies()->where_vogel_id($vogel->id)->get()) == 1) }}
+		<table>
+		<tr><th>Naam</th><th>Opmerkingen</th></tr>
+		@foreach(Gebruiker::order_by("naam", "asc")->get() as $gebruiker)
+			<tr>
+			<td>{{ Form::labelled_checkbox('gebruiker-' . $gebruiker->id, $gebruiker->naam, '1', $vogel->vliegpermissie($gebruiker->id)) }}</td>
+			<td>{{ Form::text('opmerkingen-' . $gebruiker->id, $vogel->vliegpermissieOpmerkingen($gebruiker->id)) }}</td>
+			</tr>
 		@endforeach
+		</table>
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>
