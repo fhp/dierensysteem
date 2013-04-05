@@ -144,6 +144,10 @@ $(function() {
 		<h3>Nieuwe verslag</h3>
 	</div>
 	<div class="modal-body">
+		@if(Auth::user()->admin)
+		{{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::where("nonactief", "=", 0)->order_by("naam", "asc")->lists("naam", "id"), Auth::user()->id)) }}
+		{{ Form::control_group(Form::label('datum', 'Datum'), Form::text('datum', date("d-m-Y"), array("class"=>"datepicker"))) }}
+		@endif
 		{{ Form::control_group(Form::label('tekst', 'Informatie:'), Form::textarea('tekst')) }}
 	</div>
 	<div class="modal-footer">

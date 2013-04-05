@@ -25,8 +25,13 @@ class Dagboek_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesVerslag)->passes()) {
 					$dagverslag = new Dagverslag();
 					$dagverslag->tekst = Input::get("tekst");
-					$dagverslag->gebruiker_id = Auth::user()->id;
-					$dagverslag->datum = new DateTime("today");
+					if(Auth::user()->admin) {
+						$dagverslag->gebruiker_id = Input::get("gebruiker");
+						$dagverslag->datum = new DateTime(Input::get("datum"));
+					} else {
+						$dagverslag->gebruiker_id = Auth::user()->id;
+						$dagverslag->datum = new DateTime("today");
+					}
 					$dagverslag->save();
 				}
 			}

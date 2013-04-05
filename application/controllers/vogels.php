@@ -110,8 +110,13 @@ class Vogels_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesVerslag)->passes()) {
 					$verslag = new Vogelverslag();
 					$verslag->tekst = Input::get("tekst");
-					$verslag->datum = new DateTime("today");
-					$verslag->gebruiker_id = Auth::user()->id;
+					if(Auth::user()->admin) {
+						$verslag->gebruiker_id = Input::get("gebruiker");
+						$verslag->datum = new DateTime(Input::get("datum"));
+					} else {
+						$verslag->gebruiker_id = Auth::user()->id;
+						$verslag->datum = new DateTime("today");
+					}
 					$vogel->verslagen()->insert($verslag);
 				}
 			}
