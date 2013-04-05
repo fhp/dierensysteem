@@ -18,12 +18,10 @@ class Vogels_Controller extends Base_Controller {
 	public $rulesVerslag = array(
 		"tekst"=>"required",
 	);
+	
 	public $rulesVerslagBewerk = array(
 		"tekst"=>"required",
-		"datum"=>"required",
-		"gebruiker"=>"required|exists:gebruikers,id"
 	);
-	
 	
 	public $rulesAlert = array(
 	);
@@ -190,7 +188,7 @@ class Vogels_Controller extends Base_Controller {
 	public function post_verslag($id)
 	{
 		$verslag = Vogelverslag::find($id);
-		if(!(Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum) == new DateTime("today"))))) {
+		if(!(Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum_edit) == new DateTime("today"))))) {
 			return Redirect::back();
 		}
 		if(Input::has("action")) {

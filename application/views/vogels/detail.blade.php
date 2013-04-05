@@ -56,7 +56,7 @@ $(function() {
 		<?php if($verslag->datum != $vorigeDatum) { ?>
 			<h4 class="media-heading">{{$verslag->datum}}</h4>
 		<?php $vorigeDatum = $verslag->datum; } ?>
-		<?php $magEditen = Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker->id && (new DateTime($verslag->datum) == new DateTime("today"))); ?>
+		<?php $magEditen = Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker->id && (new DateTime($verslag->datum_edit) == new DateTime("today"))); ?>
 		<li class="media {{ $magEditen ? "hover-edit" : "" }}">
 			<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($verslag->gebruiker->id, $verslag->gebruiker->gebruikersnaam)) }}">
 				{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
