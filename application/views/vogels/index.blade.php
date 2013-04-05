@@ -22,6 +22,9 @@
 			<h4 class="media-heading {{ $vogel->alert == "" ? "" : "vogel-alert" }}">
 				<a href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">{{$vogel->naam}}</a>
 			</h4>
+			@if($vogel->geschreven())
+			<i class="icon icon-ok"></i>
+			@endif
 			{{$vogel->soort->naam}}
 		</div>
 	</li>

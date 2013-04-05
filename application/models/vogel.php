@@ -101,6 +101,14 @@ class Vogel extends Eloquent {
 		}
 	}
 	
+	public function geschreven($datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		return Vogelverslag::where_datum_and_vogel_id($datum, $this->id)->count() > 0;
+	}
+	
 	public function thumbnail( $field=null, $size=null )
 	{
 		return Thumbnailer::get( $this, $field, $size );
