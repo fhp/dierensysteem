@@ -57,6 +57,7 @@ class Vogels_Controller extends Base_Controller {
 					$vogel->categorie_id = Input::get("categorie");
 					$vogel->naam = Input::get("naam");
 					$vogel->geslacht = Input::get("geslacht");
+					$vogel->wegen = Input::has("wegen");
 					if(Input::has("geboortedatum")) {
 						$vogel->geboortedatum = new DateTime(Input::get("geboortedatum"));
 					}
@@ -141,6 +142,7 @@ class Vogels_Controller extends Base_Controller {
 						$eigenaar = Gebruiker::find(Input::get("eigenaar"));
 						$vogel->eigenaar_id = $eigenaar->id;
 					}
+					$vogel->wegen = Input::has("wegen");
 					$vogel->informatie = Input::get("informatie");
 					$vogel->save();
 				}

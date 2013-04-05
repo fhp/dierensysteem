@@ -44,14 +44,9 @@
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
 		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf"))) }}
-		<?php
-		$soorten = array();
-		foreach(Soort::all() as $soort) {
-			$soorten[$soort->id] = $soort->naam;
-		}
-		?>
-		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', $soorten)) }}
+		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', Soort::lists("naam", "id"))) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', null, array("class"=>"datepicker"))) }}
+		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', true)) }}
 		{{ Form::control_group(Form::label('foto', 'Foto'), Form::file('foto')) }}
 	</div>
 	<div class="modal-footer">

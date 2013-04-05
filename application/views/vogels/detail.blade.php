@@ -123,6 +123,7 @@ $(function() {
 		?>
 		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf"), $vogel->geslacht)) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', $gebroortedatum, array("class"=>"datepicker"))) }}
+		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', $vogel->wegen)) }}
 		{{ Form::control_group(Form::label('eigenaar', 'Eigenaar:'), Form::select('eigenaar', $eigenaren, $vogel->eigenaar_id === null ? 0 : $vogel->eigenaar_id)) }}
 		{{ CKEditor::make('informatie', $vogel->informatie) }}
 	</div>
