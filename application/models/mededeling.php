@@ -16,4 +16,11 @@ class Mededeling extends Eloquent {
 		
 		return $dag[date("w", $time)] . " " . date('d-m-Y', $time);
 	}
+	
+	public function get_datum_edit()
+	{
+		$time = strtotime($this->get_attribute('datum'));
+		
+		return date('d-m-Y', $time);
+	}
 }

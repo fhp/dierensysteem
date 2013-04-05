@@ -19,6 +19,30 @@ div.hover-div:hover .hover-text {
 	z-index: 2;
 }
 
+
+.hover-edit {
+	display: block;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.hover-edit:hover .hover-edit-tools {
+	display: block;        
+}
+
+.hover-edit-tools {
+	display: none;
+	clear: both;
+	margin-right: 5px;
+	text-align: right;
+	color: white;
+	width: 100%;
+	top: 0;
+	position: absolute;
+	z-index: 2;
+}
+
+
 .modal.modal-large {
 	margin-left: -450px;
 	width: 900px;

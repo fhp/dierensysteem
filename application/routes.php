@@ -2,6 +2,7 @@
 
 Route::group(array('before' => 'auth'), function() {
 	Route::any('/', array("as"=>"home", 'uses'=>'home@index'));
+	Route::any('mededelingen/(:num)', array("as"=>"mededelingenEdit", 'uses'=>'home@mededelingen'));
 	
 	Route::any('dagboek', array("as"=>"dagboek", 'uses'=>'dagboek@index'));
 	

@@ -12,13 +12,18 @@
 	<?php if($mededeling->datum != $vorigeDatum) { ?>
 		<h4 class="media-heading">{{$mededeling->datum}}</h4>
 	<?php $vorigeDatum = $mededeling->datum; } ?>
-	<li class="media">
+	<li class="media {{ Auth::user()->admin ? "hover-edit" : "" }}">
 		<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($mededeling->gebruiker->id, $mededeling->gebruiker->gebruikersnaam)) }}">
 			{{ $mededeling->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 		</a>
 		<div class="media-body">
 			<strong>{{$mededeling->gebruiker->naam}}</strong>: {{nl2br($mededeling->tekst)}}
 		</div>
+		@if(Auth::user()->admin)
+		<div class="hover-edit-tools">
+			<a href="{{ URL::to_route("mededelingenEdit", array($mededeling->id)) }}"><i class="icon icon-pencil"></i></a>
+		</div>
+		@endif
 	</li>
 @endforeach
 </ul>
