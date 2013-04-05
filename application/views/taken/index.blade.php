@@ -71,7 +71,7 @@ if($lijst == "dag") {
 ?>
 @foreach(Taak::where_actief(1)->where_frequentie($frequentie)->order_by("naam")->get() as $taak)
 <tr>
-	<td>{{ $taak->naam }}</td>
+	<td>{{ HTML::popup($taak->naam, $taak->beschrijving, $taak->naam) }}</td>
 @foreach($geschiedenis as $dag)
 	<td>
 	@foreach($dag as $taakuitvoering)
