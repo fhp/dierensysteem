@@ -60,28 +60,22 @@
 @endif
 
 <h3>{{ HTML::link_to_route("taken", "Taken") }}</h3>
-<?php $taken = Taak::takenVandaag(); ?>
-@if(count($taken) > 0)
-<ul>
-@foreach($taken as $taak)
-	<?php
+<?php
+$taken = Taak::takenVandaag();
+$output = "";
+foreach($taken as $taak) {
 	$gedaan = count($taak->uitvoerders($today)) > 0;
-	?>
-	<li>
-	@if($gedaan)
-		<del>
-	@endif
-	{{ HTML::popup($taak->naam, $taak->beschrijving, $taak->naam) }}
-	@if($gedaan)
-		</del>
-	@endif
-	</li>
-@endforeach
-</ul>
-@else
-	<p>Er zijn geen taken geplanned voor vandaag.</p>
-@endif
-
+	if($gedaan) {
+		continue;
+	}
+	$output .= "<li>" . HTML::popup($taak->naam, $taak->beschrijving, $taak->naam) . "</li>";
+}
+if($output != "") {
+	echo "<ul>" . $output . "</ul>";
+} else {
+	echo "<p>Alle taken zijn gedaan voor vandaag.</p>";
+}
+?>
 </div>
 
 @if(Auth::user()->admin)
