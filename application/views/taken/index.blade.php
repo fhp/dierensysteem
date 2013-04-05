@@ -57,20 +57,33 @@
 @endif
 <table class="weekcalendar table">
 <tr>
+<th>Taak</th>
 @foreach($dagen as $dag)
 	<th>{{ $dag }}</th>
 @endforeach
 </tr>
+<?php
+if($lijst == "dag") {
+	$frequentie = 1;
+} else if($lijst == "week") {
+	$frequentie = 7;
+}
+?>
+@foreach(Taak::where_actief(1)->where_frequentie($frequentie)->order_by("naam")->get() as $taak)
 <tr>
+	<td>{{ $taak->naam }}</td>
 @foreach($geschiedenis as $dag)
 	<td>
-	@foreach($dag as $taak)
-		<?php $content = ""; foreach($taak["uitvoerders"] as $uitvoerder) { $content .= $uitvoerder->naam . "<br>"; } ?>
-		{{ HTML::popup($taak["taak"]->naam, $content, $taak["taak"]->naam) }} <br>
+	@foreach($dag as $taakuitvoering)
+		@if($taakuitvoering["taak"]->id == $taak->id)
+		<?php $content = ""; foreach($taakuitvoering["uitvoerders"] as $uitvoerder) { $content .= $uitvoerder->naam . "<br>"; } ?>
+		{{ HTML::popup("<i class=\"icon icon-ok\"></i> " . (count($taakuitvoering["uitvoerders"]) == 1 ? "1 persoon" : count($taakuitvoering["uitvoerders"]) . " personen"), $content, $taakuitvoering["taak"]->naam) }} <br>
+		@endif
 	@endforeach
 	</td>
 @endforeach
 </tr>
+@endforeach
 </table>
 
 <?php

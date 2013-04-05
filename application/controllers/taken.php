@@ -44,7 +44,7 @@ class Taken_Controller extends Base_Controller {
 		
 		$geschiedenis = array();
 		$dagNaam = array("Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag");
-		for($i = 7; $i >= 1; $i--) {
+		for($i = 6; $i >= 0; $i--) {
 			$datum = new DateTime("$jaar-$maand-$dag");
 			$datum->sub(new DateInterval("P{$i}D"));
 			$dagen[$i] = $dagNaam[$datum->format("w")] . " " . $datum->format('d-m-Y');
