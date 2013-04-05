@@ -189,16 +189,18 @@ class Vogels_Controller extends Base_Controller {
 	
 	public function post_verslag($id)
 	{
-		if(!Auth::user()->admin) {
+		$verslag = Vogelverslag::find($id);
+		if(!(Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum) == new DateTime("today"))))) {
 			return Redirect::back();
 		}
-		$verslag = Vogelverslag::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "bewerk") {
 				if(Validator::make(Input::all(), $this->rulesVerslagBewerk)->passes()) {
 					$verslag->tekst = Input::get("tekst");
-					$verslag->gebruiker_id = Input::get("gebruiker");
-					$verslag->datum = new DateTime(Input::get("datum"));
+					if(Auth::user()->admin) {
+						$verslag->gebruiker_id = Input::get("gebruiker");
+						$verslag->datum = new DateTime(Input::get("datum"));
+					}
 					$verslag->save();
 				}
 			}
