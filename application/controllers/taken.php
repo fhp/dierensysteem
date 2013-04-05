@@ -138,4 +138,14 @@ class Taken_Controller extends Base_Controller {
 		}
 		return Redirect::to_route('taken');
 	}
+	
+	public function get_verwijderUitvoering($id)
+	{
+		if(!Auth::user()->admin) {
+			return Redirect::back();
+		}
+		$uitvoering = Taakuitvoering::find($id);
+		$uitvoering->delete();
+		return Redirect::to_route('taken');
+	}
 }

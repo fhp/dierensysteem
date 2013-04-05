@@ -76,7 +76,14 @@ if($lijst == "dag") {
 	<td>
 	@foreach($dag as $taakuitvoering)
 		@if($taakuitvoering["taak"]->id == $taak->id)
-		<?php $content = ""; foreach($taakuitvoering["uitvoerders"] as $uitvoerder) { $content .= $uitvoerder->naam . "<br>"; } ?>
+		<?php
+		$content = ""; foreach($taakuitvoering["uitvoerders"] as $uitvoerder) {
+			if(Auth::user()->admin) {
+				$content .= "<a href=\"" . URL::to_route("taakVerwijderUitvoering", array(Taakuitvoering::where_gebruiker_id_and_taak_id($uitvoerder->id, $taak->id)->only("id"))) . "\"><i class=\"icon icon-trash\"></i></a> ";
+			}
+			$content .= $uitvoerder->naam . "<br>";
+		}
+		?>
 		{{ HTML::popup("<i class=\"icon icon-ok\"></i> " . (count($taakuitvoering["uitvoerders"]) == 1 ? "1 persoon" : count($taakuitvoering["uitvoerders"]) . " personen"), $content, $taakuitvoering["taak"]->naam) }} <br>
 		@endif
 	@endforeach

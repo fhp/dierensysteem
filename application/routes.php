@@ -35,7 +35,8 @@ Route::group(array('before' => 'auth'), function() {
 	Route::get('agenda/week', array("as"=>"agendaWeek", 'uses'=>'agenda@week'));
 	Route::get('agenda', array("as"=>"agenda", 'uses'=>'agenda@week'));
 	
-	Route::any('taken/gedaan/(:num)', array("as"=>"taakGedaan", 'uses'=>'taken@gedaan'));
+	Route::get('taken/verwijder/(:num)', array("as"=>"taakVerwijderUitvoering", 'uses'=>'taken@verwijderUitvoering'));
+	Route::get('taken/gedaan/(:num)', array("as"=>"taakGedaan", 'uses'=>'taken@gedaan'));
 	Route::any('taken/bewerk/(:num)', array("as"=>"taakBewerk", 'uses'=>'taken@bewerk'));
 	Route::any('taken/(:any)/(:num)/(:num)/(:num)', array("as"=>"taken", 'uses'=>'taken@index'));
 	Route::any('taken/(:any)', array("as"=>"taken", 'uses'=>'taken@index'));
