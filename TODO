@@ -1,3 +1,13 @@
+Kleine dingen en fixes:
+- Per vogel aangeven of deze gewogen moet worden
+- welke prullenbak op homepage
+- gedane taken als tabel?
+- edit/delete eigen dagboek / vogelverslag entiries van die dag (admin altijd)
+- admin: schrijf verslagen voor elke datum / gebruiker
+- admin: verwijder taakuitvoeringen
+- opmerkingen bij mogen vliegen van vogels
+
+Uitbreidingen:
 - vogels evalueren met puntensysteem, voor alle vogels die je hebt zien vliegen
 - hoeveelheid eten van een vogel bijhouden (wat te doen met kuiken / hamster / duif / etc?)
 - grafiek gegeneren van hoeveelheid eten en vliegprestaties

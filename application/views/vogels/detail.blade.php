@@ -56,13 +56,19 @@ $(function() {
 		<?php if($verslag->datum != $vorigeDatum) { ?>
 			<h4 class="media-heading">{{$verslag->datum}}</h4>
 		<?php $vorigeDatum = $verslag->datum; } ?>
-		<li class="media">
+		<?php $magEditen = Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker->id && (new DateTime($verslag->datum) == new DateTime("today"))); ?>
+		<li class="media {{ $magEditen ? "hover-edit" : "" }}">
 			<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($verslag->gebruiker->id, $verslag->gebruiker->gebruikersnaam)) }}">
 				{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 			</a>
 			<div class="media-body">
 				<strong>{{$verslag->gebruiker->naam}}</strong>: {{$verslag->tekst}}
 			</div>
+			@if($magEditen)
+			<div class="hover-edit-tools">
+				<a href="{{ URL::to_route("vogelVerslagEdit", array($verslag->id)) }}"><i class="icon icon-pencil"></i></a>
+			</div>
+			@endif
 		</li>
 	@endforeach
 	</ul>

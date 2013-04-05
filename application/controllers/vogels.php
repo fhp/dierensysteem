@@ -18,6 +18,12 @@ class Vogels_Controller extends Base_Controller {
 	public $rulesVerslag = array(
 		"tekst"=>"required",
 	);
+	public $rulesVerslagBewerk = array(
+		"tekst"=>"required",
+		"datum"=>"required",
+		"gebruiker"=>"required|exists:gebruikers,id"
+	);
+	
 	
 	public $rulesAlert = array(
 	);
@@ -171,5 +177,36 @@ class Vogels_Controller extends Base_Controller {
 		}
 		
 		return Redirect::back();
+	}
+	
+	public function get_verslag($id)
+	{
+		$verslag = Vogelverslag::find($id);
+		return View::make("vogels.verslag")
+			->with("rulesVerslagBewerk", $this->rulesVerslagBewerk)
+			->with("verslag", $verslag);
+	}
+	
+	public function post_verslag($id)
+	{
+		if(!Auth::user()->admin) {
+			return Redirect::back();
+		}
+		$verslag = Vogelverslag::find($id);
+		if(Input::has("action")) {
+			if(Input::get("action") == "bewerk") {
+				if(Validator::make(Input::all(), $this->rulesVerslagBewerk)->passes()) {
+					$verslag->tekst = Input::get("tekst");
+					$verslag->gebruiker_id = Input::get("gebruiker");
+					$verslag->datum = new DateTime(Input::get("datum"));
+					$verslag->save();
+				}
+			}
+			if(Input::get("action") == "verwijder") {
+				$verslag->delete();
+			}
+		}
+		
+		return Redirect::to_route("vogelDetail", array($verslag->vogel->id, $verslag->vogel->naam));
 	}
 }
