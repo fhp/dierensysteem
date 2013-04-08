@@ -31,7 +31,7 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span2 {{ Request::route()->is('home') ? '' : 'hidden-phone' }}">
-				@if(Auth::check())
+				@if(Auth::check() || fcGast())
 					@include('menu')
 				@endif
 			</div>

@@ -38,7 +38,7 @@ class Gebruikers_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
@@ -79,7 +79,7 @@ class Gebruikers_Controller extends Base_Controller {
 		$gebruiker = Gebruiker::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "foto") {
-				if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+				if(!(isAdmin() || Auth::user()->id == $id)) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesFoto)->passes()) {
@@ -88,7 +88,7 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "informatie") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
@@ -101,7 +101,7 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "biografie") {
-				if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+				if(!(isAdmin() || Auth::user()->id == $id)) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesBiografie)->passes()) {
@@ -110,7 +110,7 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "wachtwoord") {
-				if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+				if(!(isAdmin() || Auth::user()->id == $id)) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesWachtwoord)->passes()) {
@@ -119,7 +119,7 @@ class Gebruikers_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "vliegpermissies") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				$gebruiker->vliegpermissies()->delete();
@@ -169,7 +169,7 @@ class Gebruikers_Controller extends Base_Controller {
 		if($maand === null) {
 			$maand = date("m");
 		}
-		if(!(Auth::user()->admin || Auth::user()->id == $id)) {
+		if(!(isAdmin() || Auth::user()->id == $id)) {
 			return Response::error('404');
 		}
 		$gebruiker = Gebruiker::find($id);

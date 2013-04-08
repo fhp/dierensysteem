@@ -56,19 +56,21 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 <tr>
 @foreach($dagenData as $dagData)
 	<td>
-	@if(Auth::user()->admin && $dagData["datum"] >= new DateTime("today"))
+	@if(isAdmin() && $dagData["datum"] >= new DateTime("today"))
 		<p><a href="#evenementModal" role="button" data-toggle="modal" onClick="$('#evenementModal input#datum').val('{{ $dagData["datum"]->format("Y-m-d") }}')">Evenement toevoegen</a></p>
 	@endif
-	@if(Auth::user()->admin)
+	@if(isAdmin())
 		<p>{{ HTML::agendaAanmeldenAdmin($dagData["datum"]) }}</p>
 	@endif
-	@if(Auth::user()->isAanwezig($dagData["datum"]))
-		@if($dagData["datum"] >= new DateTime("today +4 days"))
-			{{ HTML::postLink("afmelden", URL::to_route('agendaAfmelden', agendaDatumNaarArray($dagData["datum"]))) }}
-		@endif
-	@else
-		@if($dagData["datum"] >= new DateTime("today"))
-			{{ HTML::postLink("aanmelden", URL::to_route('agendaAanmelden', agendaDatumNaarArray($dagData["datum"]))) }}
+	@if(Auth::check())
+		@if(Auth::user()->isAanwezig($dagData["datum"]))
+			@if($dagData["datum"] >= new DateTime("today +4 days"))
+				{{ HTML::postLink("afmelden", URL::to_route('agendaAfmelden', agendaDatumNaarArray($dagData["datum"]))) }}
+			@endif
+		@else
+			@if($dagData["datum"] >= new DateTime("today"))
+				{{ HTML::postLink("aanmelden", URL::to_route('agendaAanmelden', agendaDatumNaarArray($dagData["datum"]))) }}
+			@endif
 		@endif
 	@endif
 	</td>

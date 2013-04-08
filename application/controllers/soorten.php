@@ -23,7 +23,7 @@ class Soorten_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
@@ -52,7 +52,7 @@ class Soorten_Controller extends Base_Controller {
 		$soort = Soort::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "informatie") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {

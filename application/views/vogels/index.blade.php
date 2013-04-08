@@ -32,7 +32,7 @@
 </ul>
 
 
-@if(Auth::user()->admin)
+@if(isAdmin())
 <p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe vogel</a></p>
 
 <div id="nieuwevogelModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">

@@ -174,3 +174,4 @@ if ( ! Request::cli() and Config::get('session.driver') !== '')
 }
 
 require_once("libraries/macros.php");
+require_once("libraries/util.php");

@@ -24,6 +24,6 @@ class Login_Controller extends Base_Controller {
 	public function get_logout()
 	{
 		Auth::logout();
-		return Redirect::to_route('login');
+		return Redirect::to_route('home');
 	}
 }

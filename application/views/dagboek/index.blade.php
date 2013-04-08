@@ -3,7 +3,9 @@
 @section('content')
 <h1>Dagboek</h1>
 
+@if(Auth::check())
 <p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuw dagverslag</a></p>
+@endif
 
 <ul class="media-list">
 <?php $vorigeDatum = ""; ?>
@@ -11,7 +13,7 @@
 	<?php if($verslag->datum != $vorigeDatum) { ?>
 		<h4 class="media-heading">{{$verslag->datum}}</h4>
 	<?php $vorigeDatum = $verslag->datum; } ?>
-	<?php $magEditen = Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker->id && (new DateTime($verslag->datum_edit) == new DateTime("today"))); ?>
+	<?php $magEditen = isAdmin() || (Auth::check() && Auth::user()->id == $verslag->gebruiker->id && (new DateTime($verslag->datum_edit) == new DateTime("today"))); ?>
 	<li class="media {{ $magEditen ? "hover-edit" : "" }}">
 		<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($verslag->gebruiker->id, $verslag->gebruiker->gebruikersnaam)) }}">
 			{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
@@ -28,6 +30,7 @@
 @endforeach
 </ul>
 
+@if(Auth::check())
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesVerslag) }}
@@ -37,7 +40,7 @@
 		<h3>Nieuw dagverslag</h3>
 	</div>
 	<div class="modal-body">
-		@if(Auth::user()->admin)
+		@if(isAdmin())
 		{{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::where("nonactief", "=", 0)->order_by("naam", "asc")->lists("naam", "id"), Auth::user()->id)) }}
 		{{ Form::control_group(Form::label('datum', 'Datum'), Form::text('datum', date("d-m-Y"), array("class"=>"datepicker"))) }}
 		@endif
@@ -49,6 +52,6 @@
 	</div>
 	{{ Form::close() }}
 </div>
-
+@endif
 
 @endsection

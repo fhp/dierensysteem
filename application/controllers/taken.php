@@ -80,7 +80,7 @@ class Taken_Controller extends Base_Controller {
 		
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuweTaak") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesNieuweTaak)->passes()) {
@@ -107,7 +107,7 @@ class Taken_Controller extends Base_Controller {
 	
 	public function post_bewerk($id)
 	{
-		if(!Auth::user()->admin) {
+		if(!isAdmin()) {
 			return Redirect::back();
 		}
 		$taak = Taak::find($id);
@@ -141,7 +141,7 @@ class Taken_Controller extends Base_Controller {
 	
 	public function get_verwijderUitvoering($id)
 	{
-		if(!Auth::user()->admin) {
+		if(!isAdmin()) {
 			return Redirect::back();
 		}
 		$uitvoering = Taakuitvoering::find($id);

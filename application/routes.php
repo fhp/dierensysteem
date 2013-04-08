@@ -78,6 +78,9 @@ Route::filter('csrf', function()
 
 Route::filter('auth', function()
 {
+	if(fcGast() && Request::method() == "GET") {
+		return;
+	}
 	if (Auth::guest()) return Redirect::to('login');
 	if (Hash::check('', Auth::user()->wachtwoord)) return Redirect::to('veranderWachtwoord');
 });

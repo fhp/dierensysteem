@@ -9,7 +9,7 @@
 @endforeach
 </ul>
 
-@if(Auth::user()->admin)
+@if(isAdmin())
 <p><a href="#nieuwegebruikerModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe gebruiker</a></p>
 
 <div id="nieuwegebruikerModal" class="modal hide fade" tabindex="-1" role="dialog">

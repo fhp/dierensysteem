@@ -27,7 +27,7 @@ HTML::macro("agendaEvenement", function($evenement) {
 	
 	$content = $beschrijving;
 	
-	if(Auth::user()->admin) {
+	if(isAdmin()) {
 		$content .= "<p>" . HTML::postLink("Evenement verwijderen", URL::to_route("agendaDeleteEvenement", $evenement->id));
 	}
 	
@@ -35,7 +35,7 @@ HTML::macro("agendaEvenement", function($evenement) {
 });
 
 HTML::macro("agendaAanwezigheid", function($aanwezigheid) {
-	if(Auth::user()->admin) {
+	if(isAdmin()) {
 		$content = HTML::postLink("afmelden", URL::to_route("agendaAfmeldenAdmin", agendaDatumNaarArray($aanwezigheid->datum, $aanwezigheid->gebruiker->id)));
 		return HTML::popup($aanwezigheid->gebruiker->thumbnail_image(null, "xsmall") . " " . $aanwezigheid->gebruiker->naam, $content, $aanwezigheid->gebruiker->naam) . "<br>";
 	} else {

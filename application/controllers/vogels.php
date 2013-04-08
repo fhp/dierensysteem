@@ -49,7 +49,7 @@ class Vogels_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "nieuw") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesNieuw)->passes()) {
@@ -98,7 +98,7 @@ class Vogels_Controller extends Base_Controller {
 		$vogel = Vogel::find($id);
 		if(Input::has("action")) {
 			if(Input::get("action") == "foto") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesFoto)->passes()) {
@@ -110,7 +110,7 @@ class Vogels_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesVerslag)->passes()) {
 					$verslag = new Vogelverslag();
 					$verslag->tekst = Input::get("tekst");
-					if(Auth::user()->admin) {
+					if(isAdmin()) {
 						$verslag->gebruiker_id = Input::get("gebruiker");
 						$verslag->datum = new DateTime(Input::get("datum"));
 					} else {
@@ -121,7 +121,7 @@ class Vogels_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "alert") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesAlert)->passes()) {
@@ -130,7 +130,7 @@ class Vogels_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "informatie") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
@@ -153,7 +153,7 @@ class Vogels_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "categorie") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesCategorie)->passes()) {
@@ -168,7 +168,7 @@ class Vogels_Controller extends Base_Controller {
 				}
 			}
 			if(Input::get("action") == "vliegpermissies") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				$vogel->vliegpermissies()->delete();
@@ -194,14 +194,14 @@ class Vogels_Controller extends Base_Controller {
 	public function post_verslag($id)
 	{
 		$verslag = Vogelverslag::find($id);
-		if(!(Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum_edit) == new DateTime("today"))))) {
+		if(!(isAdmin() || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum_edit) == new DateTime("today"))))) {
 			return Redirect::back();
 		}
 		if(Input::has("action")) {
 			if(Input::get("action") == "bewerk") {
 				if(Validator::make(Input::all(), $this->rulesVerslagBewerk)->passes()) {
 					$verslag->tekst = Input::get("tekst");
-					if(Auth::user()->admin) {
+					if(isAdmin()) {
 						$verslag->gebruiker_id = Input::get("gebruiker");
 						$verslag->datum = new DateTime(Input::get("datum"));
 					}

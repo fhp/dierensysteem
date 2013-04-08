@@ -4,7 +4,9 @@
 <div class="row">
 <div class="span6">
 <h1>Welkom</h1>
+@if(Auth::check())
 @render("home.inklokken")
+@endif
 <h3>Mededelingen</h3>
 <ul class="media-list">
 <?php $vorigeDatum = ""; ?>
@@ -12,14 +14,14 @@
 	<?php if($mededeling->datum != $vorigeDatum) { ?>
 		<h4 class="media-heading">{{$mededeling->datum}}</h4>
 	<?php $vorigeDatum = $mededeling->datum; } ?>
-	<li class="media {{ Auth::user()->admin ? "hover-edit" : "" }}">
+	<li class="media {{ isAdmin() ? "hover-edit" : "" }}">
 		<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($mededeling->gebruiker->id, $mededeling->gebruiker->gebruikersnaam)) }}">
 			{{ $mededeling->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 		</a>
 		<div class="media-body">
 			<strong>{{$mededeling->gebruiker->naam}}</strong>: {{nl2br($mededeling->tekst)}}
 		</div>
-		@if(Auth::user()->admin)
+		@if(isAdmin())
 		<div class="hover-edit-tools">
 			<a href="{{ URL::to_route("mededelingenEdit", array($mededeling->id)) }}"><i class="icon icon-pencil"></i></a>
 		</div>
@@ -28,7 +30,7 @@
 @endforeach
 </ul>
 
-@if(Auth::user()->admin)
+@if(isAdmin())
 <p><a href="#mededelingModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe mededeling</a></p>
 @endif
 
@@ -43,7 +45,7 @@
 @empty
 	<p>Er is niemand aanwezig vandaag.</p>
 @endforelse
-@if(Auth::user()->admin)
+@if(isAdmin())
 	{{ HTML::agendaAanmeldenAdmin($today) }}
 @endif
 
@@ -78,7 +80,7 @@ if($output != "") {
 ?>
 </div>
 
-@if(Auth::user()->admin)
+@if(isAdmin())
 <div id="mededelingModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesMededeling) }}

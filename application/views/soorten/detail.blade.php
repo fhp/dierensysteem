@@ -12,7 +12,7 @@
 		
 		<h2>Notities</h2>
 		{{ $soort->informatie }}
-		@if(Auth::user()->admin)
+		@if(isAdmin())
 		<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
 		@endif
 	</div>
@@ -26,7 +26,7 @@
 	</div>
 </div>
 
-@if(Auth::user()->admin)
+@if(isAdmin())
 <div id="informatieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesInformatie) }}

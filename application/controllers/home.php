@@ -22,7 +22,7 @@ class Home_Controller extends Base_Controller {
 	{
 		if(Input::has("action")) {
 			if(Input::get("action") == "mededeling") {
-				if(!Auth::user()->admin) {
+				if(!isAdmin()) {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesMededeling)->passes()) {
@@ -48,7 +48,7 @@ class Home_Controller extends Base_Controller {
 	
 	public function post_mededelingen($id)
 	{
-		if(!Auth::user()->admin) {
+		if(!isAdmin()) {
 			return Redirect::back();
 		}
 		$mededeling = Mededeling::find($id);

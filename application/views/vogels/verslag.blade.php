@@ -6,7 +6,7 @@
 {{ Form::rules($rulesVerslagBewerk) }}
 {{ Form::hidden("action", "bewerk") }}
 <h3>Bewerk verslag</h3>
-@if(Auth::user()->admin)
+@if(isAdmin())
 {{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::where("nonactief", "=", 0)->order_by("naam", "asc")->lists("naam", "id"), $verslag->gebruiker_id)) }}
 {{ Form::control_group(Form::label('datum', 'Datum'), Form::text('datum', $verslag->datum_edit, array("class"=>"datepicker"))) }}
 @endif

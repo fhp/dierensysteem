@@ -25,7 +25,7 @@ class Dagboek_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesVerslag)->passes()) {
 					$dagverslag = new Dagverslag();
 					$dagverslag->tekst = Input::get("tekst");
-					if(Auth::user()->admin) {
+					if(isAdmin()) {
 						$dagverslag->gebruiker_id = Input::get("gebruiker");
 						$dagverslag->datum = new DateTime(Input::get("datum"));
 					} else {
@@ -51,14 +51,14 @@ class Dagboek_Controller extends Base_Controller {
 	public function post_verslag($id)
 	{
 		$verslag = Dagverslag::find($id);
-		if(!(Auth::user()->admin || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum_edit) == new DateTime("today"))))) {
+		if(!(isAdmin() || (Auth::user()->id == $verslag->gebruiker_id && (new DateTime($verslag->datum_edit) == new DateTime("today"))))) {
 			return Redirect::back();
 		}
 		if(Input::has("action")) {
 			if(Input::get("action") == "bewerk") {
 				if(Validator::make(Input::all(), $this->rulesVerslagBewerk)->passes()) {
 					$verslag->tekst = Input::get("tekst");
-					if(Auth::user()->admin) {
+					if(isAdmin()) {
 						$verslag->gebruiker_id = Input::get("gebruiker");
 						$verslag->datum = new DateTime(Input::get("datum"));
 					}

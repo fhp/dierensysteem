@@ -31,20 +31,21 @@ if(count($data["aanwezigen"]) == 0) {
 		echo HTML::agendaAanwezigheid($aanwezigheid);
 	}
 }
-
-if(Auth::user()->isAanwezig($data["datum"])) {
-	if($data["datum"] >= new DateTime("today +4 days")) {
-		echo HTML::postLink("afmelden", URL::to_route('agendaAfmelden', agendaDatumNaarArray($data["datum"])));
-	}
-} else {
-	if($data["datum"] >= new DateTime("today")) {
-		echo HTML::postLink("aanmelden", URL::to_route('agendaAanmelden', agendaDatumNaarArray($data["datum"])));
+if(Auth::check()) {
+	if(Auth::user()->isAanwezig($data["datum"])) {
+		if($data["datum"] >= new DateTime("today +4 days")) {
+			echo HTML::postLink("afmelden", URL::to_route('agendaAfmelden', agendaDatumNaarArray($data["datum"])));
+		}
+	} else {
+		if($data["datum"] >= new DateTime("today")) {
+			echo HTML::postLink("aanmelden", URL::to_route('agendaAanmelden', agendaDatumNaarArray($data["datum"])));
+		}
 	}
 }
-if($data["datum"] >= new DateTime("today") && Auth::user()->admin) {
+if($data["datum"] >= new DateTime("today") && isAdmin()) {
 	echo "<a href=\"#evenementModal\" role=\"button\" data-toggle=\"modal\" onClick=\"$('#evenementModal input#datum').val('" . $data["datum"]->format("Y-m-d") . "')\">Evenement toevoegen</a><br>";
 }
-if(Auth::user()->admin) {
+if(isAdmin()) {
 	echo HTML::agendaAanmeldenAdmin($data["datum"]) . "<br>";
 }
 

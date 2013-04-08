@@ -64,7 +64,7 @@ class Agenda_Controller extends Base_Controller {
 	
 	public function post_evenement()
 	{
-		if(!Auth::user()->admin) {
+		if(!isAdmin()) {
 			return Redirect::back();
 		}
 		if(Validator::make(Input::all(), $this->rulesEvenement)->passes()) {
@@ -81,7 +81,7 @@ class Agenda_Controller extends Base_Controller {
 	
 	public function post_deleteEvenement($evenementID)
 	{
-		if(!Auth::user()->admin) {
+		if(!isAdmin()) {
 			return Redirect::back();
 		}
 		Evenement::find($evenementID)->delete();
@@ -93,7 +93,7 @@ class Agenda_Controller extends Base_Controller {
 		$datum = new DateTime("$jaar-$maand-$dag");
 		if($gebruiker_id === null) {
 			$gebruiker = Auth::user();
-		} else if(Auth::user()->admin) {
+		} else if(isAdmin()) {
 			$gebruiker = Gebruiker::find($gebruiker_id);
 		} else {
 			Redirect::back();
@@ -111,12 +111,12 @@ class Agenda_Controller extends Base_Controller {
 		$datum = new DateTime("$jaar-$maand-$dag");
 		if($gebruiker_id === null) {
 			$gebruiker = Auth::user();
-		} else if(Auth::user()->admin) {
+		} else if(isAdmin()) {
 			$gebruiker = Gebruiker::find($gebruiker_id);
 		} else {
 			Redirect::back();
 		}
-		if($datum >= new DateTime("today +4 days") || Auth::user()->admin) {
+		if($datum >= new DateTime("today +4 days") || isAdmin()) {
 			$aanwezigheid = $gebruiker->aanwezigheid($datum);
 			$aanwezigheid->delete();
 		}

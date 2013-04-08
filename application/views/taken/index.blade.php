@@ -14,15 +14,17 @@
 @foreach($takenVandaag as $taak)
 	<div style="margin: 10px; font-size: normal;">
 		<div class="btn-group">
-		@if($taak->gedaan(Auth::user()->id))
-			<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-remove"></i> Heb ik niet gedaan</a>
-		@else
-			<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-ok"></i> Heb ik gedaan</a>
+		@if(Auth::check())
+			@if($taak->gedaan(Auth::user()->id))
+				<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-remove"></i> Heb ik niet gedaan</a>
+			@else
+				<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-ok"></i> Heb ik gedaan</a>
+			@endif
 		@endif
-		@if(Auth::user()->admin)
+		@if(isAdmin())
 			<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
 		@endif
-			{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
+		{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
 		</div>
 		<b>{{ $taak->naam }}</b>@if(count($taak->uitvoerders()) > 0):
 			@foreach($taak->uitvoerders() as $uitvoerder)
@@ -37,8 +39,10 @@
 	@foreach($overigeTaken as $taak)
 		<div style="margin: 10px; font-size: normal;">
 			<div class="btn-group">
-				<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn"><i class="icon-ok"></i> Heb ik gedaan</a>
-				@if(Auth::user()->admin)
+				@if(Auth::check())
+					<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn"><i class="icon-ok"></i> Heb ik gedaan</a>
+				@endif
+				@if(isAdmin())
 					<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
 				@endif
 				{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
@@ -78,7 +82,7 @@ if($lijst == "dag") {
 		@if($taakuitvoering["taak"]->id == $taak->id)
 		<?php
 		$content = ""; foreach($taakuitvoering["uitvoerders"] as $uitvoerder) {
-			if(Auth::user()->admin) {
+			if(isAdmin()) {
 				$content .= "<a href=\"" . URL::to_route("taakVerwijderUitvoering", array(Taakuitvoering::where_gebruiker_id_and_taak_id($uitvoerder->id, $taak->id)->only("id"))) . "\"><i class=\"icon icon-trash\"></i></a> ";
 			}
 			$content .= $uitvoerder->naam . "<br>";
@@ -111,7 +115,7 @@ if($nextWeek < new DateTime("today")) {
 ?>
 <br style="clear: both"><br>
 
-@if(Auth::user()->admin)
+@if(isAdmin())
 <p><a href="#nieuweTaakModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe taak</a></p>
 
 <div id="nieuweTaakModal" class="modal hide fade" tabindex="-1" role="dialog">
