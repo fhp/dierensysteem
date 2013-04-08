@@ -5,7 +5,9 @@
 <div class="span6">
 <h1>Welkom</h1>
 @if(Auth::check())
-@render("home.inklokken")
+	@render("home.inklokken")
+@else
+	<div class="alert"><strong>Let op!</strong> Je bent momenteel niet ingelogt.</div>
 @endif
 <h3>Mededelingen</h3>
 <ul class="media-list">

@@ -28,12 +28,12 @@ $menu = array(
 	array('Uitloggen', URL::to_route('logout'), routeInModule('logout')),
 );
 
-if(Request::ip() == "88.159.83.200") {
+if(Request::ip() == IP_FALCONCREST) {
 	$menu[] = array(Navigation::DIVIDER);
 	$menu[] = array(Navigation::HEADER, 'Inloggen als', false, false, null);
 	$aanwezigen = Aanwezigheid::where_datum(new DateTime("today"))->join('gebruikers', 'aanwezigheid.gebruiker_id', '=', 'gebruikers.id')->order_by("gebruikers.naam", "asc")->get();
 	foreach($aanwezigen as $aanwezige) {
-		$menu[] = array($aanwezige->gebruiker->naam, URL::to_route('loginAs', array($aanwezige->gebruiker->gebruikersnaam)), false, false, null, null, (($aanwezige->gebruiker->id == Auth::user()->id) ? array("class"=>"user-logged-in") : null));
+		$menu[] = array($aanwezige->gebruiker->naam, URL::to_route('loginAs', array($aanwezige->gebruiker->gebruikersnaam)), false, false, null, null, ((Auth::check() && $aanwezige->gebruiker->id == Auth::user()->id) ? array("class"=>"user-logged-in") : null));
 	}
 }
 
