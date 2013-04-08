@@ -80,6 +80,7 @@ class Vogels_Controller extends Base_Controller {
 	public function get_detail($id, $naam)
 	{
 		$vogel = Vogel::find($id);
+		$vogel->gelezendoor()->attach(Auth::user()->id);
 		
 		$verslagen = $vogel->verslagen()->order_by('datum', 'desc')->order_by("id", "asc")->paginate(5);
 		
@@ -118,6 +119,7 @@ class Vogels_Controller extends Base_Controller {
 						$verslag->datum = new DateTime("today");
 					}
 					$vogel->verslagen()->insert($verslag);
+					$vogel->gelezendoor()->delete();
 				}
 			}
 			if(Input::get("action") == "alert") {
@@ -127,6 +129,7 @@ class Vogels_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesAlert)->passes()) {
 					$vogel->alert = Input::get("alert");
 					$vogel->save();
+					$vogel->gelezendoor()->delete();
 				}
 			}
 			if(Input::get("action") == "informatie") {
@@ -150,6 +153,7 @@ class Vogels_Controller extends Base_Controller {
 					$vogel->wegen = Input::has("wegen");
 					$vogel->informatie = Input::get("informatie");
 					$vogel->save();
+					$vogel->gelezendoor()->delete();
 				}
 			}
 			if(Input::get("action") == "categorie") {

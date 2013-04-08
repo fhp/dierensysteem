@@ -23,7 +23,10 @@
 				<a href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">{{$vogel->naam}}</a>
 			</h4>
 			@if($vogel->geschreven())
-			<i class="icon icon-ok"></i>
+				<i class="icon icon-ok" title="Er is vandaag een verslag gescheven voor deze vogel."></i>
+			@endif
+			@if(Auth::check() && !$vogel->isGelezen(Auth::user()->id))
+				<i class="icon icon-flag" title="Er is nieuwe informatie voor deze vogel."></i>
 			@endif
 			{{$vogel->soort->naam}}
 		</div>

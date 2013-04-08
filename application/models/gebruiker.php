@@ -86,6 +86,11 @@ class Gebruiker extends Eloquent {
 		return DB::table('vliegpermissies')->where_vogel_id_and_gebruiker_id($vogel_id, $this->id)->only("opmerkingen");
 	}
 	
+	public function heeftgelezen()
+	{
+		return $this->has_many_and_belongs_to("Vogel", "vogelgelezen");
+	}
+	
 	public function thumbnail( $field=null, $size=null )
 	{
 		return Thumbnailer::get( $this, $field, $size );
