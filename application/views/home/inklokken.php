@@ -18,7 +18,7 @@ if($gebruiker->isAanwezig()) {
 		$einde = new DateTime($aanwezigheid->einde);
 		$diff = $einde->diff($start);
 		
-		echo "<p>Ingeklokked om " . $start->format("H:i") . ", uitgeklokked om " . $einde->format("H:i") . ".</p>";
+		echo "<p>Ingeklokt om " . $start->format("H:i") . ", uitgeklokt om " . $einde->format("H:i") . ".</p>";
 		echo "<p>Vandaag " . $diff->format("%h:%I") .  " uur gewerkt.</p>";
 	}
 }
