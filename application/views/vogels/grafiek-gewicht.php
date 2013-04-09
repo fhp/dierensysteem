@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Type: image/png");
+
 $width = Input::get("width", 750);
 $height = Input::get("height", 300);
 
@@ -42,10 +44,10 @@ $myPicture = new pImage($width, $height, $MyData);
 $myPicture->setFontProperties(array("FontName"=>pfont("pf_arma_five.ttf"),"FontSize"=>6,"R"=>0,"G"=>0,"B"=>0));
 
 /* Define the chart area */
-$myPicture->setGraphArea(30, 0, $width - 10, $height - 20);
+$myPicture->setGraphArea(30, 0, $width - 10, $height - 40);
 
 /* Draw the scale */
-$scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>false,"CycleBackground"=>true, "LabelingMethod"=>LABELING_DIFFERENT);
+$scaleSettings = array("XMargin"=>10, "YMargin"=>10, "Floating"=>false, "CycleBackground"=>true, "LabelingMethod"=>LABELING_DIFFERENT, "LabelRotation"=>90);
 $myPicture->drawScale($scaleSettings);
 
 /* Draw the line chart */
@@ -53,6 +55,8 @@ $myPicture->drawSplineChart(array("BreakVoid"=>FALSE, "BreakR"=>234, "BreakG"=>5
 $myPicture->drawPlotChart(array("DisplayValues"=>TRUE));
 
 /* Render the picture (choose the best way) */
+
 $myPicture->Stroke();
+die();
 
 ?>
