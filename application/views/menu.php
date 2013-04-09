@@ -25,8 +25,13 @@ $menu = array(
 	array('Gebruikers', URL::to_route('gebruikers'), routeInModule('gebruiker')),
 	array('Soorten', URL::to_route('soorten'), routeInModule('soort')),
 	array(Navigation::DIVIDER),
-	array('Uitloggen', URL::to_route('logout'), routeInModule('logout')),
 );
+
+if(Auth::check()) {
+	$menu[] = array('Uitloggen', URL::to_route('logout'), routeInModule('logout'));
+} else {
+	$menu[] = array('Inloggen', URL::to_route('login'), routeInModule('login'));
+}
 
 if(Request::ip() == IP_FALCONCREST) {
 	$menu[] = array(Navigation::DIVIDER);
