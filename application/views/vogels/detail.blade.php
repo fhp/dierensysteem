@@ -37,6 +37,7 @@ foreach($gebruikers as $gebruiker) {
 grafiekImageSize = function()
 {
 	grafiek = $("#grafiek")
+	grafiek.width("100%");
 	grafiek.width(Math.round(grafiek.width()));
 	
 	baseUrl = "{{URL::to_route("vogelgrafiek", array($vogel->id))}}"
