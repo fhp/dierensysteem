@@ -136,7 +136,7 @@ class Taken_Controller extends Base_Controller {
 		} else {
 			$taak->isNietGedaan(Auth::user()->id);
 		}
-		return Redirect::to_route('taken');
+		return Redirect::back();
 	}
 	
 	public function get_verwijderUitvoering($id)
@@ -146,6 +146,6 @@ class Taken_Controller extends Base_Controller {
 		}
 		$uitvoering = Taakuitvoering::find($id);
 		$uitvoering->delete();
-		return Redirect::to_route('taken');
+		return Redirect::back();
 	}
 }
