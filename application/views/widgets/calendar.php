@@ -30,17 +30,9 @@ for($x = 0; $x < $running_day; $x++) {
 for($list_day = 1; $list_day <= $days_in_month; $list_day++) {
 	$calendar.= '<td class="calendar-day">';
 	
-	/* add in the day number */
-	$calendar.= '<div class="day-number">'.$list_day.'</div>';
-	
 	/* events */
-	$calendar .= render($cell, array("data"=>isset($cellData[$list_day]) ? $cellData[$list_day] : null));
-/*	if(isset($events[$list_day]) && is_array($events[$list_day])) {
-		foreach($events[$list_day] as $event) {
-			$calendar.= "$event<br>";
-		}
-	}*/
-		
+	$calendar .= render($cell, array("day"=>$list_day, "data"=>isset($cellData[$list_day]) ? $cellData[$list_day] : null));
+	
 	$calendar.= '</td>';
 	if($running_day == 6) {
 		$calendar.= '</tr>';

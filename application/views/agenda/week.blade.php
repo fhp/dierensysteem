@@ -31,14 +31,16 @@ $maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "ju
 </tr>
 <tr>
 @foreach($dagenData as $dagData)
-	<td>
-	<b>Evenementen:</b><br>
-	@forelse($dagData["evenementen"] as $evenement)
-		{{ HTML::agendaEvenement($evenement) }}
-	@empty
-		<span class="agenda-disabled">Geen evenementen</span><br>
-	@endforelse
-	</td>
+	@if(count($dagData["evenementen"]) == 0)
+		<td><b>Evenementen:</b><br><span class="agenda-disabled">Geen evenementen</span><br></td>
+	@else
+		<td class="agenda-evenement">
+		<b>Evenementen:</b><br>
+		@foreach($dagData["evenementen"] as $evenement)
+			{{ HTML::agendaEvenement($evenement) }}
+		@endforeach
+		</td>
+	@endif
 @endforeach
 </tr>
 <tr>

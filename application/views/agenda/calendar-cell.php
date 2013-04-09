@@ -1,8 +1,11 @@
 <?php
 
 if($data === null) {
+	echo '<div class="day-number">'.$day.'</div>';
 	return;
 }
+
+echo '<div class="day-number ' . (count($data["evenementen"]) > 0 ? "agenda-evenement" : "") . '">'.$day.'</div>';
 
 $aantalAanwezigen = Aanwezigheid::where_datum($data["datum"])->count();
 

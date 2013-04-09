@@ -286,3 +286,10 @@ a.btn {
 	font-style: italic;
 	color: #999999;
 }
+
+td.agenda-evenement {
+	background: #F2DEDE !important;
+}
+div.day-number.agenda-evenement {
+	background: #B94A48 !important;
+}
