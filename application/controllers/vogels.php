@@ -80,7 +80,9 @@ class Vogels_Controller extends Base_Controller {
 	public function get_detail($id, $naam)
 	{
 		$vogel = Vogel::find($id);
-		$vogel->gelezendoor()->attach(Auth::user()->id);
+		if(Auth::check() && !$vogel->isGelezen(Auth::user()->id)) {
+			$vogel->gelezendoor()->attach(Auth::user()->id);
+		}
 		
 		$verslagen = $vogel->verslagen()->order_by('datum', 'desc')->order_by("id", "asc")->paginate(5);
 		
