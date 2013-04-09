@@ -5,7 +5,17 @@
 
 <ul class="media-list media-table">
 @foreach (Gebruiker::where_nonactief(0)->order_by("naam", "asc")->get() as $gebruiker)
-	{{ MediaObject::create($gebruiker->gebruikersnaam, $gebruiker->thumbnail_url())->with_h4(HTML::link_to_route("gebruikerDetail", $gebruiker->naam, array($gebruiker->id, $gebruiker->gebruikersnaam))) }}
+	<li class="media">
+		<a class="pull-left" href="{{URL::to_route("gebruikerDetail", array($gebruiker->id, $gebruiker->gebruikersnaam))}}">
+			<img src="{{URL::to_asset($gebruiker->thumbnail_url())}}" class="media-object">
+		</a>
+		<div class="media-body">
+			<h4 class="media-heading">
+				<a href="{{URL::to_route("gebruikerDetail", array($gebruiker->id, $gebruiker->gebruikersnaam))}}">{{$gebruiker->naam}}</a>
+			</h4>
+			{{$gebruiker->gebruikersnaam}}
+		</div>
+	</li>
 @endforeach
 </ul>
 
