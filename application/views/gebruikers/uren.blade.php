@@ -42,7 +42,7 @@ foreach($dagen as $dag) {
 		$diffHtml = $diff->format("%h:%I");
 		$totaalEinde->add($diff);
 	}
-	echo "<tr><td>" . $dagnamen[$datum->format("w")] . " " . $datum->format("d-m-Y") . "</td><td>" . $startHtml . "</td><td>" . $eindeHtml . "</td><td>" . $diffHtml . "</td></tr>";
+	echo "<tr><td><span class=\"" . ($dag->actief ? "actief" : "nonactief") . "\">" . $dagnamen[$datum->format("w")] . " " . $datum->format("d-m-Y") . "</span> " . ($dag->opmerkingen == "" ? "" : " (" . $dag->opmerkingen . ")") . "</td><td>" . $startHtml . "</td><td>" . $eindeHtml . "</td><td>" . $diffHtml . "</td></tr>";
 }
 
 $totaal = $totaalEinde->diff($totaalStart);
