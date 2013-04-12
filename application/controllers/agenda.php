@@ -123,4 +123,26 @@ class Agenda_Controller extends Base_Controller {
 		
 		return Redirect::back();
 	}
+	
+	public function get_aanwezigheid($id)
+	{
+		if(!isAdmin()) {
+			return Response::error('404');
+		}
+		$aanwezigheid = Aanwezigheid::find($id);
+		return View::make("agenda.aanwezigheid")
+			->with("aanwezigheid", $aanwezigheid);
+	}
+	
+	public function post_aanwezigheid($id)
+	{
+		if(!isAdmin()) {
+			return Response::error('404');
+		}
+		$aanwezigheid = Aanwezigheid::find($id);
+		$aanwezigheid->opmerkingen = Input::get("opmerkingen");
+		$aanwezigheid->actief = Input::get("actief", 0);
+		$aanwezigheid->save();
+		return Redirect::to_route("home");
+	}
 }

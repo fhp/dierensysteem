@@ -33,6 +33,7 @@ Route::group(array('before' => 'auth'), function() {
 	Route::get('agenda/maand', array("as"=>"agendaMaand", 'uses'=>'agenda@maand'));
 	Route::get('agenda/week/(:num)/(:num)/(:num)', array("as"=>"agendaWeek", 'uses'=>'agenda@week'));
 	Route::get('agenda/week', array("as"=>"agendaWeek", 'uses'=>'agenda@week'));
+	Route::any('agenda/aanwezigheid/(:num)', array("as"=>"agendaAanwezigheid", 'uses'=>'agenda@aanwezigheid'));
 	Route::get('agenda', array("as"=>"agenda", 'uses'=>'agenda@week'));
 	
 	Route::get('taken/verwijder/(:num)', array("as"=>"taakVerwijderUitvoering", 'uses'=>'taken@verwijderUitvoering'));

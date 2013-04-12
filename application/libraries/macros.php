@@ -35,11 +35,14 @@ HTML::macro("agendaEvenement", function($evenement) {
 });
 
 HTML::macro("agendaAanwezigheid", function($aanwezigheid) {
+	$naam = $aanwezigheid->gebruiker->thumbnail_image(null, "xsmall") . " <span class=\"" . ($aanwezigheid->actief ? "actief" : "nonactief") . "\">" . $aanwezigheid->gebruiker->naam . "</span>";
+	$opmerkingen = $aanwezigheid->opmerkingen == "" ? "" : " (" . $aanwezigheid->opmerkingen . ")";
 	if(isAdmin()) {
-		$content = HTML::postLink("afmelden", URL::to_route("agendaAfmeldenAdmin", agendaDatumNaarArray($aanwezigheid->datum, $aanwezigheid->gebruiker->id)));
-		return HTML::popup($aanwezigheid->gebruiker->thumbnail_image(null, "xsmall") . " " . $aanwezigheid->gebruiker->naam, $content, $aanwezigheid->gebruiker->naam) . "<br>";
+		$content  = HTML::postLink("afmelden", URL::to_route("agendaAfmeldenAdmin", agendaDatumNaarArray($aanwezigheid->datum, $aanwezigheid->gebruiker->id)));
+		$content .= HTML::link_to_route("agendaAanwezigheid", "aanpassen", array($aanwezigheid->id));
+		return HTML::popup($naam, $content, $aanwezigheid->gebruiker->naam) . $opmerkingen . "<br>";
 	} else {
-		return $aanwezigheid->gebruiker->naam . "<br>";
+		return $naam . $opmerkingen . "<br>";
 	}
 });
 
