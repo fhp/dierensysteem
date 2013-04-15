@@ -50,7 +50,7 @@ $totaal = $totaalEinde->diff($totaalStart);
 ?>
 </tbody>
 <tfooter>
-<tr><th colspan="2" style="text-align: right;">Totaal:</th><td>{{ $aantalDagen }} dagen<td>{{ $totaal->format("%h:%I") }} uren</td></tr>
+<tr><th colspan="2" style="text-align: right;">Totaal:</th><td>{{ $aantalDagen }} dagen<td>{{ ( 24 * $totaal->format("%a") + $totaal->format("%h")) }}:{{ $totaal->format("%I") }} uren</td></tr>
 </tfooter>
 </table>
 
