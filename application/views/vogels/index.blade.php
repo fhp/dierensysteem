@@ -49,7 +49,7 @@
 	</div>
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
-		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf"))) }}
+		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf", "koppel"=>"Koppel"))) }}
 		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', Soort::order_by("naam", "asc")->lists("naam", "id"))) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', null, array("class"=>"datepicker"))) }}
 		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', $categorie->id == 1)) }}

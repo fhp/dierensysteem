@@ -5,7 +5,7 @@ class Vogels_Controller extends Base_Controller {
 	
 	public $rulesNieuw = array(
 		"naam"=>"required",
-		"geslacht"=>"in:onbekend,tarsel,wijf",
+		"geslacht"=>"in:onbekend,tarsel,wijf,koppel",
 		"soort"=>"required|integer",
 		"geboortedatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
 		"foto"=>"image",
@@ -28,7 +28,7 @@ class Vogels_Controller extends Base_Controller {
 	
 	public $rulesInformatie = array(
 		"naam"=>"required",
-		"geslacht"=>"in:onbekend,tarsel,wijf",
+		"geslacht"=>"in:onbekend,tarsel,wijf,koppel",
 		"geboortedatum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
 	);
 	
