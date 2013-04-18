@@ -21,7 +21,9 @@ $totaalEinde = new DateTime("today");
 $aantalDagen = 0;
 
 foreach($dagen as $dag) {
-	$aantalDagen++;
+	if($dag->actief) {
+		$aantalDagen++;
+	}
 	$datum = new DateTime($dag->datum);
 	if($dag->start === null) {
 		$startHtml = "-";
