@@ -221,4 +221,30 @@ class Vogels_Controller extends Base_Controller {
 		
 		return Redirect::to_route("vogelDetail", array($verslag->vogel->id, $verslag->vogel->naam));
 	}
+	
+	public function get_volgorde()
+	{
+		return View::make("vogels.volgorde");
+	}
+	
+	public function post_volgorde()
+	{
+		DB::table('vogels')->update(array("lijst_id"=>null, "lijst_volgorde"=>null));
+		
+		foreach(Vliegvolgorde::all() as $lijst) {
+			$key = "lijst_" . $lijst->id;
+			if(!Input::has($key)) {
+				die();
+				continue;
+			}
+			parse_str(Input::get($key), $data);
+			var_dump($data);
+			foreach($data["vogel"] as $volgorde=>$vogelID) {
+				$vogel = Vogel::find($vogelID);
+				$vogel->lijst_id = $lijst->id;
+				$vogel->lijst_volgorde = $volgorde;
+				$vogel->save();
+			}
+		}
+	}
 }

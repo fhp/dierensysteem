@@ -30,6 +30,11 @@ class Vogel extends Eloquent {
 		return $this->belongs_to('Categorie');
 	}
 	
+	public function vliegvolgordeLijst()
+	{
+		return $this->belongs_to('Vliegvolgorde');
+	}
+	
 	public function eigenaar()
 	{
 		return $this->belongs_to('Gebruiker');

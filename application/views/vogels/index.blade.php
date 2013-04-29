@@ -34,6 +34,7 @@
 @endforeach
 </ul>
 
+<p><a href="{{ URL::to_route("vogelsVolgorde") }}" role="button" data-toggle="modal" class="btn"><i class="icon icon-list"></i> Vliegvolgorde</a></p>
 
 @if(isAdmin())
 <p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe vogel</a></p>
