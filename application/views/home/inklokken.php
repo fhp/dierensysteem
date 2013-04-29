@@ -9,7 +9,7 @@ if($gebruiker->isAanwezig()) {
 		echo Form::close();
 	} else if($aanwezigheid->einde === null) {
 		$start = new DateTime($aanwezigheid->start);
-		echo "<p>Ingeklokked om " . $start->format("H:i") . ".</p>";
+		echo "<p>Ingeklokt om " . $start->format("H:i") . ".</p>";
 		echo Form::open(URL::to_route("uitklokken"));
 		echo Form::submit("Uitklokken");
 		echo Form::close();
