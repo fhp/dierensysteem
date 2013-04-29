@@ -3,7 +3,7 @@
 @section('content')
 <h1>Wegen</h1>
 
-<p><a href="{{ URL::to_route("wegenPdf") }}" class="btn"><i class="icon icon-plus"></i> Download weeglijst</a></p>
+<p><a href="{{ URL::to_route("wegenPdf") }}" class="btn"><i class="icon icon-file"></i> Download weeglijst</a></p>
 
 @if(Auth::check())
 {{ Form::horizontal_open() }}
