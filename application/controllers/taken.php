@@ -10,6 +10,12 @@ class Taken_Controller extends Base_Controller {
 	public $rulesBewerkTaak = array(
 	);
 	
+	public $rulesAdminTaakUitvoering = array(
+		"datum"=>"match:/^[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]([0-9][0-9])?$/",
+		"gebruiker"=>"exists:gebruikers,id",
+		"taak"=>"exists:taken,id",
+	);
+	
 	public function get_index($lijst = "dag", $jaar = null, $maand = null, $dag = null)
 	{
 		if($jaar === null) {
@@ -63,7 +69,8 @@ class Taken_Controller extends Base_Controller {
 			->with("geschiedenis", $geschiedenis)
 			->with("dagen", $dagen)
 			->with("geschiedenisStartDatum", $datum)
-			->with("rulesNieuweTaak", $this->rulesNieuweTaak);
+			->with("rulesNieuweTaak", $this->rulesNieuweTaak)
+			->with("rulesAdminTaakUitvoering", $this->rulesAdminTaakUitvoering);
 	}
 	
 	public function post_index($jaar = null, $maand = null, $dag = null)
@@ -90,6 +97,18 @@ class Taken_Controller extends Base_Controller {
 					$taak->frequentie = Input::get("frequentie");
 					$taak->actief = 1;
 					$taak->save();
+				}
+			}
+			if(Input::get("action") == "taakuitvoering") {
+				if(!isAdmin()) {
+					return Redirect::back();
+				}
+				if(Validator::make(Input::all(), $this->rulesAdminTaakUitvoering)->passes()) {
+					$uitvoering = new Taakuitvoering();
+					$uitvoering->gebruiker_id = Input::get("gebruiker");
+					$uitvoering->taak_id = Input::get("taak");
+					$uitvoering->datum = new DateTime(Input::get("datum"));
+					$uitvoering->save();
 				}
 			}
 		}

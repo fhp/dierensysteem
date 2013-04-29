@@ -117,6 +117,7 @@ if($nextWeek < new DateTime("today")) {
 
 @if(isAdmin())
 <p><a href="#nieuweTaakModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe taak</a></p>
+<p><a href="#adminTaakUitvoering" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Taakuitvoering toevoegen</a></p>
 
 <div id="nieuweTaakModal" class="modal hide fade" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
@@ -137,6 +138,27 @@ if($nextWeek < new DateTime("today")) {
 	</div>
 	{{ Form::close() }}
 </div>
+
+<div id="adminTaakUitvoering" class="modal hide fade" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesAdminTaakUitvoering) }}
+	{{ Form::hidden("action", "taakuitvoering") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Taakuitvoering toevoegen</h3>
+	</div>
+	<div class="modal-body">
+		{{ Form::control_group(Form::label('taak', 'Taak'), Form::select('taak', Taak::order_by("naam", "asc")->lists("naam", "id"))) }}
+		{{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::order_by("naam", "asc")->lists("naam", "id"))) }}
+		{{ Form::control_group(Form::label('datum', 'Datum:'), Form::text('datum', date("d-m-Y"), array("class"=>"datepicker"))) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
+
 @endif
 
 @endsection
