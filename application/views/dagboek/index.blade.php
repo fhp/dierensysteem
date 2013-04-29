@@ -29,6 +29,7 @@
 	</li>
 @endforeach
 </ul>
+{{ $verslagen->links() }}
 
 @if(Auth::check())
 <div id="verslagModal" class="modal hide fade" tabindex="-1" role="dialog">

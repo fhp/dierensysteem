@@ -10,9 +10,16 @@
 	<div class="alert"><strong>Let op!</strong> Je bent momenteel niet ingelogt.</div>
 @endif
 <h3>Mededelingen</h3>
+@if(isAdmin())
+<p><a href="#mededelingModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe mededeling</a></p>
+@endif
+
+<?php
+$vorigeDatum = "";
+$mededelingen = Mededeling::order_by("datum", "desc")->order_by("id", "asc")->paginate(5);
+?>
 <ul class="media-list">
-<?php $vorigeDatum = ""; ?>
-@foreach (Mededeling::order_by("datum", "desc")->order_by("id", "asc")->paginate(5)->results as $mededeling)
+@foreach ($mededelingen->results as $mededeling)
 	<?php if($mededeling->datum != $vorigeDatum) { ?>
 		<h4 class="media-heading">{{$mededeling->datum}}</h4>
 	<?php $vorigeDatum = $mededeling->datum; } ?>
@@ -31,10 +38,8 @@
 	</li>
 @endforeach
 </ul>
+{{ $mededelingen->links() }}
 
-@if(isAdmin())
-<p><a href="#mededelingModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe mededeling</a></p>
-@endif
 
 </div>
 <div class="span4">
