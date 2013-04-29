@@ -41,4 +41,5 @@ return array(
 	'ckeditor' => array('auto' => true),
 	'jquery-validator' => array('auto' => true),
 	'pchart'=>array("auto"=>true),
+	'laravel-dompdf'=>array("auto"=>true),
 );

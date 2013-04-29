@@ -18,4 +18,13 @@ class Wegen_Controller extends Base_Controller {
 		}
 		return Redirect::back();
 	}
+	
+	public function get_pdf()
+	{
+		$pdf = new DOMPDF();
+		$pdf->set_paper("a4", "landscape");
+		$pdf->load_html(View::make("wegen.pdf"));
+		$pdf->render();
+		return Response::make($pdf->output(), 200, array("Content-type"=>"application/pdf", "Content-Disposition"=>"attachment; lijst.pdf"));
+	}
 }
