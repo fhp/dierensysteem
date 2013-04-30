@@ -148,8 +148,8 @@ if($nextWeek < new DateTime("today")) {
 		<h3>Taakuitvoering toevoegen</h3>
 	</div>
 	<div class="modal-body">
-		{{ Form::control_group(Form::label('taak', 'Taak'), Form::select('taak', Taak::order_by("naam", "asc")->lists("naam", "id"))) }}
-		{{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::order_by("naam", "asc")->lists("naam", "id"))) }}
+		{{ Form::control_group(Form::label('taak', 'Taak'), Form::select('taak', Taak::where_actief(1)->order_by("naam", "asc")->lists("naam", "id"))) }}
+		{{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::where_nonactief(0)->order_by("naam", "asc")->lists("naam", "id"))) }}
 		{{ Form::control_group(Form::label('datum', 'Datum:'), Form::text('datum', date("d-m-Y"), array("class"=>"datepicker"))) }}
 	</div>
 	<div class="modal-footer">
