@@ -81,6 +81,7 @@ foreach($vogels as $vogel) {
 		<h3>Bewerk persoonlijke informatie</h3>
 	</div>
 	<div class="modal-body">
+		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam', $gebruiker->naam)) }}
 		{{ Form::control_group(Form::label('email', 'Email adres'), Form::text('email', $gebruiker->email)) }}
 		{{ Form::control_group(Form::label('telefoon', 'Telefoon nummer'), Form::text('telefoon', $gebruiker->telefoon)) }}
 		{{ Form::control_group(Form::label('nonactief', 'Non-actief'), Form::labelled_checkbox('nonactief', "ja", 1, $gebruiker->nonactief)) }}

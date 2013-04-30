@@ -17,6 +17,7 @@ class Gebruikers_Controller extends Base_Controller {
 	);
 	
 	public $rulesInformatie = array(
+		"naam"=>"required",
 		"email"=>"email",
 		"telefoon"=>"numeric",
 	);
@@ -92,6 +93,7 @@ class Gebruikers_Controller extends Base_Controller {
 					return Redirect::back();
 				}
 				if(Validator::make(Input::all(), $this->rulesInformatie)->passes()) {
+					$gebruiker->naam = Input::get("naam");
 					$gebruiker->email = Input::get("email");
 					$gebruiker->telefoon = Input::get("telefoon");
 					$gebruiker->informatie = Input::get("informatie");
