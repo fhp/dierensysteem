@@ -8,7 +8,7 @@ if(!function_exists("vogelsTableHeader")) {
 		$dagen = array("zo", "ma", "di", "wo", "do", "vr", "za");
 		
 		$html = "<table>";
-		$html .= "<tr><td>" . date("Y") . "</td>";
+		$html .= "<tr><td>&nbsp;</td>";
 		for($i = 0; $i < $aantalDagen; $i++) {
 			$date = time() + $i * 3600 * 24;
 			$html .= "<td class=\"date\">" . $dagen[date("w", $date)] . " " . date("d-m", $date) . "</td>";
@@ -45,6 +45,7 @@ body, table {
 }
 td.date {
 	text-align: center;
+	font-weight: bold;
 }
 </style>
 STYLE;
