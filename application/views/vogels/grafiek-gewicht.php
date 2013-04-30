@@ -11,14 +11,18 @@ $gewichten = array();
 $datums = array();
 $start = new DateTime("last month");
 $day = new DateInterval("P1D");
+$first = true;
 foreach($vogel->gewichten()->where("datum", ">", $start)->order_by("datum")->get() as $gewicht) {
 	$datum = new DateTime($gewicht->datum);
 	$start->add($day);
 	while($datum >= $start) {
-		$gewichten[] = VOID;
-		$datums[] = $start->getTimestamp();
+		if(!$first) {
+			$gewichten[] = VOID;
+			$datums[] = $start->getTimestamp();
+		}
 		$start->add($day);
 	}
+	$first = false;
 	$gewichten[] = $gewicht->gewicht;
 	$datums[] = $start->getTimestamp();
 }
