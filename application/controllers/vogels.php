@@ -229,21 +229,55 @@ class Vogels_Controller extends Base_Controller {
 	
 	public function post_volgorde()
 	{
-		DB::table('vogels')->update(array("lijst_id"=>null, "lijst_volgorde"=>null));
-		
-		foreach(Vliegvolgorde::all() as $lijst) {
-			$key = "lijst_" . $lijst->id;
-			if(!Input::has($key)) {
-				die();
-				continue;
+		if(!isAdmin()) {
+			return;
+		}
+		if(Input::has("action")) {
+			if(Input::get("action") == "sorteer") {
+				foreach(Vliegvolgordelijst::all() as $lijst) {
+					$key = "lijst_" . $lijst->id;
+					if(!Input::has($key)) {
+						$data = array("vogel"=>array());
+					} else {
+						parse_str(Input::get($key), $data);
+					}
+					
+					foreach($data["vogel"] as $volgorde=>$pivotID) {
+						DB::table('vliegvolgorde')->where_id($pivotID)->update(array("vliegvolgordelijst_id"=>$lijst->id, "volgorde"=>$volgorde));
+					}
+				}
+				parse_str(Input::get("lijsten"), $data);
+				foreach($data["lijsten"] as $volgorde=>$lijstID) {
+					DB::table('vliegvolgordelijsten')->where_id($lijstID)->update(array("volgorde"=>$volgorde));
+				}
 			}
-			parse_str(Input::get($key), $data);
-			var_dump($data);
-			foreach($data["vogel"] as $volgorde=>$vogelID) {
-				$vogel = Vogel::find($vogelID);
-				$vogel->lijst_id = $lijst->id;
-				$vogel->lijst_volgorde = $volgorde;
-				$vogel->save();
+			if(Input::get("action") == "delete") {
+				parse_str(Input::get("elements"), $data);
+				var_dump($data);
+				if(isset($data["vogel"])) {
+					foreach($data["vogel"] as $pivotID) {
+						DB::table('vliegvolgorde')->where_id($pivotID)->delete();
+					}
+				}
+				if(isset($data["lijsten"])) {
+					foreach($data["lijsten"] as $lijstID) {
+						$lijst = Vliegvolgordelijst::find($lijstID);
+						$lijst->vogels()->delete();
+						$lijst->delete();
+					}
+				}
+			}
+			if(Input::get("action") == "nieuweVogel") {
+				$lijst = Vliegvolgordelijst::find(Input::get("lijst"));
+				$lijst->vogels()->attach(Input::get("vogel"), array("opmerkingen"=>Input::get("opmerkingen") == "" ? null : Input::get("opmerkingen"), "volgorde"=>$lijst->vogels()->count()));
+				return Redirect::to_route("vogelsVolgorde");
+			}
+			if(Input::get("action") == "nieuweLijst") {
+				$lijst = new Vliegvolgordelijst();
+				$lijst->naam = Input::get("naam");
+				$lijst->volgorde = Vliegvolgordelijst::count();
+				$lijst->save();
+				return Redirect::to_route("vogelsVolgorde");
 			}
 		}
 	}
