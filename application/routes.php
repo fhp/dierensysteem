@@ -15,9 +15,10 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('gebruikers/(:num)/(:any)', array("as"=>"gebruikerDetail", 'uses'=>'gebruikers@detail'));
 	Route::any('gebruikers', array("as"=>"gebruikers", 'uses'=>'gebruikers@index'));
 	
+	Route::any('vliegvolgorde', array("as"=>"vliegvolgorde", 'uses'=>'vogels@volgorde'));
+	
 	Route::get('vogels/grafiek/(:num)', array("as"=>"vogelgrafiek", 'uses'=>'vogels@grafiek'));
 	Route::any('vogels/verslag/(:num)', array("as"=>"vogelVerslagEdit", 'uses'=>'vogels@verslag'));
-	Route::any('vogels/volgorde', array("as"=>"vogelsVolgorde", 'uses'=>'vogels@volgorde'));
 	Route::any('vogels/(:num)/(:any)', array("as"=>"vogelDetail", 'uses'=>'vogels@detail'));
 	Route::any('vogels/(:num)', array("as"=>"vogels", 'uses'=>'vogels@index'));
 	Route::any('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));

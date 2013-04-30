@@ -270,14 +270,14 @@ class Vogels_Controller extends Base_Controller {
 			if(Input::get("action") == "nieuweVogel") {
 				$lijst = Vliegvolgordelijst::find(Input::get("lijst"));
 				$lijst->vogels()->attach(Input::get("vogel"), array("opmerkingen"=>Input::get("opmerkingen") == "" ? null : Input::get("opmerkingen"), "volgorde"=>$lijst->vogels()->count()));
-				return Redirect::to_route("vogelsVolgorde");
+				return Redirect::to_route("vliegvolgorde");
 			}
 			if(Input::get("action") == "nieuweLijst") {
 				$lijst = new Vliegvolgordelijst();
 				$lijst->naam = Input::get("naam");
 				$lijst->volgorde = Vliegvolgordelijst::count();
 				$lijst->save();
-				return Redirect::to_route("vogelsVolgorde");
+				return Redirect::to_route("vliegvolgorde");
 			}
 		}
 	}
