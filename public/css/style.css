@@ -163,7 +163,8 @@ h3 a {
 }
 
 .media-table .media {
-	width: 300px;
+	width: 290px;
+	height: 70px;
 	float: left;
 }
 
