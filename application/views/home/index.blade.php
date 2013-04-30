@@ -68,23 +68,13 @@ $mededelingen = Mededeling::order_by("datum", "desc")->order_by("id", "asc")->pa
 <p>Er zijn geen activiteiten geplanned voor vandaag.</p>
 @endif
 
-<h3>{{ HTML::link_to_route("taken", "Taken") }}</h3>
-<?php
-$taken = Taak::takenVandaag();
-$output = "";
-foreach($taken as $taak) {
-	$gedaan = count($taak->uitvoerders($today)) > 0;
-	if($gedaan) {
-		continue;
-	}
-	$output .= "<li>" . HTML::popup($taak->naam, $taak->beschrijving, $taak->naam) . "</li>";
-}
-if($output != "") {
-	echo "<ul>" . $output . "</ul>";
-} else {
-	echo "<p>Alle taken zijn gedaan voor vandaag.</p>";
-}
-?>
+<h1>Notities</h1>
+{{ Notitie::first()->tekst }}
+@if(isAdmin())
+<p><a href="#notitieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk notitie</a></p>
+@endif
+
+
 </div>
 
 @if(isAdmin())
@@ -105,6 +95,24 @@ if($output != "") {
 	</div>
 	{{ Form::close() }}
 </div>
+
+<div id="notitieModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::hidden("action", "notitie") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bewerk notitie</h3>
+	</div>
+	<div class="modal-body">
+		{{ CKEditor::make('notitie', Notitie::first()->tekst) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
+
 @endif
 
 @endsection

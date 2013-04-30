@@ -33,6 +33,14 @@ class Home_Controller extends Base_Controller {
 					$mededeling->save();
 				}
 			}
+			if(Input::get("action") == "notitie") {
+				if(!isAdmin()) {
+					return Redirect::back();
+				}
+				$notitie = Notitie::first();
+				$notitie->tekst = Input::get("notitie");
+				$notitie->save();
+			}
 		}
 		
 		return Redirect::back();
