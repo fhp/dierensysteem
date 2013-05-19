@@ -1,6 +1,23 @@
 @layout('master')
 
 @section('content')
+
+<?
+$geschiedenis = array();
+$dagNaam = array("Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag");
+for($i = 6; $i >= 0; $i--) {
+	$dagDatum = new DateTime($datum->format("d-m-Y"));
+	$dagDatum->sub(new DateInterval("P{$i}D"));
+	$dagen[$i] = $dagNaam[$dagDatum->format("w")] . " " . $dagDatum->format('d-m-Y');
+	$taakIDs = DB::query("SELECT DISTINCT taak.id FROM taken AS taak INNER JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE uitvoering.datum = ? ORDER BY taak.naam", array($dagDatum));
+	$geschiedenis[$i] = array();
+	foreach($taakIDs as $taakID) {
+		$taak = Taak::find($taakID->id);
+		$geschiedenis[$i][] = array("taak"=>$taak, "uitvoerders"=>$taak->uitvoerders($dagDatum));
+	}
+}
+?>
+
 <h1>Taken</h1>
 
 <ul class="nav nav-tabs">
@@ -8,60 +25,11 @@
 <li <? if($lijst == "week") { ?> class="active" <? } ?>><a href="{{ URL::to_route("taken", array("week")) }}">Weektaken</a></li>
 </ul>
 
-
 {{ Form::horizontal_open() }}
-<h2>Taken voor vandaag</h2>
-@foreach($takenVandaag as $taak)
-	<div style="margin: 10px; font-size: normal;">
-		<div class="btn-group">
-		@if(Auth::check())
-			@if($taak->gedaan(Auth::user()->id))
-				<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-remove"></i> Heb ik niet gedaan</a>
-			@else
-				<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn" style="width: 140px; text-align: left;"><i class="icon-ok"></i> Heb ik gedaan</a>
-			@endif
-		@endif
-		@if(isAdmin())
-			<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
-		@endif
-		{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
-		</div>
-		<b>{{ $taak->naam }}</b>@if(count($taak->uitvoerders()) > 0):
-			@foreach($taak->uitvoerders() as $uitvoerder)
-				{{ $uitvoerder->naam }}
-			@endforeach
-		@endif
-	</div>
-@endforeach
-
-@unless(count($overigeTaken) == 0)
-	<h2>Overige taken</h2>
-	@foreach($overigeTaken as $taak)
-		<div style="margin: 10px; font-size: normal;">
-			<div class="btn-group">
-				@if(Auth::check())
-					<a href="{{ URL::to_route("taakGedaan", array($taak->id)) }}" class="btn"><i class="icon-ok"></i> Heb ik gedaan</a>
-				@endif
-				@if(isAdmin())
-					<a href="{{ URL::to_route("taakBewerk", array($taak->id)) }}" class="btn"><i class="icon-pencil"></i> Bewerk</a>
-				@endif
-				{{ HTML::popup('<i class="icon-info-sign"></i> Info', $taak->beschrijving, $taak->naam, "btn") }}
-			</div>
-			<b>{{ $taak->naam }}</b>
-		</div>
-	@endforeach
-@endunless
-
-{{ Form::close() }}
-
-@if($geschiedenisStartDatum == new DateTime("today"))
-<h2>Afgelopen week</h2>
-@else
-<h2>Geschiedenis</h2>
-@endif
+{{ Form::hidden("action", "uitvoeringen") }}
 <table class="weekcalendar table">
 <tr>
-<th>Taak</th>
+<th>{{ HTML::popup("Taak <i class=\"icon-info-sign\"></i>", "Klik op een taaknaam voor meer informatie over de taak.", "Taak beschrijving") }}</th>
 @foreach($dagen as $dag)
 	<th>{{ $dag }}</th>
 @endforeach
@@ -75,40 +43,56 @@ if($lijst == "dag") {
 ?>
 @foreach(Taak::where_actief(1)->where_frequentie($frequentie)->order_by("naam")->get() as $taak)
 <tr>
-	<td>{{ HTML::popup($taak->naam, $taak->beschrijving, $taak->naam) }}</td>
-@foreach($geschiedenis as $dag)
+	<td>{{ HTML::popup($taak->naam, $taak->beschrijving . (isAdmin() ? "<a href=\"" . URL::to_route("taakBewerk", array($taak->id)) . "\" class=\"btn btn-link\"><i class=\"icon-pencil\"></i></a>" : ""), $taak->naam) }}</td>
+@foreach($geschiedenis as $index=>$dag)
 	<td>
+	@if($index == 0 && $datum == new DateTime("today") && !fcGast())
+		{{ Form::checkbox('taak_' . $taak->id, 'done', $taak->gedaan(Auth::user()->id)) }}
+	@endif
 	@foreach($dag as $taakuitvoering)
 		@if($taakuitvoering["taak"]->id == $taak->id)
-		<?php
-		$content = ""; foreach($taakuitvoering["uitvoerders"] as $uitvoerder) {
-			if(isAdmin()) {
-				$content .= "<a href=\"" . URL::to_route("taakVerwijderUitvoering", array(Taakuitvoering::where_gebruiker_id_and_taak_id($uitvoerder->id, $taak->id)->only("id"))) . "\"><i class=\"icon icon-trash\"></i></a> ";
+			<?php
+			$content = "";
+			foreach($taakuitvoering["uitvoerders"] as $uitvoerder) {
+				if(isAdmin()) {
+					$content .= "<a href=\"" . URL::to_route("taakVerwijderUitvoering", array(Taakuitvoering::where_gebruiker_id_and_taak_id($uitvoerder->id, $taak->id)->only("id"))) . "\"><i class=\"icon icon-trash\"></i></a> ";
+				}
+				$content .= $uitvoerder->naam . "<br>";
 			}
-			$content .= $uitvoerder->naam . "<br>";
-		}
-		?>
-		{{ HTML::popup("<i class=\"icon icon-ok\"></i> " . (count($taakuitvoering["uitvoerders"]) == 1 ? "1 persoon" : count($taakuitvoering["uitvoerders"]) . " personen"), $content, $taakuitvoering["taak"]->naam) }} <br>
+			?>
+			{{ HTML::popup("<i class=\"icon icon-ok\"></i> " . (count($taakuitvoering["uitvoerders"]) == 1 ? $taakuitvoering["uitvoerders"][0]->naam : count($taakuitvoering["uitvoerders"]) . " personen"), $content, $taakuitvoering["taak"]->naam) }} <br>
 		@endif
 	@endforeach
 	</td>
 @endforeach
 </tr>
 @endforeach
+@if($datum == new DateTime("today") && !fcGast())
+	@for($i = 7; $i >= 0; $i--)
+		<td>
+		@if($i == 0)
+			{{ Form::submit("Opslaan") }}
+		@else
+			&nbsp;
+		@endif
+		</td>
+	@endfor
+@endif
 </table>
+{{ Form::close() }}
 
 <?php
 $week = new DateInterval("P7D");
 
-$nextWeek = new DateTime($geschiedenisStartDatum->format("Y-m-d"));
+$nextWeek = new DateTime($datum->format("Y-m-d"));
 $nextWeek->add($week);
-$prevWeek = new DateTime($geschiedenisStartDatum->format("Y-m-d"));
+$prevWeek = new DateTime($datum->format("Y-m-d"));
 $prevWeek->sub($week);
 
 echo "<span class=\"pull-left\">" . HTML::link_to_route("taken", "<<< Vorige week", array($lijst, $prevWeek->format("Y"), $prevWeek->format("m"), $prevWeek->format("d"))) . "</span>";
 if($nextWeek < new DateTime("today")) {
 	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($lijst, $nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
-} else if($geschiedenisStartDatum < new DateTime("today")) {
+} else if($datum < new DateTime("today")) {
 	$nextWeek = new DateTime("today");
 	echo "<span class=\"pull-right\">" . HTML::link_to_route("taken", "Volgende week >>>", array($lijst, $nextWeek->format("Y"), $nextWeek->format("m"), $nextWeek->format("d"))) . "</span>";
 }
