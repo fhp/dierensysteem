@@ -1,4 +1,4 @@
 $(function() {
-	$('.popup').popover()
-	$('.info').tooltip()
+	$('.popup').popover();
+	$('.info').tooltip();
 })
