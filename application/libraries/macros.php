@@ -21,8 +21,10 @@ HTML::macro("popup", function($tekst, $content, $title = null, $class = "") {
 HTML::macro("agendaEvenement", function($evenement) {
 	if($evenement->beschrijving == "") {
 		$beschrijving = "<i>Geen informatie opgegeven.</i>";
+		$infoSymbool = "";
 	} else {
 		$beschrijving = nl2br($evenement->beschrijving);
+		$infoSymbool = " <i class=\"icon-info-sign\"></i>";
 	}
 	
 	$content = $beschrijving;
@@ -31,7 +33,7 @@ HTML::macro("agendaEvenement", function($evenement) {
 		$content .= "<p>" . HTML::postLink("Evenement verwijderen", URL::to_route("agendaDeleteEvenement", $evenement->id));
 	}
 	
-	return HTML::popup($evenement->naam, $content, $evenement->naam) . "<br>";
+	return HTML::popup($evenement->naam . $infoSymbool, $content, $evenement->naam) . "<br>";
 });
 
 HTML::macro("agendaAanwezigheid", function($aanwezigheid) {
