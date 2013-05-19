@@ -24,7 +24,7 @@ class Agenda_Controller extends Base_Controller {
 			$datum = new DateTime("$jaar-$maand-$dag");
 			$datum->add(new DateInterval("P{$i}D"));
 			$data["datum"] = $datum;
-			$data["aanwezigen"] = Aanwezigheid::where_datum($datum)->get();
+			$data["aanwezigen"] = Aanwezigheid::where_datum($datum)->join("gebruikers", "aanwezigheid.gebruiker_id", "=", "gebruikers.id")->order_by("gebruikers.naam")->get();
 			$data["evenementen"] = Evenement::where_datum($datum)->get();
 			$dagenData[$i] = $data;
 		}
