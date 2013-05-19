@@ -65,8 +65,11 @@ class Vogel extends Eloquent {
 		return $this->has_many_and_belongs_to("Gebruiker", "vogelgelezen");
 	}
 	
-	public function isGelezen($gebruiker_id)
+	public function isGelezen($gebruiker_id = null)
 	{
+		if($gebruiker_id == null) {
+			$gebruiker_id = Auth::user()->id;
+		}
 		return DB::table('vogelgelezen')->where_vogel_id_and_gebruiker_id($this->id, $gebruiker_id)->count() == 1;
 	}
 	

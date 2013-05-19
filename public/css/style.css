@@ -297,3 +297,7 @@ div.day-number.agenda-evenement {
 .nonactief {
 	text-decoration: line-through;
 }
+
+.nav-tabs .marked > a {
+	background: #F2DEDE;
+}

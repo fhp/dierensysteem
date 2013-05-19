@@ -5,10 +5,22 @@
 
 <ul class="nav nav-tabs">
 @foreach(Categorie::order_by("order", "asc")->get() as $andereCategorie)
-	<?php if(count($andereCategorie->vogels) == 0) continue; ?>
-<li @if($andereCategorie->id == $categorie->id) class="active" @endif>
-<a href="{{ URL::to_route("vogels", array($andereCategorie->id)) }}"> {{ $andereCategorie->naam }}</a>
-</li>
+	<?php
+	if(count($andereCategorie->vogels) == 0) {
+		continue;
+	}
+	
+	if($andereCategorie->id == $categorie->id) {
+		$class = "class=\"active\"";
+	} else if($andereCategorie->ongelezenVerslagen()) {
+		$class = "class=\"marked\"";
+	} else {
+		$class = "";
+	}
+	?>
+	<li {{ $class }}>
+	<a href="{{ URL::to_route("vogels", array($andereCategorie->id)) }}"> {{ $andereCategorie->naam }}</a>
+	</li>
 @endforeach
 </ul>
 
@@ -25,7 +37,7 @@
 			@if($vogel->geschreven())
 				<i class="icon icon-ok" title="Er is vandaag een verslag gescheven voor deze vogel."></i>
 			@endif
-			@if(Auth::check() && !$vogel->isGelezen(Auth::user()->id))
+			@if(Auth::check() && !$vogel->isGelezen())
 				<i class="icon icon-flag" title="Er is nieuwe informatie voor deze vogel."></i>
 			@endif
 			{{$vogel->soort->naam}}
