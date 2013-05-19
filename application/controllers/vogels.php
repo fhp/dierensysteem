@@ -18,6 +18,9 @@ class Vogels_Controller extends Base_Controller {
 		"tekst"=>"required",
 	);
 	
+	public $rulesEten = array(
+	);
+	
 	public $rulesVerslagBewerk = array(
 		"tekst"=>"required",
 	);
@@ -91,7 +94,8 @@ class Vogels_Controller extends Base_Controller {
 			->with("rulesVerslag", $this->rulesVerslag)
 			->with("rulesInformatie", $this->rulesInformatie)
 			->with("rulesAlert", $this->rulesAlert)
-			->with("rulesCategorie", $this->rulesCategorie);
+			->with("rulesCategorie", $this->rulesCategorie)
+			->with("rulesEten", $this->rulesEten);
 	}
 	
 	public function post_detail($id, $naam)
@@ -152,8 +156,37 @@ class Vogels_Controller extends Base_Controller {
 					}
 					$vogel->wegen = Input::has("wegen");
 					$vogel->informatie = Input::get("informatie");
+					$vogel->kuikens = Input::get("kuikens");
+					$vogel->hamsters = Input::get("hamsters");
+					$vogel->duif = Input::get("duif", 0);
+					$vogel->eten_opmerking = Input::get("eten_opmerking");
 					$vogel->save();
 					$vogel->gelezendoor()->delete();
+				}
+			}
+			if(Input::get("action") == "eten") {
+				if(!Auth::check()) {
+					return Redirect::back();
+				}
+				if(Validator::make(Input::all(), $this->rulesEten)->passes()) {
+					if(isAdmin()) {
+						$datum = new DateTime(Input::get("datum"));
+					} else {
+						$datum = new DateTime("today");
+					}
+					if($vogel->etenIngevuld($datum)) {
+						$eten = $vogel->eten($datum);
+					} else {
+						$eten = new Eten();
+					}
+					$eten->gebruiker_id = Auth::user()->id;
+					$eten->vogel_id = $id;
+					$eten->datum = $datum;
+					$eten->kuikens = Input::get("kuikens");
+					$eten->hamsters = Input::get("hamsters");
+					$eten->duif = Input::get("duif", 0);
+					$eten->opmerking = Input::get("opmerking");
+					$eten->save();
 				}
 			}
 			if(Input::get("action") == "categorie") {

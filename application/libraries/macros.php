@@ -66,6 +66,71 @@ HTML::macro("agendaAanmeldenAdmin", function($datum) {
 	return $output;
 });
 
+HTML::macro("etenVogel", function($vogel) {
+	if($vogel->kuikens == 0 && $vogel->hamsters == 0 && $vogel->duif == 0) {
+		if($vogel->eten_opmerking == "") {
+			return "-";
+		} else {
+			return $vogel->eten_opmerking;
+		}
+	}
+	$output = "";
+	if($vogel->kuikens != 0) {
+		$output .= $vogel->kuikens . " " . ($vogel->kuikens == 1 ? "kuiken" : "kuikens");
+	}
+	if($vogel->hamsters != 0) {
+		if($output != "") {
+			$output .= " en ";
+		}
+		$output .= $vogel->hamsters . " " . ($vogel->hamsters == 1 ? "hamster" : "hamsters");
+	}
+	if($vogel->duif != 0) {
+		if($output != "") {
+			$output .= " en ";
+		}
+		$output .= "duif";
+	}
+	if($vogel->eten_opmerking != "") {
+		return HTML::popup($output . " <i class=\"icon-info-sign\"></i>", $output . "<br>" . $vogel->eten_opmerking, "Standaard eten");
+	}
+	return $output;
+});
+
+HTML::macro("eten", function($vogel, $datum = null) {
+	$eten = $vogel->eten($datum);
+	if($eten === null) {
+		return "-";
+	}
+	if($eten->kuikens == 0 && $eten->hamsters == 0 && $eten->duif == 0) {
+		if($eten->opmerking == "") {
+			return "-";
+		} else {
+			return $eten->opmerking;
+		}
+	}
+	$output = "";
+	if($eten->kuikens != 0) {
+		$output .= $eten->kuikens . " " . ($eten->kuikens == 1 ? "kuiken" : "kuikens");
+	}
+	if($eten->hamsters != 0) {
+		if($output != "") {
+			$output .= " en ";
+		}
+		$output .= $eten->hamsters . " " . ($eten->hamsters == 1 ? "hamster" : "hamsters");
+	}
+	if($eten->duif != 0) {
+		if($output != "") {
+			$output .= " en ";
+		}
+		$output .= "duif";
+	}
+	if($eten->opmerking != "") {
+		return HTML::popup($output . " <i class=\"icon-info-sign\"></i>", $output . "<br>" . $eten->opmerking, "Eten");
+	}
+	return $output;
+});
+
+
 function agendaDatumNaarArray($datum, $id = null) {
 	if(is_string($datum)) {
 		$datum = new DateTime($datum);

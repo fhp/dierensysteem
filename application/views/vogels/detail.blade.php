@@ -10,6 +10,7 @@
 	<dt>Geslacht</dt><dd>{{ Str::title($vogel->geslacht) }}</dd>
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
 	<dt>Categorie</dt><dd>{{ $vogel->categorie->naam }}</dd>
+<!-- 	<dt>Standaard eten</dt><dd>{{ HTML::etenVogel($vogel) }}</dd> -->
 	@if($vogel->eigenaar !== null)
 	<dt>Eigenaar</dt><dd>{{ HTML::link_to_route("gebruikerDetail", $vogel->eigenaar->naam, array($vogel->eigenaar->id, $vogel->eigenaar->naam)) }}</dd>
 	@endif
@@ -86,7 +87,7 @@ $(function() {
 </div>
 <div class="span4">
 	<div class="hover-div">
-		{{$vogel->thumbnail_image("foto", "large") }}
+		{{ $vogel->thumbnail_image("foto", "large") }}
 		@if(isAdmin())
 		<div class="hover-text">
 			<a href="#fotoModal" role="button" data-toggle="modal"><i class="icon icon-pencil icon-white"></i></a>
@@ -94,9 +95,30 @@ $(function() {
 		@endif
 	</div>
 	
+	<h2>Eten</h2>
+	<p>Standaard portie: {{ HTML::etenVogel($vogel) }}</p>
+	@if(Auth::check())
+	<p><a href="#etenModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Eten invullen</a></p>
+	@endif
+	<table>
+	<?php
+	$dagNaam = array("Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za");
+	for($i = 0; $i < 6; $i++) {
+		$dagDatum = new DateTime("today" /*$datum->format("d-m-Y")*/);
+		$dagDatum->sub(new DateInterval("P{$i}D"));
+		$dag = $dagNaam[$dagDatum->format("w")] . " " . $dagDatum->format('d-m');
+		
+		echo "<tr><td>" . $dag . "&nbsp;</td><td>" . HTML::eten($vogel, $dagDatum) . "</td></tr>\n";
+	}
+	?>
+	</table>
+		
+	@if($vogel->informatie != "")
 	<h2>Notities</h2>
 	{{ $vogel->informatie }}
+	@endif
 	@if(isAdmin())
+	<h2>Beheer</h2>
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
 	<!--<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>-->
 	<p><a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a></p>
@@ -133,8 +155,44 @@ $(function() {
 		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::text('geslacht', $vogel->geslacht)) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', $gebroortedatum, array("class"=>"datepicker"))) }}
 		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', $vogel->wegen)) }}
+		{{ Form::control_group(Form::label('kuikens', 'Aantal kuikens:'), Form::text('kuikens', $vogel->kuikens)) }}
+		{{ Form::control_group(Form::label('hamsters', 'Aantal hamsters:'), Form::text('hamsters', $vogel->hamsters)) }}
+		{{ Form::control_group(Form::label('duif', 'Duif:'), Form::checkbox('duif', '1', $vogel->duif)) }}
+		{{ Form::control_group(Form::label('eten_opmerking', 'Opmerkingen over eten:'), Form::text('eten_opmerking', $vogel->eten_opmerking)) }}
 		{{ Form::control_group(Form::label('eigenaar', 'Eigenaar:'), Form::select('eigenaar', $eigenaren, $vogel->eigenaar_id === null ? 0 : $vogel->eigenaar_id)) }}
 		{{ CKEditor::make('informatie', $vogel->informatie) }}
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Sluiten</button>
+		<button class="btn btn-primary">Opslaan</button>
+	</div>
+	{{ Form::close() }}
+</div>
+@endif
+
+@if(Auth::check())
+<div id="etenModal" class="modal hide fade" tabindex="-1" role="dialog">
+	{{ Form::horizontal_open() }}
+	{{ Form::rules($rulesEten) }}
+	{{ Form::hidden("action", "eten") }}
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Eten opgeven</h3>
+	</div>
+	<div class="modal-body">
+		@if(isAdmin())
+		{{ Form::control_group(Form::label('datum', 'Datum'), Form::text('datum', date("d-m-Y"), array("class"=>"datepicker"))) }}
+		@endif
+		<?php
+		$ingevuld = $vogel->etenIngevuld();
+		if($ingevuld) {
+			$eten = $vogel->eten();
+		}
+		?>
+		{{ Form::control_group(Form::label('kuikens', 'Aantal kuikens:'), Form::text('kuikens', $ingevuld ? $eten->kuikens : $vogel->kuikens)) }}
+		{{ Form::control_group(Form::label('hamsters', 'Aantal hamsters:'), Form::text('hamsters', $ingevuld ? $eten->hamsters : $vogel->hamsters)) }}
+		{{ Form::control_group(Form::label('duif', 'Duif:'), Form::checkbox('duif', '1', $ingevuld ? $eten->duif : $vogel->duif)) }}
+		{{ Form::control_group(Form::label('opmerking', 'Opmerkingen:'), Form::text('opmerking', $ingevuld ? $eten->opmerking : "")) }}
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>

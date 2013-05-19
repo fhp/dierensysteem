@@ -45,6 +45,27 @@ class Vogel extends Eloquent {
 		return $this->has_many('Gewicht');
 	}
 	
+	public function vogelEten()
+	{
+		return $this->has_many('Eten');
+	}
+	
+	public function etenIngevuld($datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		return $this->vogelEten()->where_datum($datum)->count() != 0;
+	}
+	
+	public function eten($datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		return $this->vogelEten()->where_datum($datum)->first();
+	}
+	
 	public function vliegpermissies()
 	{
 		return $this->has_many_and_belongs_to("Gebruiker", "vliegpermissies")->with('opmerkingen');
