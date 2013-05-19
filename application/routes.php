@@ -26,6 +26,8 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('wegen', array("as"=>"wegen", 'uses'=>'wegen@index'));
 	Route::any('wegen/lijst.pdf', array("as"=>"wegenPdf", 'uses'=>'wegen@pdf'));
 	
+	Route::any('voeren', array("as"=>"voeren", 'uses'=>'vogels@voeren'));
+	
 	Route::post('agenda/(:num)/(:num)/(:num)/aanwezig/(:num)', array("as"=>"agendaAanmeldenAdmin", 'uses'=>'agenda@aanwezig'));
 	Route::post('agenda/(:num)/(:num)/(:num)/afwezig/(:num)', array("as"=>"agendaAfmeldenAdmin", 'uses'=>'agenda@afwezig'));
 	Route::post('agenda/(:num)/(:num)/(:num)/aanwezig', array("as"=>"agendaAanmelden", 'uses'=>'agenda@aanwezig'));

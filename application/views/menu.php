@@ -21,6 +21,7 @@ $menu = array(
 	array('Dagboek', URL::to_route('dagboek'), routeInModule('dagboek')),
 	array('Dieren', URL::to_route('vogels', (Request::route()->is('vogelDetail') ? array(Vogel::find(URI::segment(2))->categorie_id) : array())), routeInModule('vogel')),
 	array('Wegen', URL::to_route('wegen'), routeInModule('wegen')),
+	array('Voeren', URL::to_route('voeren'), routeInModule('voeren')),
 	array('Taken', URL::to_route('taken'), routeInModule('taken', 'taak')),
 	array('Gebruikers', URL::to_route('gebruikers'), routeInModule('gebruiker')),
 	array('Soorten', URL::to_route('soorten'), routeInModule('soort')),

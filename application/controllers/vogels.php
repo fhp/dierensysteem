@@ -312,4 +312,9 @@ class Vogels_Controller extends Base_Controller {
 			}
 		}
 	}
+	
+	public function get_voeren()
+	{
+		return View::make("vogels.voeren");
+	}
 }
