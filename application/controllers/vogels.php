@@ -182,8 +182,8 @@ class Vogels_Controller extends Base_Controller {
 					$eten->gebruiker_id = Auth::user()->id;
 					$eten->vogel_id = $id;
 					$eten->datum = $datum;
-					$eten->kuikens = Input::get("kuikens");
-					$eten->hamsters = Input::get("hamsters");
+					$eten->kuikens = str_replace(",", ".", Input::get("kuikens"));
+					$eten->hamsters = str_replace(",", ".", Input::get("hamsters"));
 					$eten->duif = Input::get("duif", 0);
 					$eten->opmerking = Input::get("opmerking");
 					$eten->save();
