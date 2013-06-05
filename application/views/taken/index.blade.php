@@ -13,7 +13,7 @@ for($i = 6; $i >= 0; $i--) {
 	$geschiedenis[$i] = array();
 	foreach($taakIDs as $taakID) {
 		$taak = Taak::find($taakID->id);
-		$geschiedenis[$i][] = array("taak"=>$taak, "uitvoerders"=>$taak->uitvoerders($dagDatum));
+		$geschiedenis[$i][] = array("taak"=>$taak, "uitvoerders"=>$taak->uitvoerders($dagDatum), "datum"=>$dagDatum);
 	}
 }
 ?>
@@ -55,7 +55,7 @@ if($lijst == "dag") {
 			$content = "";
 			foreach($taakuitvoering["uitvoerders"] as $uitvoerder) {
 				if(isAdmin()) {
-					$content .= "<a href=\"" . URL::to_route("taakVerwijderUitvoering", array(Taakuitvoering::where_gebruiker_id_and_taak_id($uitvoerder->id, $taak->id)->only("id"))) . "\"><i class=\"icon icon-trash\"></i></a> ";
+					$content .= "<a href=\"" . URL::to_route("taakVerwijderUitvoering", array(Taakuitvoering::where_gebruiker_id_and_taak_id_and_datum($uitvoerder->id, $taak->id, $taakuitvoering["datum"])->only("id"))) . "\"><i class=\"icon icon-trash\"></i></a> ";
 				}
 				$content .= $uitvoerder->naam . "<br>";
 			}
