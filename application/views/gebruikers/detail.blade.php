@@ -149,7 +149,7 @@ foreach($vogels as $vogel) {
 		<p>{{ $gebruiker->naam }} mag vliegen met:</p>
 		<table>
 		<tr><th>Vogel</th><th>Opmerkingen</th></tr>
-		@foreach(Vogel::all() as $vogel)
+		@foreach(Vogel::where_categorie_id(1)->order_by("naam")->get() as $vogel)
 			<tr>
 			<td>{{ Form::labelled_checkbox('vogel-' . $vogel->id, $vogel->naam, '1', $gebruiker->vliegpermissie($vogel->id)) }}</td>
 			<td>{{ Form::text('opmerkingen-' . $vogel->id, $gebruiker->vliegpermissieOpmerkingen($vogel->id)) }}</td>
