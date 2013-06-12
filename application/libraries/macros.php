@@ -53,7 +53,7 @@ HTML::macro("agendaAanmeldenAdmin", function($datum) {
 	$output .= "<div class=\"dropdown\">";
 	$output .= "<a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Iemand anders aanmelden</a>";
 	$output .= "<ul class=\"dropdown-menu\">";
-	foreach(Gebruiker::order_by("naam")->get() as $gebruiker) {
+	foreach(Gebruiker::where_nonactief(0)->order_by("naam")->get() as $gebruiker) {
 		if($gebruiker->isAanwezig($datum)) {
 			continue;
 		}

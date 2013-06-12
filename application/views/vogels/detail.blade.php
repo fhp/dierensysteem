@@ -148,7 +148,7 @@ $(function() {
 		}
 		$eigenaren = array();
 		$eigenaren[0] = "Falconcrest";
-		foreach(Gebruiker::order_by("naam", "asc")->lists("naam", "id") as $key=>$value) {
+		foreach(Gebruiker::where_nonactief(0)->order_by("naam", "asc")->lists("naam", "id") as $key=>$value) {
 			$eigenaren[$key] = $value;
 		}
 		?>
@@ -307,7 +307,7 @@ $(function() {
 		<p>{{ $vogel->naam }} mag gevlogen worden door:</p>
 		<table>
 		<tr><th>Naam</th><th>Opmerkingen</th></tr>
-		@foreach(Gebruiker::order_by("naam", "asc")->get() as $gebruiker)
+		@foreach(Gebruiker::where_nonactief(0)->order_by("naam", "asc")->get() as $gebruiker)
 			<tr>
 			<td>{{ Form::labelled_checkbox('gebruiker-' . $gebruiker->id, $gebruiker->naam, '1', $vogel->vliegpermissie($gebruiker->id)) }}</td>
 			<td>{{ Form::text('opmerkingen-' . $gebruiker->id, $vogel->vliegpermissieOpmerkingen($gebruiker->id)) }}</td>
