@@ -23,6 +23,7 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('vogels/(:num)', array("as"=>"vogels", 'uses'=>'vogels@index'));
 	Route::any('vogels', array("as"=>"vogels", 'uses'=>'vogels@index'));
 	
+	Route::any('wegen/(:num)/(:num)/(:num)', array("as"=>"wegen", 'uses'=>'wegen@index'));
 	Route::any('wegen', array("as"=>"wegen", 'uses'=>'wegen@index'));
 	Route::any('wegen/lijst.pdf', array("as"=>"wegenPdf", 'uses'=>'wegen@pdf'));
 	
