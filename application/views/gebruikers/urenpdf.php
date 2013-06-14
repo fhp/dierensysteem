@@ -26,10 +26,16 @@ STYLE;
 
 $html .= "<h1>Urenlijst " . $maandnamen[intval($maand)] . " " . $jaar . "</h1>";
 
-$html .= "<p>Naam student: {$gebruiker->naam}</p>";
-$html .= "<p>Naam stage bedrijf: Falconcrest</p>";
-$html .= "<p>Periode: </p>";
-$html .= "<p>Klas: </p>";
+
+$html .= "<div style=\"width: 40%; float: left;\">Naam student: {$gebruiker->naam}</div>";
+$html .= "<div style=\"width: 40%; float: right;\">Klas:</div>";
+
+$html .= "<div style=\"clear: both;\"></div><br>";
+
+$html .= "<div style=\"width: 40%; float: left;\">Naam stage bedrijf: Falconcrest</div>";
+$html .= "<div style=\"width: 40%; float: right;\">Periode:</div>";
+
+$html .= "<div style=\"clear: both;\"></div><br>";
 
 $html .= "<table>";
 $html .= "<tr>";
@@ -87,9 +93,9 @@ $html .= "<br>";
 $html .= "<p>Datum:</p>";
 
 $html .= "<div style=\"width: 40%; float: left;\">Handtekening opleiding:</div>";
-
 $html .= "<div style=\"width: 40%; float: right;\">Handtekening student:</div>";
 
+$html .= "<div style=\"clear: both;\"></div>";
 
 $html .= "</body></html>";
 
