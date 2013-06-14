@@ -12,6 +12,8 @@ Route::group(array('before' => 'auth'), function() {
 	
 	Route::any('gebruikers/(:num)/(:any)/uren/(:num)/(:num)', array("as"=>"gebruikerUren", 'uses'=>'gebruikers@uren'));
 	Route::any('gebruikers/(:num)/(:any)/uren', array("as"=>"gebruikerUren", 'uses'=>'gebruikers@uren'));
+	Route::any('gebruikers/(:num)/(:any)/urenlijst/(:num)/(:num)', array("as"=>"gebruikerUrenPdf", 'uses'=>'gebruikers@urenpdf'));
+	Route::any('gebruikers/(:num)/(:any)/urenlijst', array("as"=>"gebruikerUrenPdf", 'uses'=>'gebruikers@urenpdf'));
 	Route::any('gebruikers/(:num)/(:any)', array("as"=>"gebruikerDetail", 'uses'=>'gebruikers@detail'));
 	Route::any('gebruikers/bewerkAanwezigheid/(:num)', array("as"=>"gebruikerUrenEdit", 'uses'=>'gebruikers@urenedit'));
 	Route::any('gebruikers', array("as"=>"gebruikers", 'uses'=>'gebruikers@index'));

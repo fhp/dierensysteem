@@ -4,6 +4,8 @@
 
 <h1>Urenoverzicht van {{ $gebruiker->naam }}</h1>
 
+<p><a href="{{ URL::to_route("gebruikerUrenPdf", array($gebruiker->id, $gebruiker->gebruikersnaam, $jaar, $maand)) }}" role="button" class="btn"><i class="icon icon-time"></i> Print urenlijst</a></p>
+
 <table class="table">
 <thead><tr><th>Datum</th><th>Start</th><th>Einde</th><th>Uren</th></tr></thead>
 <tbody>

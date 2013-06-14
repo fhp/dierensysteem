@@ -38,6 +38,6 @@ class Wegen_Controller extends Base_Controller {
 		$pdf->set_paper("a4", "landscape");
 		$pdf->load_html(View::make("wegen.pdf"));
 		$pdf->render();
-		return Response::make($pdf->output(), 200, array("Content-type"=>"application/pdf", "Content-Disposition"=>"attachment; lijst.pdf"));
+		return Response::make($pdf->output(), 200, array("Content-type"=>"application/pdf", "Content-Disposition"=>"attachment; filename=lijst.pdf"));
 	}
 }

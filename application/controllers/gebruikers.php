@@ -181,6 +181,26 @@ class Gebruikers_Controller extends Base_Controller {
 			->with("gebruiker", $gebruiker);
 	}
 	
+	public function get_urenpdf($id, $naam, $jaar = null, $maand = null)
+	{
+		if($jaar === null) {
+			$jaar = date("Y");
+		}
+		if($maand === null) {
+			$maand = date("m");
+		}
+		if(!(isAdmin() || Auth::user()->id == $id)) {
+			return Response::error('404');
+		}
+		$gebruiker = Gebruiker::find($id);
+		
+		$pdf = new DOMPDF();
+		$pdf->set_paper("a4", "portrait");
+		$pdf->load_html(View::make("gebruikers.urenpdf")->with("jaar", $jaar)->with("maand", $maand)->with("gebruiker", $gebruiker));
+		$pdf->render();
+		return Response::make($pdf->output(), 200, array("Content-type"=>"application/pdf", "Content-Disposition"=>"attachment; filename=urenlijst.pdf"));
+	}
+	
 	public function get_urenedit($id)
 	{
 		if(!(isAdmin())) {
