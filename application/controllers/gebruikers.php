@@ -181,6 +181,31 @@ class Gebruikers_Controller extends Base_Controller {
 			->with("gebruiker", $gebruiker);
 	}
 	
+	public function get_urenedit($id)
+	{
+		if(!(isAdmin())) {
+			return Response::error('404');
+		}
+		$aanwezigheid = Aanwezigheid::find($id);
+		
+		return View::make("gebruikers.urenedit")
+			->with("aanwezigheid", $aanwezigheid);
+	}
+	
+	public function post_urenedit($id)
+	{
+		if(!(isAdmin())) {
+			return Response::error('404');
+		}
+		$aanwezigheid = Aanwezigheid::find($id);
+		
+		$aanwezigheid->start = new DateTime(formatDate($aanwezigheid->datum, "d-m-Y") . " " . Input::get("start"));
+		$aanwezigheid->einde = new DateTime(formatDate($aanwezigheid->datum, "d-m-Y") . " " . Input::get("einde"));
+		$aanwezigheid->save();
+		
+		return Redirect::to_route('gebruikerUren', array($aanwezigheid->gebruiker->id, $aanwezigheid->gebruiker->gebruikersnaam, formatDate($aanwezigheid->datum, "Y"), formatDate($aanwezigheid->datum, "m")));
+	}
+	
 	public function get_veranderWachtwoord()
 	{
 		if (Auth::guest()) return Redirect::to('login');

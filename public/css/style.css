@@ -1,11 +1,11 @@
-div.hover-div {
+.hover-div {
 	display: block;
 	position: relative;
 	margin-bottom: 10px;
 }
 
-div.hover-div:hover .hover-text {
-	display: block;        
+.hover-div:hover .hover-text {
+	display: block;
 }
 
 .hover-text {
@@ -40,6 +40,14 @@ div.hover-div:hover .hover-text {
 	top: 0;
 	position: absolute;
 	z-index: 2;
+}
+
+.hover-blok:hover .hover-blok-item {
+	visibility: visible;
+}
+
+.hover-blok-item {
+	visibility: hidden;
 }
 
 

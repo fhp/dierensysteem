@@ -44,7 +44,11 @@ foreach($dagen as $dag) {
 		$diffHtml = $diff->format("%h:%I");
 		$totaalEinde->add($diff);
 	}
-	echo "<tr><td><span class=\"" . ($dag->actief ? "actief" : "nonactief") . "\">" . $dagnamen[$datum->format("w")] . " " . $datum->format("d-m-Y") . "</span> " . ($dag->opmerkingen == "" ? "" : " (" . $dag->opmerkingen . ")") . "</td><td>" . $startHtml . "</td><td>" . $eindeHtml . "</td><td>" . $diffHtml . "</td></tr>";
+	$editHtml = "";
+	if(isAdmin()) {
+		$editHtml = "<span class=\"hover-blok-item\"><a href=\"" . URL::to_route("gebruikerUrenEdit", array($dag->id)) . "\"><i class=\"icon icon-pencil\"></i></a></span>";
+	}
+	echo "<tr><td class=\"hover-blok\"><span class=\"" . ($dag->actief ? "actief" : "nonactief") . "\">" . $dagnamen[$datum->format("w")] . " " . $datum->format("d-m-Y") . "</span> " . ($dag->opmerkingen == "" ? "" : " (" . $dag->opmerkingen . ")") . $editHtml . "</td><td>" . $startHtml . "</td><td>" . $eindeHtml . "</td><td>" . $diffHtml . "</td></tr>";
 }
 
 $totaal = $totaalEinde->diff($totaalStart);
