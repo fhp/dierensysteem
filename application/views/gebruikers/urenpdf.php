@@ -24,15 +24,12 @@ td.date {
 </style>
 STYLE;
 
-
-
 $html .= "<h1>Urenlijst " . $maandnamen[intval($maand)] . " " . $jaar . "</h1>";
 
 $html .= "<p>Naam student: {$gebruiker->naam}</p>";
 $html .= "<p>Naam stage bedrijf: Falconcrest</p>";
 $html .= "<p>Periode: </p>";
 $html .= "<p>Klas: </p>";
-// $html .= "<br><br><br>";
 
 $html .= "<table>";
 $html .= "<tr>";
