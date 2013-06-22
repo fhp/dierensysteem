@@ -18,6 +18,7 @@ Route::group(array('before' => 'auth'), function() {
 	Route::any('gebruikers/bewerkAanwezigheid/(:num)', array("as"=>"gebruikerUrenEdit", 'uses'=>'gebruikers@urenedit'));
 	Route::any('gebruikers', array("as"=>"gebruikers", 'uses'=>'gebruikers@index'));
 	
+	Route::any('vliegvolgorde/vliegvolgorde.pdf', array("as"=>"vliegvolgordepdf", 'uses'=>'vogels@volgordepdf'));
 	Route::any('vliegvolgorde', array("as"=>"vliegvolgorde", 'uses'=>'vogels@volgorde'));
 	
 	Route::get('vogels/grafiek/(:num)', array("as"=>"vogelgrafiek", 'uses'=>'vogels@grafiek'));

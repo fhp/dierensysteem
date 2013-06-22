@@ -313,6 +313,15 @@ class Vogels_Controller extends Base_Controller {
 		}
 	}
 	
+	public function get_volgordepdf()
+	{
+		$pdf = new DOMPDF();
+		$pdf->set_paper("a4");
+		$pdf->load_html(View::make("vogels.volgorde-pdf"));
+		$pdf->render();
+		return Response::make($pdf->output(), 200, array("Content-Type"=>"application/pdf", "Content-Disposition"=>"attachment; filename=vliegvolgorde.pdf"));
+	}
+	
 	public function get_voeren()
 	{
 		return View::make("vogels.voeren");

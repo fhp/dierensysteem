@@ -99,7 +99,9 @@ $(function() {
 <ul id="delete" class="delete">
 <h2>Delete</h2>
 </ul>
-
+@endif
+<p><a href="{{ URL::to_route("vliegvolgordepdf") }}" class="btn"><i class="icon icon-list"></i> Lijst printen</a></p>
+@if(isAdmin())
 <p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Vogel toevoegen</a></p>
 <p><a href="#nieuwelijstModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Lijst toevoegen</a></p>
 
