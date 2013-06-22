@@ -12,7 +12,11 @@ class Categorie extends Eloquent {
 	public function ongelezenVerslagen($gebruiker_id = null)
 	{
 		if($gebruiker_id == null) {
-			$gebruiker_id = Auth::user()->id;
+			if(Auth::check()) {
+				$gebruiker_id = Auth::user()->id;
+			} else {
+				return array();
+			}
 		}
 		
 		return DB::table('vogelgelezen')->join("vogels", "vogels.id", "=", "vogelgelezen.vogel_id")->where_gebruiker_id($gebruiker_id)->where_categorie_id($this->id)->count() != $this->vogels()->count();
