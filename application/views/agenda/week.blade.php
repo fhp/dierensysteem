@@ -4,7 +4,7 @@
 <h1>Agenda
 <?php
 $dagen = array('Zondag', 'Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag');
-$maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "november", "december");
+$maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december");
 ?>
 </h1>
 

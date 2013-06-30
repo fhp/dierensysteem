@@ -3,7 +3,7 @@
 @section('content')
 <h1>Agenda
 <?php
-$maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "november", "december");
+$maanden = array("", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december");
 echo $maanden[(int)$maand] . " " . $jaar;
 ?>
 </h1>
