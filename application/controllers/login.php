@@ -12,7 +12,7 @@ class Login_Controller extends Base_Controller {
 	
 	public function post_login()
 	{
-		if (Auth::attempt($_POST)) {
+		if (Auth::attempt(array_merge($_POST, array("nonactief"=>0)))) {
 			return Redirect::to_route('home');
 		} else {
 			return View::make('login')
