@@ -41,6 +41,7 @@ if($lijst == "dag") {
 	$frequentie = 7;
 }
 ?>
+{{ Form::hidden("frequentie", $frequentie) }}
 @foreach(Taak::where_actief(1)->where_frequentie($frequentie)->order_by("naam")->get() as $taak)
 <tr>
 	<td>{{ HTML::popup($taak->naam, $taak->beschrijving . (isAdmin() ? "<a href=\"" . URL::to_route("taakBewerk", array($taak->id)) . "\" class=\"btn btn-link\"><i class=\"icon-pencil\"></i></a>" : ""), $taak->naam) }}</td>

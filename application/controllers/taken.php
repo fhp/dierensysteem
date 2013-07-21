@@ -53,7 +53,10 @@ class Taken_Controller extends Base_Controller {
 				if(fcGast()) {
 					return Redirect::back();
 				}
-				Auth::user()->taakuitvoeringen()->where_datum(new DateTime("today"))->delete();
+				foreach(DB::table("taakuitvoeringen")->join("taken", "taakuitvoeringen.taak_id", "=", "taken.id")->where_datum(new DateTime("today"))->where_frequentie(Input::get("frequentie"))->where_gebruiker_id(Auth::user()->id)->get("taakuitvoeringen.id") as $uitvoering) {
+					$uitvoering = Taakuitvoering::find($uitvoering->id);
+					$uitvoering->delete();
+				}
 				foreach(Input::get() as $naam=>$waarde) {
 					if(substr($naam, 0, 5) == "taak_") {
 						$uitvoering = new Taakuitvoering();
