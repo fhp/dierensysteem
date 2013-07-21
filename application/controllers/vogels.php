@@ -117,7 +117,7 @@ class Vogels_Controller extends Base_Controller {
 					$verslag->tekst = Input::get("tekst");
 					if(isAdmin()) {
 						$verslag->gebruiker_id = Input::get("gebruiker");
-						$verslag->datum = new DateTime(Input::get("datum"));
+						$verslag->datum = new DateTime(Input::get("verslagdatum"));
 					} else {
 						$verslag->gebruiker_id = Auth::user()->id;
 						$verslag->datum = new DateTime("today");

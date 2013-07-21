@@ -72,7 +72,7 @@ $(function() {
 				{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 			</a>
 			<div class="media-body">
-				<strong>{{$verslag->gebruiker->naam}}</strong>: {{$verslag->tekst}}
+				<strong>{{$verslag->gebruiker->naam}}</strong>: {{ nl2br($verslag->tekst) }}
 			</div>
 			@if($magEditen)
 			<div class="hover-edit-tools">
@@ -214,7 +214,7 @@ $(function() {
 	<div class="modal-body">
 		@if(isAdmin())
 		{{ Form::control_group(Form::label('gebruiker', 'Gebruiker'), Form::select('gebruiker', Gebruiker::where("nonactief", "=", 0)->order_by("naam", "asc")->lists("naam", "id"), Auth::user()->id)) }}
-		{{ Form::control_group(Form::label('datum', 'Datum'), Form::text('datum', date("d-m-Y"), array("class"=>"datepicker"))) }}
+		{{ Form::control_group(Form::label('verslagdatum', 'Datum'), Form::text('verslagdatum', date("d-m-Y"), array("class"=>"datepicker"))) }}
 		@endif
 		{{ Form::control_group(Form::label('tekst', 'Informatie:'), Form::textarea('tekst')) }}
 	</div>
