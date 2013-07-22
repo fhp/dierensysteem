@@ -7,7 +7,7 @@
 @if(Auth::check())
 	@render("home.inklokken")
 @else
-	<div class="alert"><strong>Let op!</strong> Je bent momenteel niet ingelogt.</div>
+	<div class="alert"><strong>Let op!</strong> Je bent momenteel niet ingelogd.</div>
 @endif
 <h3>Mededelingen</h3>
 @if(isAdmin())
