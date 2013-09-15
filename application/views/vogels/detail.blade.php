@@ -60,14 +60,14 @@ $(function() {
 	<p><a href="#verslagModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Nieuwe verslag</a></p>
 	@endif
 	
-	<ul class="media-list">
+	<ul class="media-list vogelverslagen">
 	<?php $vorigeDatum = ""; ?>
 	@foreach ($verslagen->results as $verslag)
 		<?php if($verslag->datum != $vorigeDatum) { ?>
 			<h4 class="media-heading">{{$verslag->datum}}</h4>
 		<?php $vorigeDatum = $verslag->datum; } ?>
 		<?php $magEditen = isAdmin() || (Auth::check() && Auth::user()->id == $verslag->gebruiker->id && (new DateTime($verslag->datum_edit) == new DateTime("today"))); ?>
-		<li class="media {{ $magEditen ? "hover-edit" : "" }}">
+		<li class="media {{ $magEditen ? "hover-edit" : "" }} {{ $verslag->belangrijk ? "belangrijk" : "" }}">
 			<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($verslag->gebruiker->id, $verslag->gebruiker->gebruikersnaam)) }}">
 				{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 			</a>
@@ -217,6 +217,7 @@ $(function() {
 		{{ Form::control_group(Form::label('verslagdatum', 'Datum'), Form::text('verslagdatum', date("d-m-Y"), array("class"=>"datepicker"))) }}
 		@endif
 		{{ Form::control_group(Form::label('tekst', 'Informatie:'), Form::textarea('tekst')) }}
+		{{ Form::control_group(Form::label('belangrijk', 'Belangrijk:'), Form::checkbox('belangrijk', '1')) }}
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal">Sluiten</button>

@@ -11,6 +11,7 @@
 {{ Form::control_group(Form::label('datum', 'Datum'), Form::text('datum', $verslag->datum_edit, array("class"=>"datepicker"))) }}
 @endif
 {{ Form::control_group(Form::label('tekst', 'Tekst'), Form::textarea('tekst', $verslag->tekst)) }}
+{{ Form::control_group(Form::label('belangrijk', 'Belangrijk:'), Form::checkbox('belangrijk', '1', $verslag->belangrijk)) }}
 {{ Form::actions(array(Button::primary_submit('Opslaan'))) }}
 {{ Form::close() }}
 

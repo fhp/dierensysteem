@@ -309,3 +309,16 @@ div.day-number.agenda-evenement {
 .nav-tabs .marked > a {
 	background: #F2DEDE;
 }
+
+.media img {
+	border-radius: 4px;
+}
+
+.vogelverslagen .media {
+	background: #F7F7F9;
+	border-radius: 4px;
+}
+
+.vogelverslagen .belangrijk {
+	background: #F2DEDE;
+}

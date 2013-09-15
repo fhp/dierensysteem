@@ -115,6 +115,7 @@ class Vogels_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesVerslag)->passes()) {
 					$verslag = new Vogelverslag();
 					$verslag->tekst = Input::get("tekst");
+					$verslag->belangrijk = Input::get("belangrijk", 0);
 					if(isAdmin()) {
 						$verslag->gebruiker_id = Input::get("gebruiker");
 						$verslag->datum = new DateTime(Input::get("verslagdatum"));
@@ -123,7 +124,9 @@ class Vogels_Controller extends Base_Controller {
 						$verslag->datum = new DateTime("today");
 					}
 					$vogel->verslagen()->insert($verslag);
-					$vogel->gelezendoor()->delete();
+					if($verslag->belangrijk) {
+						$vogel->gelezendoor()->delete();
+					}
 				}
 			}
 			if(Input::get("action") == "alert") {
@@ -133,7 +136,9 @@ class Vogels_Controller extends Base_Controller {
 				if(Validator::make(Input::all(), $this->rulesAlert)->passes()) {
 					$vogel->alert = Input::get("alert");
 					$vogel->save();
-					$vogel->gelezendoor()->delete();
+					if($vogel->alert != "") {
+						$vogel->gelezendoor()->delete();
+					}
 				}
 			}
 			if(Input::get("action") == "informatie") {
@@ -161,7 +166,7 @@ class Vogels_Controller extends Base_Controller {
 					$vogel->duif = Input::get("duif", 0);
 					$vogel->eten_opmerking = Input::get("eten_opmerking");
 					$vogel->save();
-					$vogel->gelezendoor()->delete();
+					//$vogel->gelezendoor()->delete();
 				}
 			}
 			if(Input::get("action") == "eten") {
@@ -238,6 +243,7 @@ class Vogels_Controller extends Base_Controller {
 			if(Input::get("action") == "bewerk") {
 				if(Validator::make(Input::all(), $this->rulesVerslagBewerk)->passes()) {
 					$verslag->tekst = Input::get("tekst");
+					$verslag->belangrijk = Input::get("belangrijk", 0);
 					if(isAdmin()) {
 						$verslag->gebruiker_id = Input::get("gebruiker");
 						$verslag->datum = new DateTime(Input::get("datum"));
