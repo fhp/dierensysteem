@@ -24,27 +24,66 @@
 @endforeach
 </ul>
 
+<?php
+$vogels = $categorie->vogels()->order_by("naam", "asc")->get();
+$picked = false;
+$nonpicked = false;
+?>
+
+
 <ul class="media-list media-table">
-@foreach ($categorie->vogels()->order_by("naam", "asc")->get() as $vogel)
-	<li class="media">
-		<a class="pull-left" href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">
-			<img src="{{URL::to_asset($vogel->thumbnail_url())}}" class="media-object">
-		</a>
-		<div class="media-body">
-			<h4 class="media-heading {{ $vogel->alert == "" ? "" : "vogel-alert" }}">
-				<a href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">{{$vogel->naam}}</a>
-			</h4>
-			@if($vogel->geschreven())
-				<i class="icon icon-ok" title="Er is vandaag een verslag gescheven voor deze vogel."></i>
-			@endif
-			@if(Auth::check() && !$vogel->isGelezen())
-				<i class="icon icon-flag" title="Er is nieuwe informatie voor deze vogel."></i>
-			@endif
-			{{$vogel->soort->naam}}
-		</div>
-	</li>
+@foreach ($vogels as $vogel)
+	@if($vogel->vliegpermissie(Auth::user()->id))
+		<?php $picked = true; ?>
+		<li class="media">
+			<a class="pull-left" href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">
+				<img src="{{URL::to_asset($vogel->thumbnail_url())}}" class="media-object">
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading {{ $vogel->alert == "" ? "" : "vogel-alert" }}">
+					<a href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">{{$vogel->naam}}</a>
+				</h4>
+				@if($vogel->geschreven())
+					<i class="icon icon-ok" title="Er is vandaag een verslag gescheven voor deze vogel."></i>
+				@endif
+				@if(Auth::check() && !$vogel->isGelezen())
+					<i class="icon icon-flag" title="Er is nieuwe informatie voor deze vogel."></i>
+				@endif
+				{{$vogel->soort->naam}}
+			</div>
+		</li>
+	@else
+		<?php $nonpicked = true; ?>
+	@endif
+@endforeach
+@if($picked && $nonpicked)
+	</ul>
+	<p class="overigevogels">Overige vogels</p>
+	<ul class="media-list media-table">
+@endif
+@foreach ($vogels as $vogel)
+	@if(!$vogel->vliegpermissie(Auth::user()->id))
+		<li class="media">
+			<a class="pull-left" href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">
+				<img src="{{URL::to_asset($vogel->thumbnail_url())}}" class="media-object">
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading {{ $vogel->alert == "" ? "" : "vogel-alert" }}">
+					<a href="{{URL::to_route("vogelDetail", array($vogel->id, $vogel->naam))}}">{{$vogel->naam}}</a>
+				</h4>
+				@if($vogel->geschreven())
+					<i class="icon icon-ok" title="Er is vandaag een verslag gescheven voor deze vogel."></i>
+				@endif
+				@if(Auth::check() && !$vogel->isGelezen())
+					<i class="icon icon-flag" title="Er is nieuwe informatie voor deze vogel."></i>
+				@endif
+				{{$vogel->soort->naam}}
+			</div>
+		</li>
+	@endif
 @endforeach
 </ul>
+
 
 @if(isAdmin())
 <p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuw dier</a></p>

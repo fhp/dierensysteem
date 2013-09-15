@@ -322,3 +322,8 @@ div.day-number.agenda-evenement {
 .vogelverslagen .belangrijk {
 	background: #F2DEDE;
 }
+
+.overigevogels {
+	margin: 0px;
+	font-weight: bold;
+}
