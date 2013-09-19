@@ -116,7 +116,7 @@ foreach($vogels as $vogel) {
 </div>
 @endif
 
-@if(Auth::check() && Auth::user()->id == $gebruiker->id)
+@if(Auth::check() && Auth::user()->id == $gebruiker->id || isAdmin())
 <div id="wachtwoordModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open() }}
 	{{ Form::rules($rulesWachtwoord) }}
