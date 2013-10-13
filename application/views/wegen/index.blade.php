@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Wegen</h1>
+<p><i>{{ $datum->format("d-m-Y") }}</i></p>
 
 <p><a href="{{ URL::to_route("wegenPdf") }}" class="btn"><i class="icon icon-file"></i> Download weeglijst</a></p>
 
@@ -29,6 +30,5 @@ echo "<span class=\"pull-right\">" . HTML::link_to_route("wegen", "Volgende dag 
 @else
 <div class="alert"><strong>Je bent niet ingelogt!</strong> Om de gewichten van de vogels op te slaan moet je eerst inloggen!</div>
 @endif
-
 
 @endsection
