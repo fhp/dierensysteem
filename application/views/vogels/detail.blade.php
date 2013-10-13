@@ -35,24 +35,61 @@ foreach($gebruikers as $gebruiker) {
 
 @if($vogel->gewichten()->where("datum", ">", new DateTime("last month"))->count() > 0)
 <script type="text/javascript">
-grafiekImageSize = function()
+grafiekImageUpdate = function()
 {
-	grafiek = $("#grafiek")
-	grafiek.width("100%");
+	grafiekUpdate($("#grafiek"));
+}
+
+grafiekFSImageUpdate = function()
+{
+	grafiek = $("#fullscreenGrafiek");
+	grafiek.show();
+	grafiek.position({ top: 0, left: 0 });
+	$(document).scrollTop(0);
+	$('body').css('overflow', 'hidden');
+	grafiek.height($(window).height());
+	grafiek.width($(window).width());
+	grafiekUpdate(grafiek);
+	grafiek.click(function() {
+		grafiek.hide();
+		$('body').css('overflow', 'auto');
+	});
+}
+
+grafiekUpdate = function(grafiek)
+{
 	grafiek.width(Math.round(grafiek.width()));
 	
 	baseUrl = "{{URL::to_route("vogelgrafiek", array($vogel->id))}}"
-	src = baseUrl + "?width=" + grafiek.width() + "&height=" + grafiek.height()
+	src = baseUrl + "?width=" + grafiek.width() + "&height=" + grafiek.height() + "&start=" + $("#grafiekStartDatum").val() + "&einde=" + $("#grafiekEindDatum").val()
 	
 	grafiek.attr("src", src);
 }
 
 $(function() {
-	grafiekImageSize();
-	$(window).resize(grafiekImageSize);
+	grafiekImageUpdate();
+	$(window).resize(grafiekImageUpdate);
+	$("#grafiek").click(function() {
+		$("#grafiekopties").show();
+	});
+	$("#grafiekopties").hide();
+	$(".grafiekParameter").change(grafiekImageUpdate);
+	
+	$("#grafiekFullscreenBtn").click(grafiekFSImageUpdate);
+	$("#fullscreenGrafiek").hide();
 });
 </script>
 <img src="{{URL::to_route("vogelgrafiek", array($vogel->id))}}" id="grafiek">
+<div id="grafiekopties">
+{{ Form::horizontal_open() }}
+{{ Form::control_group(Form::label('grafiekStartDatum', 'Start datum'), Form::text('grafiekStartDatum', formatDate("last month", "d-m-Y"), array("class"=>"datepicker grafiekParameter"))) }}
+{{ Form::control_group(Form::label('grafiekEindDatum', 'Eind datum'), Form::text('grafiekEindDatum', date("d-m-Y"), array("class"=>"datepicker grafiekParameter"))) }}
+{{ Form::control_group(Form::label('fullscreen', ''), '<p><a href="#grafiekFullscreenModal-weg" role="button" data-toggle="modal" class="btn" id="grafiekFullscreenBtn"><i class="icon icon-fullscreen"></i> Vergroten</a></p>') }}
+{{ Form::close() }}
+</div>
+
+<img src="{{URL::to_route("vogelgrafiek", array($vogel->id))}}" id="fullscreenGrafiek" style="position:absolute; top: 0; left: 0; z-index: 100; background: white;">
+
 @endif
 
 	<h2>Dagboek</h2>
