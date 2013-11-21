@@ -19,7 +19,7 @@
 			{{ $verslag->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 		</a>
 		<div class="media-body">
-			<strong>{{$verslag->gebruiker->naam}}</strong>: {{nl2br($verslag->tekst)}}
+			<strong>{{$verslag->gebruiker->naam}}</strong>: {{nl2br(vogelLinks($verslag->tekst))}}
 		</div>
 		@if($magEditen)
 		<div class="hover-edit-tools">

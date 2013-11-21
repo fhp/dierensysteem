@@ -28,7 +28,7 @@ $mededelingen = Mededeling::order_by("datum", "desc")->order_by("id", "asc")->pa
 			{{ $mededeling->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 		</a>
 		<div class="media-body">
-			<strong>{{$mededeling->gebruiker->naam}}</strong>: {{nl2br($mededeling->tekst)}}
+			<strong>{{$mededeling->gebruiker->naam}}</strong>: {{nl2br(vogelLinks($mededeling->tekst))}}
 		</div>
 		@if(isAdmin())
 		<div class="hover-edit-tools">

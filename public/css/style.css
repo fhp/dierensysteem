@@ -27,7 +27,7 @@
 }
 
 .hover-edit:hover .hover-edit-tools {
-	display: block;        
+	display: block;
 }
 
 .hover-edit-tools {
@@ -40,6 +40,7 @@
 	top: 0;
 	position: absolute;
 	z-index: 2;
+	height: 0px;
 }
 
 .hover-blok:hover .hover-blok-item {
@@ -326,4 +327,9 @@ div.day-number.agenda-evenement {
 .overigevogels {
 	margin: 0px;
 	font-weight: bold;
+}
+
+.vogellink {
+	color: inherit !important;
+	font-style: italic;
 }

@@ -27,4 +27,20 @@ function formatTijd($datum)
 {
 	return formatDate($datum, "H:i");
 }
+
+function vogelLinks($tekst)
+{
+	static $search = null;;
+	static $replace = null;
+	if($search === null || $replace === null) {
+		$search = array();
+		$replace = array();
+		foreach(Vogel::order_by(DB::raw("length(naam)"), "DESC")->get() as $vogel) {
+			$search[] = $vogel->naam;
+			$replace[] = '<a class="vogellink" href="' . URL::to_route("vogelDetail", array($vogel->id, $vogel->naam)) . '">' . $vogel->naam . '</a>';
+		}
+	}
+	return str_ireplace($search, $replace, $tekst);
+}
+
 ?>
