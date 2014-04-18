@@ -184,7 +184,7 @@ $(function() {
 			$gebroortedatum =  $dt->format("d-m-Y");
 		}
 		$eigenaren = array();
-		$eigenaren[0] = "Falconcrest";
+		$eigenaren[0] = "n.v.t.";
 		foreach(Gebruiker::where_nonactief(0)->order_by("naam", "asc")->lists("naam", "id") as $key=>$value) {
 			$eigenaren[$key] = $value;
 		}

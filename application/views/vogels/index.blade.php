@@ -97,12 +97,20 @@ $nonpicked = false;
 		<button type="button" class="close" data-dismiss="modal">×</button>
 		<h3>Nieuw dier</h3>
 	</div>
+	<?php
+	$eigenaren = array();
+	$eigenaren[0] = "n.v.t.";
+	foreach(Gebruiker::where_nonactief(0)->order_by("naam", "asc")->lists("naam", "id") as $key=>$value) {
+		$eigenaren[$key] = $value;
+	}
+	?>
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
 		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::text('geslacht')) }}
 		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', Soort::order_by("naam", "asc")->lists("naam", "id"))) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', null, array("class"=>"datepicker"))) }}
 		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', $categorie->id == 1)) }}
+		{{ Form::control_group(Form::label('eigenaar', 'Eigenaar:'), Form::select('eigenaar', $eigenaren, $vogel->eigenaar_id === null ? 0 : $vogel->eigenaar_id)) }}
 		{{ Form::control_group(Form::label('foto', 'Foto'), Form::file('foto')) }}
 	</div>
 	<div class="modal-footer">
