@@ -7,7 +7,7 @@
 	
 	<dl class="dl-horizontal">
 	<dt>Soort</dt><dd>{{ HTML::link_to_route("soortDetail", $vogel->soort->naam, array($vogel->soort->id, $vogel->soort->naam)) }}</dd>
-	<dt>Geslacht</dt><dd>{{ Str::title($vogel->geslacht) }}</dd>
+	<dt>Geslacht</dt><dd>{{ Str::title($vogel->geslacht) }}&nbsp;</dd>
 	<dt>Leeftijd</dt><dd>{{ $vogel->leeftijd }}</dd>
 	<dt>Categorie</dt><dd>{{ $vogel->categorie->naam }}</dd>
 <!-- 	<dt>Standaard eten</dt><dd>{{ HTML::etenVogel($vogel) }}</dd> -->
