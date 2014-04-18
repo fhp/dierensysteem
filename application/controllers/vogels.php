@@ -62,6 +62,12 @@ class Vogels_Controller extends Base_Controller {
 					if(Input::has("geboortedatum")) {
 						$vogel->geboortedatum = new DateTime(Input::get("geboortedatum"));
 					}
+					if(Input::get("eigenaar") == 0) {
+						$vogel->eigenaar_id = null;
+					} else {
+						$eigenaar = Gebruiker::find(Input::get("eigenaar"));
+						$vogel->eigenaar_id = $eigenaar->id;
+					}
 					if(Input::has_file("foto")) {
 						$vogel->foto = Input::file("foto");
 					}
