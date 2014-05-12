@@ -17,10 +17,10 @@ $day = new DateInterval("P1D");
 $first = true;
 $runningAverage = array();
 $runningAverageTemp = array();
-foreach($vogel->gewichten()->where("datum", ">", $start)->where("datum", "<", $einde)->order_by("datum")->get() as $gewicht) {
+foreach($vogel->gewichten()->where("datum", ">=", $start)->where("datum", "<=", $einde)->order_by("datum")->get() as $gewicht) {
 	$datum = new DateTime($gewicht->datum);
 	$start->add($day);
-	while($datum >= $start) {
+	while($datum > $start) {
 		if(!$first) {
 			$gewichten[] = VOID;
 			if($gemiddelde > 0) {
