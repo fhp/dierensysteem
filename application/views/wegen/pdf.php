@@ -47,6 +47,17 @@ td.date {
 	text-align: center;
 	font-weight: bold;
 }
+td.gewicht {
+	vertical-align: top;
+	padding: 0px;
+}
+.braakbal {
+	width: 0.3cm;
+	height: 0.3cm;
+	border-left: 1pt solid black;
+	border-bottom: 1pt solid black;
+	float:right;
+}
 </style>
 STYLE;
 
@@ -59,7 +70,7 @@ foreach($vogels as $vogel) {
 	}
 	$i++;
 	$html .= "<tr class=\"vogel\"><td>" . $vogel->naam . "</td>";
-	$html .= str_repeat("<td>&nbsp;</td>", $aantalDagen);
+	$html .= str_repeat("<td class=\"gewicht\"><div class=\"braakbal\"></div></td>", $aantalDagen);
 	$html .= "</tr>";
 }
 $html .= "</table>";

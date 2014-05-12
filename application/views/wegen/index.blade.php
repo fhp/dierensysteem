@@ -9,7 +9,7 @@
 @if(Auth::check())
 {{ Form::horizontal_open() }}
 @foreach(Vogel::where_wegen(1)->order_by("naam", "asc")->get() as $vogel)
-	{{ Form::control_group(Form::label('vogel_' . $vogel->id, $vogel->naam), Form::text('vogel_' . $vogel->id, $vogel->gewicht($datum))) }}
+	{{ Form::control_group(Form::label('vogel_' . $vogel->id, $vogel->naam), Form::text('vogel_' . $vogel->id, $vogel->gewicht($datum)) . Form::labelled_checkbox('vogel_' . $vogel->id . '_braakbal', "Braakbal", "1", $vogel->braakbal($datum))) }}
 @endforeach
 {{ Form::actions(array(Button::primary_submit('Opslaan'))) }}
 {{ Form::close() }}

@@ -107,6 +107,19 @@ class Vogel extends Eloquent {
 		}
 	}
 	
+	public function braakbal($datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		$gewicht = Gewicht::where_datum_and_vogel_id($datum, $this->id)->first();
+		if($gewicht === null) {
+			return null;
+		} else {
+			return $gewicht->braakbal;
+		}
+	}
+	
 	public function set_gewicht($gewicht, $datum = null)
 	{
 		if($datum === null) {
@@ -116,10 +129,29 @@ class Vogel extends Eloquent {
 		if($g === null) {
 			$g = new Gewicht();
 			$g->gewicht = $gewicht;
+			$g->braakbal = null;
 			$g->datum = $datum;
 			$this->gewichten()->insert($g);
 		} else {
 			$g->gewicht = $gewicht;
+			$g->save();
+		}
+	}
+	
+	public function set_braakbal($braakbal = true, $datum = null)
+	{
+		if($datum === null) {
+			$datum = new DateTime("today");
+		}
+		$g = Gewicht::where_datum_and_vogel_id($datum, $this->id)->first();
+		if($g === null) {
+			$g = new Gewicht();
+			$g->gewicht = null;
+			$g->braakbal = $braakbal;
+			$g->datum = $datum;
+			$this->gewichten()->insert($g);
+		} else {
+			$g->braakbal = $braakbal;
 			$g->save();
 		}
 	}

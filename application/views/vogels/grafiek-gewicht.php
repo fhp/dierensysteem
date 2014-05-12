@@ -10,6 +10,7 @@ $gemiddelde = Input::get("gemiddelde", 0);
 /* Create and populate the pData object */
 $MyData = new pData();
 $gewichten = array();
+$braakballen = array();
 $datums = array();
 $start = new DateTime(Input::get("start", "last month"));
 $einde = new DateTime(Input::get("einde", "today"));
@@ -23,6 +24,7 @@ foreach($vogel->gewichten()->where("datum", ">=", $start)->where("datum", "<=", 
 	while($datum > $start) {
 		if(!$first) {
 			$gewichten[] = VOID;
+			$braakballen[] = VOID;
 			if($gemiddelde > 0) {
 				$runningAverage[] = $avg;
 			}
@@ -32,6 +34,11 @@ foreach($vogel->gewichten()->where("datum", ">=", $start)->where("datum", "<=", 
 	}
 	$first = false;
 	$gewichten[] = $gewicht->gewicht;
+	if($gewicht->braakbal) {
+		$braakballen[] = $gewicht->gewicht;
+	} else {
+		$braakballen[] = VOID;
+	}
 	$datums[] = $start->getTimestamp();
 	
 	if($gemiddelde > 0) {
@@ -52,6 +59,7 @@ if($gemiddelde > 0) {
 	$MyData->addPoints($runningAverage, "Gemiddelde");
 } else {
 	$MyData->addPoints($gewichten, "Gewicht");
+	$MyData->addPoints($braakballen, "Braakbal");
 }
 
 $datumCount = count($datums);
@@ -72,6 +80,7 @@ $MyData->addPoints($datums, "Datum");
 
 $MyData->setPalette("Gewicht", array("R" => 0,"G" => 136, "B" => 204, "Alpha" => 100));
 $MyData->setPalette("Gemiddelde", array("R" => 255,"G" => 0, "B" => 0, "Alpha" => 100));
+$MyData->setPalette("Braakbal", array("R" => 0,"G" => 255, "B" => 0, "Alpha" => 100));
 
 $MyData->setAbscissa("Datum");
 
@@ -97,7 +106,17 @@ $scaleSettings = array("XMargin"=>10, "YMargin"=>10, "Floating"=>false, "CycleBa
 $myPicture->drawScale($scaleSettings);
 
 /* Draw the line chart */
+$MyData->setSerieDrawable("Braakbal",FALSE);
+$MyData->setSerieDrawable("Gewicht",TRUE);
 $myPicture->drawSplineChart(array("BreakVoid"=>FALSE, "BreakR"=>234, "BreakG"=>55, "BreakB"=>26));
+
+$MyData->setSerieDrawable("Braakbal",TRUE);
+$MyData->setSerieDrawable("Gewicht",FALSE);
+$myPicture->drawSplineChart(array("BreakVoid"=>TRUE));
+
+// $MyData->setSerieDrawable("Braakbal",FALSE);
+$MyData->setSerieDrawable("Gewicht",TRUE);
+
 $options = array();
 if($datumCount < floor($width/15) || $height > 750) {
 	$options["DisplayValues"] = TRUE;
