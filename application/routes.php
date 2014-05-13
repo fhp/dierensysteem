@@ -55,6 +55,13 @@ Route::group(array('before' => 'auth'), function() {
 	
 	Route::post('inklokken', array("as"=>"inklokken", 'uses'=>'gebruikers@inklokken'));
 	Route::post('uitklokken', array("as"=>"uitklokken", 'uses'=>'gebruikers@uitklokken'));
+	
+	if(isAdmin()) {
+		Route::any('vergadering', array("as"=>"vergadering", 'uses'=>'vergadering@index'));
+		Route::any('vergadering/archief', array("as"=>"vergaderingArchief", 'uses'=>'vergadering@archief'));
+		Route::any('vergadering/agendapunt/(:num)', array("as"=>"vergaderingAgendapunt", 'uses'=>'vergadering@agendapunt'));
+		Route::any('vergadering/actiepunt/(:num)', array("as"=>"vergaderingActiepunt", 'uses'=>'vergadering@actiepunt'));
+	}
 });
 
 Route::any('veranderWachtwoord', array("as"=>"veranderWachtwoord", 'uses'=>'gebruikers@veranderWachtwoord'));

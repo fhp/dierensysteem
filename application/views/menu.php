@@ -25,8 +25,13 @@ $menu = array(
 	array('Taken', URL::to_route('taken'), routeInModule('taken', 'taak')),
 	array('Gebruikers', URL::to_route('gebruikers'), routeInModule('gebruiker')),
 	array('Soorten', URL::to_route('soorten'), routeInModule('soort')),
-	array(Navigation::DIVIDER),
 );
+
+if(isAdmin()) {
+	$menu[] = array('Vergadering', URL::to_route('vergadering'), routeInModule('vergadering'));
+}
+
+$menu[] = array(Navigation::DIVIDER);
 
 if(Auth::check()) {
 	$menu[] = array('Uitloggen', URL::to_route('logout'), routeInModule('logout'));
