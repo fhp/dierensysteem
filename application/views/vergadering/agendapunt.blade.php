@@ -14,12 +14,16 @@
 	<?php if($notule->datum != $vorigeDatum) { ?>
 		<h4 class="media-heading">{{$notule->datum}}</h4>
 	<?php $vorigeDatum = $notule->datum; } ?>
-	<li class="media">
+	<li class="media hover-edit">
 		<a class="pull-left" href="{{ URL::to_route("gebruikerDetail", array($notule->gebruiker->id, $notule->gebruiker->gebruikersnaam)) }}">
 			{{ $notule->gebruiker->thumbnail_image(null, null, null, array("class"=>"media-object")) }}
 		</a>
 		<div class="media-body">
 			<strong>{{$notule->gebruiker->naam}}</strong><br>{{nl2br($notule->omschrijving)}}
+		</div>
+		<div class="hover-edit-tools">
+			<a href="{{ URL::to_route("vergaderingNotule", array($notule->id)) }}"><i class="icon icon-pencil"></i></a>
+			<a href="{{ URL::to_route("vergaderingNotuleDelete", array($notule->id)) }}"><i class="icon icon-trash"></i></a>
 		</div>
 	</li>
 @empty

@@ -130,4 +130,28 @@ class Vergadering_Controller extends Base_Controller {
 		
 		return Redirect::to_route("vergaderingActiepunt", array($id));
 	}
+	
+	public function get_notule($id)
+	{
+		$notule = Notule::find($id);
+		
+		return View::make("vergadering.notule")
+			->with("notule", $notule);
+	}
+	
+	public function post_notule($id)
+	{
+		$notule = Notule::find($id);
+		$notule->omschrijving = Input::get("omschrijving");
+		$notule->save();
+		return Redirect::to_route("vergaderingAgendapunt", array($notule->agendapunt->id));
+	}
+	
+	public function get_notuleDelete($id)
+	{
+		$notule = Notule::find($id);
+		$agendapuntID = $notule->agendapunt->id;
+		$notule->delete();
+		return Redirect::to_route("vergaderingAgendapunt", array($agendapuntID));
+	}
 }

@@ -61,6 +61,8 @@ Route::group(array('before' => 'auth'), function() {
 		Route::any('vergadering/archief', array("as"=>"vergaderingArchief", 'uses'=>'vergadering@archief'));
 		Route::any('vergadering/agendapunt/(:num)', array("as"=>"vergaderingAgendapunt", 'uses'=>'vergadering@agendapunt'));
 		Route::any('vergadering/actiepunt/(:num)', array("as"=>"vergaderingActiepunt", 'uses'=>'vergadering@actiepunt'));
+		Route::any('vergadering/notule/(:num)', array("as"=>"vergaderingNotule", 'uses'=>'vergadering@notule'));
+		Route::any('vergadering/notule/(:num)/delete', array("as"=>"vergaderingNotuleDelete", 'uses'=>'vergadering@notuleDelete'));
 	}
 });
 
