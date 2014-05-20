@@ -51,6 +51,15 @@
 	visibility: hidden;
 }
 
+.hover-table:hover .hover-table-item {
+	visibility: visible;
+}
+
+.hover-table-item {
+	visibility: hidden;
+	float: right;
+	margin-right: 5px;
+}
 
 .modal.modal-large {
 	margin-left: -450px;

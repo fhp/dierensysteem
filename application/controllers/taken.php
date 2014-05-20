@@ -147,4 +147,17 @@ class Taken_Controller extends Base_Controller {
 		$uitvoering->delete();
 		return Redirect::back();
 	}
+	
+	public function get_nieuweUitvoering($dag, $maand, $jaar, $taakID, $gebruikerID)
+	{
+		if(!isAdmin()) {
+			return Redirect::back();
+		}
+		$uitvoering = new Taakuitvoering();
+		$uitvoering->gebruiker_id = $gebruikerID;
+		$uitvoering->taak_id = $taakID;
+		$uitvoering->datum = new DateTime($dag . "-" . $maand . "-" . $jaar);
+		$uitvoering->save();
+		return Redirect::back();
+	}
 }

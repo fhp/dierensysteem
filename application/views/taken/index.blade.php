@@ -9,6 +9,7 @@ for($i = 6; $i >= 0; $i--) {
 	$dagDatum = new DateTime($datum->format("d-m-Y"));
 	$dagDatum->sub(new DateInterval("P{$i}D"));
 	$dagen[$i] = $dagNaam[$dagDatum->format("w")] . " " . $dagDatum->format('d-m-Y');
+	$datums[$i] = $dagDatum;
 	$taakIDs = DB::query("SELECT DISTINCT taak.id FROM taken AS taak INNER JOIN taakuitvoeringen AS uitvoering ON taak.id = uitvoering.taak_id WHERE uitvoering.datum = ? ORDER BY taak.naam", array($dagDatum));
 	$geschiedenis[$i] = array();
 	foreach($taakIDs as $taakID) {
@@ -46,7 +47,7 @@ if($lijst == "dag") {
 <tr>
 	<td>{{ HTML::popup($taak->naam, $taak->beschrijving . (isAdmin() ? "<a href=\"" . URL::to_route("taakBewerk", array($taak->id)) . "\" class=\"btn btn-link\"><i class=\"icon-pencil\"></i></a>" : ""), $taak->naam) }}</td>
 @foreach($geschiedenis as $index=>$dag)
-	<td>
+	<td class="hover-table">
 	@if($index == 0 && $datum == new DateTime("today") && !fcGast())
 		{{ Form::checkbox('taak_' . $taak->id, 'done', $taak->gedaan(Auth::user()->id)) }}
 	@endif
@@ -61,9 +62,21 @@ if($lijst == "dag") {
 				$content .= $uitvoerder->naam . "<br>";
 			}
 			?>
-			{{ HTML::popup("<i class=\"icon icon-ok\"></i> " . (count($taakuitvoering["uitvoerders"]) == 1 ? $taakuitvoering["uitvoerders"][0]->naam : count($taakuitvoering["uitvoerders"]) . " personen"), $content, $taakuitvoering["taak"]->naam) }} <br>
+			{{ HTML::popup("<i class=\"icon icon-ok\"></i> " . (count($taakuitvoering["uitvoerders"]) == 1 ? $taakuitvoering["uitvoerders"][0]->naam : count($taakuitvoering["uitvoerders"]) . " personen"), $content, $taakuitvoering["taak"]->naam) }}
 		@endif
 	@endforeach
+	@if(isAdmin())
+	<div class="hover-table-item">
+		<?php
+		$content = "";
+		foreach(Gebruiker::where_nonactief(0)->order_by("naam", "asc")->get() as $gebruiker) {
+			$content .= "<a href=\"" . URL::to_route("taakNieuweUitvoering", array($datums[$index]->format("d"), $datums[$index]->format("m"), $datums[$index]->format("Y"), $taak->id, $gebruiker->id)) . "\"><i class=\"icon icon-plus\"></i> " . $gebruiker->naam . "</a><br>";
+		}
+		?>
+		{{ HTML::popup("<i class=\"icon icon-plus\"></i>", $content, "Persoon toevoegen") }}
+		
+	</div>
+	@endif
 	</td>
 @endforeach
 </tr>
