@@ -48,9 +48,18 @@
 $vergaderingen = DB::query("SELECT DATE_FORMAT(created_at, '%Y%m%d') as date, DATE_FORMAT(created_at, '%d-%m-%Y') as dateformatted, count(id) as count FROM `notulen` WHERE 1 GROUP BY DATE_FORMAT(created_at, '%Y%m%d')");
 ?>
 @forelse($vergaderingen as $vergadering)
+	<?php
+	$agendapunten = DB::query("SELECT DISTINCT `agendapunten`.`titel` FROM `agendapunten` LEFT JOIN `notulen` ON(`agendapunten`.`id` = `notulen`.`agendapunt_id`) WHERE DATE_FORMAT(`notulen`.`created_at`, '%Y%m%d') = ?", array($vergadering->date));
+	?>
+	
 	<li class="media">
 		<div class="media-body">
-			<strong><a href="{{ URL::to_route("vergaderingVergadering", array($vergadering->date)) }}">{{$vergadering->dateformatted}}</a>:</strong> {{$vergadering->count}} besproken punten.
+			<strong><a href="{{ URL::to_route("vergaderingVergadering", array($vergadering->date)) }}">{{$vergadering->dateformatted}}</a>:</strong>:<br>
+			<ol>
+			@foreach($agendapunten as $agendapunt)
+				<li>{{ $agendapunt->titel }}</li>
+			@endforeach
+			</ol>
 		</div>
 	</li>
 @empty
