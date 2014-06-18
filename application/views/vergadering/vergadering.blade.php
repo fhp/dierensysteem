@@ -4,8 +4,8 @@
 <h1>Vergadering op {{ substr($date, 6, 2) }}-{{ substr($date, 4, 2) }}-{{ substr($date, 0, 4) }}</h1>
 
 <?php
-$agendapunten = DB::query("SELECT DISTINCT `agendapunten`.`id` FROM `agendapunten` LEFT JOIN `notulen` ON(`agendapunten`.`id` = `notulen`.`agendapunt_id`) WHERE DATE_FORMAT(`notulen`.`created_at`, '%Y%m%d') = ?", array($date));
-$actiepunten = DB::query("SELECT DISTINCT `actiepunten`.`id` FROM `actiepunten` WHERE DATE_FORMAT(`actiepunten`.`created_at`, '%Y%m%d') = ?", array($date));
+$agendapunten = DB::query("SELECT DISTINCT `agendapunten`.`id` FROM `agendapunten` LEFT JOIN `notulen` ON(`agendapunten`.`id` = `notulen`.`agendapunt_id`) WHERE DATE_FORMAT(`notulen`.`created_at`, '%Y%m%d') = ? ORDER BY `notulen`.`created_at` ASC", array($date));
+$actiepunten = DB::query("SELECT DISTINCT `actiepunten`.`id` FROM `actiepunten` WHERE DATE_FORMAT(`actiepunten`.`created_at`, '%Y%m%d') = ? ORDER BY `created_at` ASC", array($date));
 ?>
 
 <h2>Agendapunten</h2>
