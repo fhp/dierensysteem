@@ -45,11 +45,11 @@
 
 <h2>Vergaderingen</h2>
 <?php
-$vergaderingen = DB::query("SELECT DATE_FORMAT(created_at, '%Y%m%d') as date, DATE_FORMAT(created_at, '%d-%m-%Y') as dateformatted, count(id) as count FROM `notulen` WHERE 1 GROUP BY DATE_FORMAT(created_at, '%Y%m%d')");
+$vergaderingen = DB::query("SELECT DATE_FORMAT(created_at, '%Y%m%d') as date, DATE_FORMAT(created_at, '%d-%m-%Y') as dateformatted, count(id) as count FROM `notulen` WHERE 1 GROUP BY DATE_FORMAT(created_at, '%Y%m%d') ORDER BY `created_at` DESC");
 ?>
 @forelse($vergaderingen as $vergadering)
 	<?php
-	$agendapunten = DB::query("SELECT DISTINCT `agendapunten`.`titel` FROM `agendapunten` LEFT JOIN `notulen` ON(`agendapunten`.`id` = `notulen`.`agendapunt_id`) WHERE DATE_FORMAT(`notulen`.`created_at`, '%Y%m%d') = ?", array($vergadering->date));
+	$agendapunten = DB::query("SELECT DISTINCT `agendapunten`.`titel` FROM `agendapunten` LEFT JOIN `notulen` ON(`agendapunten`.`id` = `notulen`.`agendapunt_id`) WHERE DATE_FORMAT(`notulen`.`created_at`, '%Y%m%d') = ? ORDER BY `notulen`.`created_at` ASC", array($vergadering->date));
 	?>
 	
 	<li class="media">
