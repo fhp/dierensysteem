@@ -36,3 +36,5 @@ intermediate
 publish
 .idea
 storage.tmp
+
+bundles/laravel-dompdf/lib/fonts/log.htm
