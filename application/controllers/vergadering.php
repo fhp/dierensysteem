@@ -154,4 +154,9 @@ class Vergadering_Controller extends Base_Controller {
 		$notule->delete();
 		return Redirect::to_route("vergaderingAgendapunt", array($agendapuntID));
 	}
+	
+	public function get_vergadering($date)
+	{
+		return View::make("vergadering.vergadering")->with("date", $date);
+	}
 }

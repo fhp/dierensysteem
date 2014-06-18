@@ -43,6 +43,20 @@
 </ul>
 {{ $actiepunten->links() }}
 
+<h2>Vergaderingen</h2>
+<?php
+$vergaderingen = DB::query("SELECT DATE_FORMAT(created_at, '%Y%m%d') as date, DATE_FORMAT(created_at, '%d-%m-%Y') as dateformatted, count(id) as count FROM `notulen` WHERE 1 GROUP BY DATE_FORMAT(created_at, '%Y%m%d')");
+?>
+@forelse($vergaderingen as $vergadering)
+	<li class="media">
+		<div class="media-body">
+			<strong><a href="{{ URL::to_route("vergaderingVergadering", array($vergadering->date)) }}">{{$vergadering->dateformatted}}</a>:</strong> {{$vergadering->count}} besproken punten.
+		</div>
+	</li>
+@empty
+	<li class="media">Geen vergaderingen</li>
+@endforelse
+
 <p><a href="{{ URL::to_route("vergaderingArchief") }}" class="btn"><i class="icon icon-list"></i> Archief</a></p>
 
 <div id="agendapuntModal" class="modal hide fade" tabindex="-1" role="dialog">
