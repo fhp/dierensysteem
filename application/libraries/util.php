@@ -36,8 +36,8 @@ function vogelLinks($tekst)
 		$search = array();
 		$replace = array();
 		foreach(Vogel::order_by(DB::raw("length(naam)"), "DESC")->get() as $vogel) {
-			$search[] = $vogel->naam;
-			$replace[] = '<a class="vogellink" href="' . URL::to_route("vogelDetail", array($vogel->id, $vogel->naam)) . '">' . $vogel->naam . '</a>';
+			$search[] = " {$vogel->naam} ";
+			$replace[] = ' <a class="vogellink" href="' . URL::to_route("vogelDetail", array($vogel->id, $vogel->naam)) . '">' . $vogel->naam . '</a> ';
 		}
 	}
 	return str_ireplace($search, $replace, $tekst);
