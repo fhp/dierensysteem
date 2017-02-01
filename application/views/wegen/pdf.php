@@ -76,6 +76,7 @@ foreach($vogels as $vogel) {
 $html .= "</table>";
 
 if(count($vogels) < 7) {
+	$html .= "<span style='height: 1em;'>&nbsp;</span>";
 	$html .= vogelsTableHeader($aantalDagen, 14);
 	$i = 0;
 	foreach ($vogels as $vogel) {
