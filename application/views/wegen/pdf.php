@@ -26,9 +26,9 @@ $height = min(max(16 / min(count($vogels), 25), 0.6), 1);
 $html = "<html><body>";
 $html .= <<<STYLE
 <style>
-table {
+/*table {
 	page-break-after: always;
-}
+}*/
 table, tr, td {
 	border: 1pt solid black;
 	border-collapse: collapse;
