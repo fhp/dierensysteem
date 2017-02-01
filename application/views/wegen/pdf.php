@@ -3,14 +3,14 @@
 $aantalDagen = 14;
 
 if(!function_exists("vogelsTableHeader")) {
-	function vogelsTableHeader($aantalDagen)
+	function vogelsTableHeader($aantalDagen, $offset)
 	{
 		$dagen = array("zo", "ma", "di", "wo", "do", "vr", "za");
 		
 		$html = "<table>";
 		$html .= "<tr><td>&nbsp;</td>";
 		for($i = 0; $i < $aantalDagen; $i++) {
-			$date = time() + $i * 3600 * 24;
+			$date = time() + ($i + $offset) * 3600 * 24;
 			$html .= "<td class=\"date\">" . $dagen[date("w", $date)] . " " . date("d-m", $date) . "</td>";
 		}
 		$html .= "</tr>";
@@ -61,12 +61,12 @@ td.gewicht {
 </style>
 STYLE;
 
-$html .= vogelsTableHeader($aantalDagen);
+$html .= vogelsTableHeader($aantalDagen, 0);
 $i = 0;
 foreach($vogels as $vogel) {
 	if($i % 25 == 0 && $i != 0) {
 		$html .= "</table>";
-		$html .= vogelsTableHeader($aantalDagen);
+		$html .= vogelsTableHeader($aantalDagen, 0);
 	}
 	$i++;
 	$html .= "<tr class=\"vogel\"><td>" . $vogel->naam . "</td>";
@@ -74,6 +74,23 @@ foreach($vogels as $vogel) {
 	$html .= "</tr>";
 }
 $html .= "</table>";
+
+if(count($vogels) < 7) {
+	$html .= vogelsTableHeader($aantalDagen, 14);
+	$i = 0;
+	foreach ($vogels as $vogel) {
+		if($i % 25 == 0 && $i != 0) {
+			$html .= "</table>";
+			$html .= vogelsTableHeader($aantalDagen, 14);
+		}
+		$i++;
+		$html .= "<tr class=\"vogel\"><td>" . $vogel->naam . "</td>";
+		$html .= str_repeat("<td class=\"gewicht\"><div class=\"braakbal\"></div></td>", $aantalDagen);
+		$html .= "</tr>";
+	}
+	$html .= "</table>";
+}
+
 $html .= "</body></html>";
 
 echo $html;
