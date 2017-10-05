@@ -8,6 +8,7 @@
 {{ HTML::style('css/style.css') }}
 {{ Asset::container('bootstrapper')->styles() }}
 {{ Asset::container('bootstrapper')->scripts() }}
+{{ Asset::container('ckeditor')->scripts() }}
 </head>
 <body>
 	

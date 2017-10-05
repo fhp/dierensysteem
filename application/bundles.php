@@ -38,4 +38,5 @@ return array(
 	'docs' => array('handles' => 'docs'),
 	'bootstrapper' => array('auto' => true),
 	'thumbnailable' => array('auto' => true),
+	'ckeditor' => array('auto' => true),
 );
