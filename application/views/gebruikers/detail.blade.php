@@ -24,12 +24,12 @@ foreach($vogels as $vogel) {
 	$magVliegenMetHtml .= "<br>";
 }
 ?>
-	<dt>Mag vliegen met</dt><dd>{{ HTML::popup($vogelCount . ($vogelCount == 1 ? " vogel" : " vogels"), $magVliegenMetHtml, "$gebruiker->naam mag vliegen met:") }}</dd>
+	<!--<dt>Mag vliegen met</dt><dd>{{ HTML::popup($vogelCount . ($vogelCount == 1 ? " vogel" : " vogels"), $magVliegenMetHtml, "$gebruiker->naam mag vliegen met:") }}</dd>-->
 	</dl>
 	{{ $gebruiker->informatie }}
 @if(isAdmin())
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk persoonlijke informatie</a></p>
-	<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>
+	<!--<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>-->
 @endif
 </div>
 <div class="span4">

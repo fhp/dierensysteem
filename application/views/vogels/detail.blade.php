@@ -25,7 +25,7 @@ foreach($gebruikers as $gebruiker) {
 	$magGevlogenWordenDoorHtml .= "<br>";
 }
 ?>
-	<dt>Mag gevlogen worden door</dt><dd>{{ HTML::popup($gebruikerCount . ($gebruikerCount == 1 ? " persoon" : " personen"), $magGevlogenWordenDoorHtml, "$vogel->naam mag gevlogen worden door:") }}</dd>
+	<!--<dt>Mag gevlogen worden door</dt><dd>{{ HTML::popup($gebruikerCount . ($gebruikerCount == 1 ? " persoon" : " personen"), $magGevlogenWordenDoorHtml, "$vogel->naam mag gevlogen worden door:") }}</dd>-->
 	</dl>
 	
 	@if($vogel->alert != "")
@@ -98,7 +98,7 @@ $(function() {
 	{{ $vogel->informatie }}
 	@if(isAdmin())
 	<p><a href="#informatieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk informatie</a></p>
-	<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>
+	<!--<p><a href="#vliegpermissiesModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk vliegpermissies</a></p>-->
 	<p><a href="#alertModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Bewerk waarschuwing</a></p>
 	<p><a href="#categorieModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-pencil"></i> Wijzig categorie</a></p>
 	@endif
@@ -130,7 +130,7 @@ $(function() {
 			$eigenaren[$key] = $value;
 		}
 		?>
-		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf", "koppel"=>"Koppel"), $vogel->geslacht)) }}
+		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::text('geslacht', $vogel->geslacht)) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', $gebroortedatum, array("class"=>"datepicker"))) }}
 		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', $vogel->wegen)) }}
 		{{ Form::control_group(Form::label('eigenaar', 'Eigenaar:'), Form::select('eigenaar', $eigenaren, $vogel->eigenaar_id === null ? 0 : $vogel->eigenaar_id)) }}

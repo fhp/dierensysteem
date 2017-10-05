@@ -35,7 +35,7 @@
 </ul>
 
 @if(isAdmin())
-<p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuwe vogel</a></p>
+<p><a href="#nieuwevogelModal" role="button" data-toggle="modal" class="btn"><i class="icon icon-plus"></i> Nieuw dier</a></p>
 
 <div id="nieuwevogelModal" class="modal hide fade modal-large" tabindex="-1" role="dialog">
 	{{ Form::horizontal_open_for_files() }}
@@ -44,11 +44,11 @@
 	{{ Form::hidden("categorie", $categorie->id) }}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
-		<h3>Nieuwe vogel</h3>
+		<h3>Nieuw dier</h3>
 	</div>
 	<div class="modal-body">
 		{{ Form::control_group(Form::label('naam', 'Naam'), Form::text('naam')) }}
-		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::select('geslacht', array("onbekend"=>"Onbekend", "tarsel"=>"Tarsel", "wijf"=>"Wijf", "koppel"=>"Koppel"))) }}
+		{{ Form::control_group(Form::label('geslacht', 'Geslacht'), Form::text('geslacht')) }}
 		{{ Form::control_group(Form::label('soort', 'Soort'), Form::select('soort', Soort::order_by("naam", "asc")->lists("naam", "id"))) }}
 		{{ Form::control_group(Form::label('geboortedatum', 'Geboortedatum'), Form::text('geboortedatum', null, array("class"=>"datepicker"))) }}
 		{{ Form::control_group(Form::label('wegen', 'Wegen'), Form::labelled_checkbox('wegen', "Ja", '1', $categorie->id == 1)) }}

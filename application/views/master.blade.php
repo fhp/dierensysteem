@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Falconcrest Roofvogel Administratie Systeem</title>
+<title>Nadine's Dieren Administratie Systeem</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {{ HTML::style('laravel/css/style.css') }}
 {{ HTML::style('css/style.css') }}
@@ -20,7 +20,7 @@
 <body>
 	
 	<div id="header">
-		<a href="{{ URL::to_route("home") }}"><h1 class="pull-left"><img src="{{ asset("img/Falconcrest_Logo.jpg") }}"> Falconcrest Roofvogel Administratie Systeem</h1></a>
+		<a href="{{ URL::to_route("home") }}"><h1 class="pull-left">Nadine's Dieren Administratie Systeem</h1></a>
 		@if(Auth::check())
 			<span class="pull-right hidden-phone"><a href="{{ URL::to_route("gebruikerDetail", array(Auth::user()->id, Auth::user()->gebruikersnaam)) }}">{{ Auth::user()->thumbnail_image() }}</a></span>
 		@endif
